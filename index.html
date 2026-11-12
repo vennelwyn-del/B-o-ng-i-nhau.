@@ -3,27 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Báo Ứng Đời Nhau • Archive</title>
+  <title>Báo Ứng Đời Nhau</title>
 
-  <!-- Google Fonts: Vintage Script & Classic Serif -->
+  <!-- Google Fonts: Các font chữ mẫu (Bạn có thể nạp thêm font bạn thích ở đây) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
-
-  <!-- Thư viện Three.js tạo khối Blue Crystal 3D -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Oregano:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,600&family=Cinzel:wght@400;600&family=Alex+Brush&family=Playfair+Display:ital,wght@0,500;1,500&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 
   <style>
+    /* ==========================================================================
+       ✦ 1. KHU VỰC TỰ ĐỔI FONT CHỮ CHO TỪNG DÒNG ✦
+       ========================================================================== */
     :root {
-      --bg-abyss: #061523;
-      --crystal-cyan: #9de6f5;
-      --crystal-blue: #3b88b5;
-      --antique-cream: #f6f1e7;
-      --soft-glow: rgba(157, 230, 245, 0.45);
-      --glass-border: rgba(210, 245, 255, 0.35);
-      --font-quote: 'Cormorant Garamond', Georgia, serif;
-      --font-title: 'Alex Brush', cursive;
-      --font-display: 'Cinzel', serif;
+      /* Dòng 1: Tiêu đề nhỏ trên cùng (✦ BÁO ỨNG • ARCHIVE) */
+      --font-top-tag:   'Cinzel', 'Oregano', serif;
+
+      /* Dòng 2: Dòng câu nói “What is grief, if not love persevering?” */
+      --font-quote:     'Cormorant Garamond', Georgia, 'Oregano', serif;
+
+      /* Dòng 3: Dòng chữ lớn (B Á O   Ứ N G   Đ Ờ I   N H A U) */
+      --font-brand:     'Cinzel', 'Oregano', serif;
+
+      /* Dòng 4: Chữ trên nút "Xem báo ứng" */
+      --font-button:    'Cormorant Garamond', Georgia, 'Oregano', serif;
+
+      /* Dòng 5: Dòng chữ nhỏ nhấp nháy "C H Ạ M   Đ Ể   M Ở" */
+      --font-hint:      'Cinzel', 'Oregano', serif;
+
+      /* Bảng màu chủ đạo */
+      --crystal-cyan: #00f0ff;
+      --crystal-blue: #0066ff;
+      --antique-cream: #f6f1e8;
+      --glass-border: rgba(200, 240, 255, 0.4);
     }
 
     * {
@@ -38,30 +50,30 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background-color: var(--bg-abyss);
-      font-family: var(--font-quote);
+      background-color: #030b14;
       color: var(--antique-cream);
     }
 
-    /* 1. LỚP NỀN ẢNH NƯỚC (bg.jpg) VỚI HIỆU ỨNG SÓNG NƯỚC 3D */
+    /* ẢNH NỀN SÓNG NƯỚC */
     .water-bg-layer {
       position: fixed;
-      inset: -20px;
-      background: radial-gradient(circle at 50% 50%, rgba(4, 20, 34, 0.25) 0%, rgba(2, 10, 18, 0.75) 100%),
-                  url('bg.jpg') center center / cover no-repeat;
-      filter: saturate(1.15) contrast(1.05);
+      inset: -15px;
+      background-color: #04101e;
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      filter: saturate(1.2) contrast(1.1);
       z-index: 1;
-      animation: waterUndulate 9s ease-in-out infinite alternate;
+      animation: waterUndulate 12s ease-in-out infinite alternate;
       pointer-events: none;
     }
 
     @keyframes waterUndulate {
-      0% { transform: scale(1.02) rotate(0deg); }
-      50% { transform: scale(1.045) translateY(-5px) rotate(0.4deg); }
-      100% { transform: scale(1.03) translateY(4px) rotate(-0.3deg); }
+      0% { transform: scale(1.02); }
+      100% { transform: scale(1.06) translateY(-8px); }
     }
 
-    /* 2. CANVAS HIỆU ỨNG: GỢN SÓNG 3D KHI CHẠM & HOA HỒNG XANH RƠI */
+    /* CANVAS HIỆU ỨNG SÓNG NƯỚC KHI CHẠM & HOA HỒNG RƠI */
     #fxCanvas {
       position: fixed;
       top: 0;
@@ -72,17 +84,17 @@
       pointer-events: auto;
     }
 
-    /* 3. LỚP PHỦ MÀU VINTAGE & HẠT SÁNG */
-    .vintage-vignette {
+    /* LỚP PHỦ VIGNETTE NGHỆ THUẬT */
+    .vignette-overlay {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 8;
-      background: radial-gradient(circle at center, transparent 40%, rgba(2, 7, 12, 0.72) 100%);
+      background: radial-gradient(circle at center, transparent 38%, rgba(2, 6, 12, 0.82) 100%);
     }
 
-    /* 4. GIAO DIỆN CHÍNH (THEO PHONG CÁCH ẢNH 1) */
-    .landing-screen {
+    /* KHUNG GIAO DIỆN CHÍNH */
+    .main-wrapper {
       position: relative;
       z-index: 10;
       width: 100vw;
@@ -91,11 +103,11 @@
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      padding: 30px 24px 34px;
-      pointer-events: none; /* Các nút con sẽ bật pointer-events */
+      padding: 30px 34px 45px;
+      pointer-events: none;
     }
 
-    /* Góc trên: Tiêu đề nhỏ & Nút âm thanh */
+    /* THANH TRÊN CÙNG */
     .top-bar {
       width: 100%;
       max-width: 1200px;
@@ -105,54 +117,93 @@
       pointer-events: auto;
     }
 
-    .edition-tag {
-      font-family: var(--font-display);
+    .site-tag {
+      font-family: var(--font-top-tag);
       font-size: 0.72rem;
-      letter-spacing: 4px;
+      letter-spacing: 5px;
       text-transform: uppercase;
-      color: rgba(220, 245, 255, 0.85);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      text-shadow: 0 0 10px rgba(157, 230, 245, 0.5);
+      color: rgba(220, 245, 255, 0.9);
+      text-shadow: 0 0 14px rgba(0, 240, 255, 0.55);
     }
 
-    .top-actions {
+    /* ĐĨA NHẠC MÀU LAM (BLUE VINYL RECORD) */
+    .vinyl-player-box {
       display: flex;
+      align-items: center;
       gap: 12px;
-    }
-
-    .circle-icon-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: rgba(10, 32, 48, 0.55);
-      border: 1px solid var(--glass-border);
-      color: var(--antique-cream);
-      display: flex;
-      align-items: center;
-      justify-content: center;
       cursor: pointer;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+      background: rgba(6, 20, 32, 0.55);
+      padding: 6px 14px 6px 8px;
+      border-radius: 40px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+      transition: all 0.35s ease;
     }
 
-    .circle-icon-btn:hover {
-      background: rgba(24, 70, 95, 0.8);
+    .vinyl-player-box:hover {
       border-color: var(--crystal-cyan);
-      box-shadow: 0 0 16px var(--soft-glow);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.45);
       transform: translateY(-2px);
     }
 
-    .circle-icon-btn svg {
-      width: 16px;
-      height: 16px;
-      fill: currentColor;
+    .vinyl-disc {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      position: relative;
+      background: repeating-radial-gradient(
+        circle,
+        #0b2942 0px,
+        #0b2942 2px,
+        #031422 3px,
+        #123e61 4px
+      );
+      box-shadow: 0 0 12px rgba(0, 195, 255, 0.4), inset 0 0 4px rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* KHU VỰC TRUNG TÂM: KHỐI BLUE CRYSTAL 3D & NỘI DUNG */
-    .center-content {
+    .vinyl-center-label {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #a2edff 0%, #0077b6 70%, #023e8a 100%);
+      box-shadow: 0 0 5px rgba(0, 240, 255, 0.8);
+      position: relative;
+    }
+
+    .vinyl-center-label::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 4px;
+      height: 4px;
+      background: #030b14;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .vinyl-disc.spinning {
+      animation: spinVinyl 3.5s linear infinite;
+    }
+
+    @keyframes spinVinyl {
+      100% { transform: rotate(360deg); }
+    }
+
+    .vinyl-text {
+      font-family: var(--font-top-tag);
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(220, 245, 255, 0.85);
+    }
+
+    /* KHU VỰC TRUNG TÂM */
+    .center-stage {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -160,609 +211,606 @@
       margin-top: auto;
       margin-bottom: auto;
       pointer-events: auto;
-      max-width: 650px;
+      max-width: 680px;
     }
 
-    /* Container chứa khối pha lê 3D */
-    .crystal-container {
-      width: 260px;
-      height: 280px;
+    /* BỨC ẢNH LƠ LỬNG Ở GIỮA (FLOATING PICTURE CARD) */
+    .floating-card-wrapper {
       position: relative;
-      cursor: grab;
-      filter: drop-shadow(0 0 35px rgba(157, 230, 245, 0.45));
-      transition: transform 0.4s ease;
+      cursor: pointer;
+      animation: floatSmooth 6s ease-in-out infinite;
+      perspective: 1000px;
     }
 
-    .crystal-container:active {
-      cursor: grabbing;
+    @keyframes floatSmooth {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-14px) rotate(0.6deg); }
     }
 
-    #threeCanvas {
+    .floating-picture-frame {
+      width: 250px;
+      height: 330px;
+      padding: 10px;
+      background: linear-gradient(145deg, rgba(230, 250, 255, 0.3) 0%, rgba(15, 45, 70, 0.6) 50%, rgba(4, 18, 30, 0.85) 100%);
+      border: 1.5px solid var(--glass-border);
+      border-radius: 12px;
+      backdrop-filter: blur(14px);
+      box-shadow: 
+        inset 0 0 25px rgba(255, 255, 255, 0.25),
+        0 20px 50px rgba(0, 0, 0, 0.65),
+        0 0 45px rgba(0, 210, 255, 0.35);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .floating-card-wrapper:hover .floating-picture-frame {
+      transform: scale(1.035) translateY(-3px);
+      border-color: #ffffff;
+      box-shadow: 
+        inset 0 0 35px rgba(255, 255, 255, 0.4),
+        0 25px 65px rgba(0, 0, 0, 0.8),
+        0 0 60px rgba(0, 240, 255, 0.6);
+    }
+
+    .floating-picture-frame img {
       width: 100%;
       height: 100%;
-      outline: none;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.45);
     }
 
-    /* Dòng chữ mô tả quote theo yêu cầu */
+    /* DÒNG CÂU NÓI QUOTE */
     .quote-text {
       font-family: var(--font-quote);
       font-style: italic;
-      font-size: clamp(1.45rem, 3.2vw, 2.1rem);
+      font-size: clamp(1.6rem, 3.4vw, 2.3rem);
       font-weight: 400;
       color: #ffffff;
       line-height: 1.35;
+      margin-top: 24px;
+      text-shadow: 0 0 20px rgba(0, 240, 255, 0.7), 0 2px 4px rgba(0,0,0,0.9);
       letter-spacing: 0.5px;
-      margin-top: 14px;
-      text-shadow: 0 2px 15px rgba(157, 230, 245, 0.6), 0 1px 3px rgba(0,0,0,0.8);
     }
 
-    .sub-brand {
-      font-family: var(--font-display);
-      font-size: 0.72rem;
-      letter-spacing: 6px;
+    /* DÒNG TIÊU ĐỀ LỚN */
+    .brand-title {
+      font-family: var(--font-brand);
+      font-size: 0.76rem;
+      letter-spacing: 8px;
       text-transform: uppercase;
-      color: rgba(184, 235, 245, 0.85);
-      margin-top: 10px;
-      margin-bottom: 24px;
-      text-shadow: 0 0 8px rgba(157, 230, 245, 0.4);
+      color: rgba(190, 240, 255, 0.9);
+      margin-top: 12px;
+      margin-bottom: 26px;
+      text-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
     }
 
-    /* NÚT CHỮ NHẬT "XEM BÁO ỨNG" (THEO CHUẨN ẢNH 1) */
-    .btn-action-primary {
+    /* NÚT BẤM "XEM BÁO ỨNG" */
+    .btn-action-enter {
       display: inline-flex;
       align-items: center;
       gap: 14px;
-      padding: 13px 36px;
-      background: linear-gradient(135deg, rgba(216, 245, 255, 0.22) 0%, rgba(20, 60, 85, 0.65) 100%);
-      border: 1.5px solid var(--glass-border);
+      padding: 13px 40px;
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.24) 0%, rgba(18, 48, 80, 0.75) 50%, rgba(140, 45, 220, 0.28) 100%);
+      border: 1.5px solid rgba(190, 240, 255, 0.45);
       border-radius: 40px;
       color: #ffffff;
-      font-family: var(--font-quote);
-      font-size: 1.22rem;
-      letter-spacing: 1px;
+      font-family: var(--font-button);
+      font-size: 1.25rem;
+      letter-spacing: 1.5px;
       cursor: pointer;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(16px);
       box-shadow: 
-        inset 0 0 20px rgba(216, 245, 255, 0.2),
-        0 10px 30px rgba(0, 0, 0, 0.4),
-        0 0 20px rgba(157, 230, 245, 0.25);
+        inset 0 0 25px rgba(255, 255, 255, 0.25),
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(0, 240, 255, 0.35);
       transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-      text-decoration: none;
     }
 
-    .btn-action-primary:hover {
+    .btn-action-enter:hover {
       transform: translateY(-3px) scale(1.03);
       border-color: #ffffff;
-      background: linear-gradient(135deg, rgba(216, 245, 255, 0.35) 0%, rgba(28, 85, 120, 0.85) 100%);
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.42) 0%, rgba(28, 75, 120, 0.9) 50%, rgba(160, 50, 240, 0.42) 100%);
       box-shadow: 
-        inset 0 0 25px rgba(255, 255, 255, 0.4),
-        0 15px 40px rgba(2, 12, 20, 0.6),
-        0 0 35px rgba(157, 230, 245, 0.6);
+        inset 0 0 30px rgba(255, 255, 255, 0.45),
+        0 15px 45px rgba(0, 0, 0, 0.7),
+        0 0 45px rgba(0, 240, 255, 0.75);
     }
 
-    .btn-action-primary .crystal-icon {
-      font-size: 1rem;
+    .btn-action-enter .sparkle-icon {
+      font-size: 1.1rem;
       color: var(--crystal-cyan);
+      text-shadow: 0 0 10px var(--crystal-cyan);
     }
 
-    .btn-action-primary .arrow-icon {
-      width: 16px;
-      height: 16px;
+    .btn-action-enter .arrow-svg {
+      width: 17px;
+      height: 17px;
       stroke: currentColor;
       stroke-width: 2;
       fill: none;
       transition: transform 0.3s ease;
     }
 
-    .btn-action-primary:hover .arrow-icon {
-      transform: translateX(4px);
+    .btn-action-enter:hover .arrow-svg {
+      transform: translateX(5px);
     }
 
-    .hint-tap {
-      font-family: var(--font-display);
-      font-size: 0.66rem;
-      letter-spacing: 4px;
+    /* DÒNG HINT CHẠM ĐỂ MỞ */
+    .tap-hint {
+      font-family: var(--font-hint);
+      font-size: 0.65rem;
+      letter-spacing: 5px;
       text-transform: uppercase;
-      color: rgba(220, 245, 255, 0.6);
-      margin-top: 10px;
+      color: rgba(200, 240, 255, 0.65);
+      margin-top: 14px;
+      animation: pulseHint 2.5s infinite ease-in-out;
     }
 
-    /* KHU VỰC CUỐI: CÁC NÚT MẠNG XÃ HỘI (THEO CHUẨN ẢNH 1) */
-    .bottom-bar {
-      display: flex;
-      gap: 36px;
-      align-items: center;
-      pointer-events: auto;
+    @keyframes pulseHint {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.95; }
     }
 
-    .social-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 7px;
-      text-decoration: none;
-      color: rgba(220, 245, 255, 0.7);
-      transition: all 0.3s ease;
-    }
-
-    .social-item:hover {
-      color: #ffffff;
-      transform: translateY(-2px);
-    }
-
-    .social-circle {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: rgba(10, 32, 48, 0.55);
-      border: 1px solid var(--glass-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
-      transition: all 0.3s ease;
-    }
-
-    .social-item:hover .social-circle {
-      border-color: var(--crystal-cyan);
-      background: rgba(24, 70, 95, 0.85);
-      box-shadow: 0 0 18px var(--soft-glow);
-    }
-
-    .social-circle svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-    }
-
-    .social-label {
-      font-family: var(--font-display);
-      font-size: 0.68rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    /* Responsive cho điện thoại */
     @media (max-width: 600px) {
-      .crystal-container {
+      .floating-picture-frame {
         width: 200px;
-        height: 220px;
+        height: 270px;
       }
       .quote-text {
-        font-size: 1.35rem;
+        font-size: 1.4rem;
       }
-      .btn-action-primary {
-        padding: 12px 28px;
-        font-size: 1.1rem;
-      }
-      .bottom-bar {
-        gap: 26px;
+      .btn-action-enter {
+        padding: 12px 30px;
+        font-size: 1.12rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- 1. Lớp hình nền sóng nước cá bơi -->
-  <div class="water-bg-layer"></div>
+  <!-- Lớp ảnh nền sóng nước -->
+  <div class="water-bg-layer" id="waterBg"></div>
 
-  <!-- 2. Canvas sóng nước tương tác & Hoa hồng xanh rơi -->
+  <!-- Canvas sóng nước tương tác & Hoa hồng xanh rơi -->
   <canvas id="fxCanvas"></canvas>
 
-  <!-- 3. Lớp phủ viền mờ nghệ thuật -->
-  <div class="vintage-vignette"></div>
+  <!-- Lớp phủ viền tối nghệ thuật -->
+  <div class="vignette-overlay"></div>
 
-  <!-- 4. Giao diện mở đầu chính -->
-  <main class="landing-screen">
+  <!-- Giao diện chính -->
+  <div class="main-wrapper">
 
     <!-- Thanh trên cùng -->
     <header class="top-bar">
-      <div class="edition-tag">✦ BÁO ỨNG ĐỜI NHAU • ARCHIVE 2026</div>
-      <div class="top-actions">
-        <!-- Nút bật/tắt tiếng biển -->
-        <button class="circle-icon-btn" id="audioToggleBtn" title="Bật/Tắt âm thanh biển">
-          <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-        </button>
+      <div class="site-tag">✦ BÁO ỨNG ĐỜI NHAU • ARCHIVE 2026</div>
+
+      <!-- ĐĨA NHẠC MÀU LAM -->
+      <div class="vinyl-player-box" id="vinylPlayer" title="Nhấp để bật / tắt nhạc">
+        <div class="vinyl-disc" id="vinylDisc">
+          <div class="vinyl-center-label"></div>
+        </div>
+        <span class="vinyl-text" id="vinylText">Âm Nhạc</span>
       </div>
     </header>
 
-    <!-- Trung tâm: Khối Blue Crystal 3D + Chữ + Nút Xem báo ứng -->
-    <div class="center-content">
+    <!-- Khu vực trung tâm: Bức ảnh lơ lửng + Dòng chữ + Nút Xem báo ứng -->
+    <div class="center-stage">
       
-      <!-- Khối Blue Crystal 3D lơ lửng -->
-      <div class="crystal-container" id="crystalContainer" title="Kéo để xoay khối Blue Crystal 3D">
-        <canvas id="threeCanvas"></canvas>
+      <!-- BỨC ẢNH LƠ LỬNG Ở GIỮA -->
+      <div class="floating-card-wrapper" id="cardWrapper">
+        <div class="floating-picture-frame">
+          <img src="" id="centerImg" alt="Bức ảnh lơ lửng">
+        </div>
       </div>
 
-      <!-- Câu trích dẫn chữ mềm -->
-      <h2 class="quote-text">“𝒲𝒽𝒶𝓉 𝒾𝓈 𝑔𝓇𝒾𝑒𝒻, 𝒾𝓯 𝓃𝑜𝓉 𝓁𝑜𝓿𝑒 𝓅𝑒𝓇𝓈𝑒𝓋𝑒𝓇𝒾𝓃𝑔?”</h2>
-      <p class="sub-brand">B Á O   Ứ N G   Đ Ờ I   N H A U</p>
+      <!-- Dòng quote -->
+      <h1 class="quote-text">“What is grief, if not love persevering?”</h1>
 
-      <!-- Nút chữ nhật "Xem báo ứng" -->
-      <button class="btn-action-primary" id="btnEnter">
-        <span class="crystal-icon">❖</span>
+      <!-- Dòng brand title -->
+      <div class="brand-title">B Á O   Ứ N G   Đ Ờ I   N H A U</div>
+
+      <!-- Khối chữ nhật "Xem báo ứng" -->
+      <button class="btn-action-enter" id="btnEnter">
+        <span class="sparkle-icon">❖</span>
         <span>Xem báo ứng</span>
-        <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <svg class="arrow-svg" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
 
-      <div class="hint-tap">C H Ạ M   Đ Ể   M Ở</div>
+      <div class="tap-hint">C H Ạ M   Đ Ể   M Ở</div>
     </div>
 
-    <!-- Thanh dưới cùng: Discord & Facebook -->
-    <footer class="bottom-bar">
-      <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="social-item">
-        <div class="social-circle">
-          <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-        </div>
-        <span class="social-label">Discord</span>
-      </a>
+    <div></div>
 
-      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-item">
-        <div class="social-circle">
-          <svg viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
-        </div>
-        <span class="social-label">Facebook</span>
-      </a>
-    </footer>
-
-  </main>
+  </div>
 
   <script>
     /* ==========================================================================
-       1. THREE.JS: KHỐI BLUE CRYSTAL 3D LƠ LỬNG
+       ✦ 2. KHU VỰC DÁN LINK ẢNH CỦA BẠN (DÁN LINK VÀO GIỮA CẶP DẤU '...') ✦
        ========================================================================== */
-    const container = document.getElementById('crystalContainer');
-    const threeCanvas = document.getElementById('threeCanvas');
+    const MY_CONFIG = {
+      // 1. Dán link ảnh nền sóng nước cá bơi ở đây (hoặc tên file 'bg.jpg'):
+      backgroundImageUrl: 'https://www.pixelstalk.net/wp-content/uploads/2025/05/Swirling-schools-of-fish-shimmering-in-deep-blue-sea.webp',
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.z = 4.2;
+      // 2. Dán link bức ảnh lơ lửng ở giữa ở đây:
+      centerPictureUrl: 'https://i.pinimg.com/736x/90/e6/aa/90e6aa0bc289c51d64f54771058b65b6.jpg',
 
-    const renderer = new THREE.WebGLRenderer({ canvas: threeCanvas, alpha: true, antialias: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      // 3. Link file nhạc mp3 (Nếu để trống thì tự động phát tiếng sóng biển du dương):
+      musicMp3Url: ''
+    };
 
-    // Ánh sáng tạo độ trong suốt và lấp lánh cho pha lê
-    const ambientLight = new THREE.AmbientLight(0x8fe3f5, 1.2);
-    scene.add(ambientLight);
+    // Áp dụng link ảnh vào giao diện
+    const waterBg = document.getElementById('waterBg');
+    const centerImg = document.getElementById('centerImg');
 
-    const dirLight1 = new THREE.DirectionalLight(0xffffff, 2.0);
-    dirLight1.position.set(5, 5, 5);
-    scene.add(dirLight1);
+    waterBg.style.backgroundImage = `radial-gradient(circle at 50% 50%, rgba(0, 140, 200, 0.22) 0%, rgba(2, 8, 16, 0.88) 100%), url('${MY_CONFIG.backgroundImageUrl}')`;
+    centerImg.src = MY_CONFIG.centerPictureUrl;
 
-    const dirLight2 = new THREE.DirectionalLight(0x1a7a9e, 1.8);
-    dirLight2.position.set(-5, -5, 2);
-    scene.add(dirLight2);
-
-    // Tạo hình dạng khối Blue Crystal đa diện lấp lánh
-    const crystalGeo = new THREE.OctahedronGeometry(1.3, 0);
-    // Kéo giãn nhẹ để tạo dáng viên ngọc pha lê cao vút thanh thoát
-    crystalGeo.scale(0.85, 1.45, 0.85);
-
-    const crystalMat = new THREE.MeshPhysicalMaterial({
-      color: 0x62c9e8,
-      emissive: 0x093a52,
-      roughness: 0.1,
-      metalness: 0.15,
-      transmission: 0.75, // Độ xuyên sáng như thủy tinh
-      ior: 1.52,          // Độ chiết suất pha lê
-      transparent: true,
-      opacity: 0.92,
-      flatShading: true   // Đổ bóng sắc cạnh góc đa diện 3D
-    });
-
-    const crystalMesh = new THREE.Mesh(crystalGeo, crystalMat);
-    scene.add(crystalMesh);
-
-    // Thêm các cạnh phát sáng viền pha lê
-    const wireGeo = new THREE.WireframeGeometry(crystalGeo);
-    const wireMat = new THREE.LineBasicMaterial({ color: 0xd7f7ff, linewidth: 1.5, transparent: true, opacity: 0.65 });
-    const wireframe = new THREE.LineSegments(wireGeo, wireMat);
-    crystalMesh.add(wireframe);
-
-    // Hiệu ứng tương tác xoay khối pha lê theo chuột
-    let mouseX = 0, mouseY = 0;
-    let targetRotX = 0, targetRotY = 0;
-    let isDragging = false;
-    let prevMousePos = { x: 0, y: 0 };
-
+    // Tương tác nghiêng 3D nhẹ của bức ảnh khi rê chuột
+    const cardWrapper = document.getElementById('cardWrapper');
     window.addEventListener('mousemove', (e) => {
-      const normX = (e.clientX / window.innerWidth) * 2 - 1;
-      const normY = -(e.clientY / window.innerHeight) * 2 + 1;
-      targetRotY = normX * 0.45;
-      targetRotX = -normY * 0.35;
-    });
-
-    container.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      prevMousePos = { x: e.clientX, y: e.clientY };
-    });
-
-    window.addEventListener('mouseup', () => isDragging = false);
-
-    window.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      const deltaX = e.clientX - prevMousePos.x;
-      const deltaY = e.clientY - prevMousePos.y;
-      crystalMesh.rotation.y += deltaX * 0.015;
-      crystalMesh.rotation.x += deltaY * 0.015;
-      prevMousePos = { x: e.clientX, y: e.clientY };
-    });
-
-    // Touch trên điện thoại
-    container.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        isDragging = true;
-        prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      }
-    });
-
-    window.addEventListener('touchend', () => isDragging = false);
-
-    window.addEventListener('touchmove', (e) => {
-      if (!isDragging || e.touches.length !== 1) return;
-      const deltaX = e.touches[0].clientX - prevMousePos.x;
-      const deltaY = e.touches[0].clientY - prevMousePos.y;
-      crystalMesh.rotation.y += deltaX * 0.015;
-      crystalMesh.rotation.x += deltaY * 0.015;
-      prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-    });
-
-    // Render loop cho khối Blue Crystal
-    let clock = new THREE.Clock();
-    function animateThree() {
-      requestAnimationFrame(animateThree);
-      const elapsedTime = clock.getElapsedTime();
-
-      // Pha lê tự xoay nhẹ & nhấp nhô lơ lửng bồng bềnh
-      if (!isDragging) {
-        crystalMesh.rotation.y += 0.007;
-        crystalMesh.rotation.y += (targetRotY - crystalMesh.rotation.y) * 0.05;
-        crystalMesh.rotation.x += (targetRotX - crystalMesh.rotation.x) * 0.05;
-      }
-      crystalMesh.position.y = Math.sin(elapsedTime * 1.6) * 0.12;
-
-      renderer.render(scene, camera);
-    }
-    animateThree();
-
-    window.addEventListener('resize', () => {
-      camera.aspect = container.clientWidth / container.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = (e.clientY / window.innerHeight) * 2 - 1;
+      cardWrapper.style.transform = `perspective(1000px) rotateY(${x * 9}deg) rotateX(${-y * 9}deg)`;
     });
 
     /* ==========================================================================
-       2. CANVAS HIỆU ỨNG: GỢN SÓNG 3D KHI CHẠM & HOA HỒNG XANH RƠI
+       ✦ 3. ĐĨA NHẠC MÀU LAM & ÂM THANH SÓNG BIỂN
        ========================================================================== */
-    const fxCanvas = document.getElementById('fxCanvas');
-    const ctx = fxCanvas.getContext('2d');
+    const vinylPlayer = document.getElementById('vinylPlayer');
+    const vinylDisc = document.getElementById('vinylDisc');
+    const vinylText = document.getElementById('vinylText');
 
-    let width = (fxCanvas.width = window.innerWidth);
-    let height = (fxCanvas.height = window.innerHeight);
+    let audioCtx = null, oceanGain = null, isPlaying = false;
+    let customAudio = null;
 
-    window.addEventListener('resize', () => {
-      width = fxCanvas.width = window.innerWidth;
-      height = fxCanvas.height = window.innerHeight;
-    });
-
-    // Danh sách các vòng sóng nước lan tỏa khi chạm
-    const ripples = [];
-    function spawnWaterRipple(x, y) {
-      ripples.push({
-        x, y,
-        radius: 3,
-        maxRadius: Math.min(width, height) * 0.38 + 50,
-        alpha: 0.9,
-        speed: 2.6,
-        lineWidth: 2.4
-      });
-      // Sóng đôi phụ lan theo sau
-      setTimeout(() => {
-        ripples.push({
-          x, y,
-          radius: 2,
-          maxRadius: Math.min(width, height) * 0.28,
-          alpha: 0.65,
-          speed: 2.1,
-          lineWidth: 1.6
-        });
-      }, 160);
+    if (MY_CONFIG.musicMp3Url.trim() !== '') {
+      customAudio = new Audio(MY_CONFIG.musicMp3Url);
+      customAudio.loop = true;
     }
 
-    // Nhấp chuột hoặc chạm tay vào bất cứ đâu đều tạo sóng nước
-    window.addEventListener('pointerdown', (e) => {
-      spawnWaterRipple(e.clientX, e.clientY);
+    function toggleMusic() {
+      isPlaying = !isPlaying;
+
+      if (isPlaying) {
+        vinylDisc.classList.add('spinning');
+        vinylText.textContent = "Đang Phát";
+        vinylText.style.color = "var(--crystal-cyan)";
+
+        if (customAudio) {
+          customAudio.play().catch(() => {
+            initOceanSound();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            oceanGain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 1.5);
+          });
+        } else {
+          initOceanSound();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          oceanGain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 1.5);
+        }
+      } else {
+        vinylDisc.classList.remove('spinning');
+        vinylText.textContent = "Tạm Dừng";
+        vinylText.style.color = "rgba(220, 245, 255, 0.85)";
+
+        if (customAudio) {
+          customAudio.pause();
+        } else if (oceanGain) {
+          oceanGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1);
+        }
+      }
+    }
+
+    function initOceanSound() {
+      if (audioCtx) return;
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioContext();
+      oceanGain = audioCtx.createGain();
+      oceanGain.gain.setValueAtTime(0, audioCtx.currentTime);
+      oceanGain.connect(audioCtx.destination);
+
+      const bufferSize = audioCtx.sampleRate * 3;
+      const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.08;
+
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = noiseBuffer;
+      noise.loop = true;
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(260, audioCtx.currentTime);
+
+      const lfo = audioCtx.createOscillator();
+      lfo.frequency.setValueAtTime(0.12, audioCtx.currentTime);
+      const lfoGain = audioCtx.createGain();
+      lfoGain.gain.setValueAtTime(300, audioCtx.currentTime);
+      lfo.connect(lfoGain);
+      lfoGain.connect(filter.frequency);
+
+      noise.connect(filter);
+      filter.connect(oceanGain);
+      noise.start();
+      lfo.start();
+    }
+
+    vinylPlayer.addEventListener('click', toggleMusic);
+
+    /* ==========================================================================
+       ✦ 4. CÁNH HOA HỒNG XANH SIÊU THỰC (REALISTIC BOTANICAL BLUE ROSE ENGINE)
+       ========================================================================== */
+    const canvas = document.getElementById('fxCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let w = (canvas.width = window.innerWidth);
+    let h = (canvas.height = window.innerHeight);
+
+    window.addEventListener('resize', () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
     });
 
-    // DANH SÁCH HOA HỒNG XANH RƠI (THEO ẢNH 3)
-    const roses = [];
-    const NUM_ROSES = 24;
+    // Sóng nước lan tỏa
+    const ripples = [];
+    function makeRipple(x, y) {
+      ripples.push({ x, y, r: 4, maxR: Math.min(w, h) * 0.35 + 40, alpha: 0.9, speed: 2.8 });
+      setTimeout(() => {
+        ripples.push({ x, y, r: 2, maxR: Math.min(w, h) * 0.25, alpha: 0.6, speed: 2.2 });
+      }, 150);
+    }
 
-    class BlueRoseParticle {
+    window.addEventListener('pointerdown', (e) => makeRipple(e.clientX, e.clientY));
+
+    // LỚP VẼ CÁNH HOA HỒNG XANH CHÂN THẬT
+    const flowers = [];
+    const NUM_FLOWERS = 28;
+
+    class HyperRealisticBluePetal {
       constructor(initRandomY = false) {
         this.reset(initRandomY);
       }
+
       reset(initRandomY = false) {
-        this.x = Math.random() * width;
-        this.y = initRandomY ? Math.random() * height : -40;
-        this.size = 14 + Math.random() * 20; // Kích thước đóa hoa
-        this.speedY = 0.6 + Math.random() * 1.1;
-        this.speedX = (Math.random() - 0.5) * 0.7;
-        this.rotation = Math.random() * Math.PI * 2;
-        this.rotSpeed = (Math.random() - 0.5) * 0.02;
+        this.x = Math.random() * w;
+        this.y = initRandomY ? Math.random() * h : -50;
+        this.size = 18 + Math.random() * 22; // Cỡ cánh hoa thực tế
+        this.speedY = 0.55 + Math.random() * 0.75;
+        this.speedX = (Math.random() - 0.5) * 0.45;
+
+        // Góc xoay 3D theo không khí (Pitch, Yaw, Roll)
+        this.roll = Math.random() * Math.PI * 2;
+        this.rollSpeed = (Math.random() - 0.5) * 0.015;
+        this.pitch = Math.random() * Math.PI * 2;
+        this.pitchSpeed = 0.018 + Math.random() * 0.02;
+        this.yaw = (Math.random() - 0.5) * 0.35;
+
         this.swayAngle = Math.random() * Math.PI * 2;
-        this.swaySpeed = 0.015 + Math.random() * 0.025;
-        this.opacity = 0.65 + Math.random() * 0.35;
+        this.swaySpeed = 0.012 + Math.random() * 0.018;
+
+        this.opacity = 0.85 + Math.random() * 0.15;
+
+        // 3 dạng hoa: Cánh hoa đơn lật cuộn (70%), Cánh hoa kép (15%), Đóa hoa hồng tuyết nhỏ (15%)
+        const randType = Math.random();
+        if (randType < 0.70) {
+          this.petalType = 'single';
+        } else if (randType < 0.85) {
+          this.petalType = 'double';
+        } else {
+          this.petalType = 'rosebud';
+        }
       }
+
       update() {
         this.swayAngle += this.swaySpeed;
-        this.y += this.speedY;
-        this.x += Math.sin(this.swayAngle) * 0.9 + this.speedX;
-        this.rotation += this.rotSpeed;
+        this.pitch += this.pitchSpeed;
+        this.roll += this.rollSpeed;
 
-        // Khi hoa rơi chạm đáy màn hình nước thì tạo sóng nhẹ và lặp lại
-        if (this.y > height + 40) {
-          if (Math.random() > 0.4) spawnWaterRipple(this.x, height - 30);
+        this.y += this.speedY + Math.cos(this.pitch) * 0.15;
+        this.x += Math.sin(this.swayAngle) * 0.8 + this.speedX;
+
+        // Khi cánh hoa chạm mặt nước
+        if (this.y > h + 50) {
+          if (Math.random() > 0.45) makeRipple(this.x, h - 20);
           this.reset(false);
         }
       }
+
       draw(c) {
         c.save();
         c.translate(this.x, this.y);
-        c.rotate(this.rotation);
+
+        // Biến dạng xoay 3 chiều mô phỏng cánh hoa lượn trong không khí
+        const cosP = Math.cos(this.pitch);
+        const sinR = Math.sin(this.roll);
+        c.rotate(this.roll);
+        c.scale(1 + sinR * 0.15, Math.abs(cosP) * 0.8 + 0.2);
+
+        // Bóng đổ mờ dưới làn nước tạo chiều sâu 3D
+        c.shadowColor = 'rgba(2, 10, 20, 0.45)';
+        c.shadowBlur = 10;
+        c.shadowOffsetY = 6;
         c.globalAlpha = this.opacity;
 
-        // Vẽ đóa hoa hồng xanh biếc nhiều lớp cánh (Màu chuẩn theo Ảnh 3)
-        const s = this.size;
-
-        // Cánh ngoài cùng - xanh biển thẫm
-        c.fillStyle = '#1c557d';
-        c.beginPath();
-        c.arc(0, 0, s, 0, Math.PI * 2);
-        c.fill();
-
-        // Cánh giữa - xanh lam tươi
-        const midGrad = c.createRadialGradient(0, 0, 2, 0, 0, s * 0.8);
-        midGrad.addColorStop(0, '#75c8ee');
-        midGrad.addColorStop(0.7, '#2b78a9');
-        midGrad.addColorStop(1, '#16486e');
-        c.fillStyle = midGrad;
-        c.beginPath();
-        c.arc(0, 0, s * 0.78, 0, Math.PI * 2);
-        c.fill();
-
-        // Tâm hoa cuộn cánh xoáy ốc lấp lánh tuyết
-        c.strokeStyle = 'rgba(215, 246, 255, 0.7)';
-        c.lineWidth = 1.3;
-        for (let r = s * 0.65; r > 3; r -= s * 0.22) {
-          c.beginPath();
-          c.arc(0, 0, r, 0.2, Math.PI * 1.7);
-          c.stroke();
-          c.rotate(0.75);
+        if (this.petalType === 'single') {
+          this.drawBotanicalSinglePetal(c, this.size, cosP > 0);
+        } else if (this.petalType === 'double') {
+          this.drawOverlappingPetals(c, this.size);
+        } else {
+          this.drawRealisticRoseBloom(c, this.size * 0.95);
         }
 
         c.restore();
       }
+
+      // 1. CÁNH HOA HỒNG ĐƠN TỰ NHIÊN: Có độ uốn, mép lật, sống lưng và gân mờ
+      drawBotanicalSinglePetal(c, s, isFrontFace) {
+        c.beginPath();
+        // Cuống đáy cánh hoa
+        c.moveTo(0, s * 0.8);
+        // Đường lượn bụng trái
+        c.bezierCurveTo(-s * 0.75, s * 0.5, -s * 0.9, -s * 0.2, -s * 0.45, -s * 0.75);
+        // Chóp đỉnh cánh hoa gợn sóng hình trái tim nhẹ
+        c.bezierCurveTo(-s * 0.2, -s * 0.95, 0, -s * 0.82, s * 0.2, -s * 0.95);
+        // Đường lượn bụng phải
+        c.bezierCurveTo(s * 0.9, -s * 0.2, s * 0.75, s * 0.5, 0, s * 0.8);
+
+        // Gradient ombre chất nhung chân thực của hoa hồng xanh (từ ảnh 3)
+        const grad = c.createRadialGradient(0, s * 0.2, s * 0.1, 0, -s * 0.1, s * 1.1);
+        if (isFrontFace) {
+          // Mặt trước: nhung xanh đậm sang lam ngọc và ánh tuyết
+          grad.addColorStop(0, '#0a233c');      // Cuống cánh hoa xanh thẫm
+          grad.addColorStop(0.35, '#174a75');   // Lòng cánh màu xanh biển sâu
+          grad.addColorStop(0.75, '#358fc5');   // Thân cánh xanh lam
+          grad.addColorStop(0.95, '#82d3f8');   // Viền bắt sáng
+          grad.addColorStop(1, '#dcf4ff');      // Mép mỏng ánh tuyết
+        } else {
+          // Mặt sau: nhạt màu hơn và hơi mờ sương
+          grad.addColorStop(0, '#0d2d4c');
+          grad.addColorStop(0.4, '#1e5f91');
+          grad.addColorStop(0.85, '#56b1df');
+          grad.addColorStop(1, '#bfeaff');
+        }
+
+        c.fillStyle = grad;
+        c.fill();
+
+        // Mép cánh hoa uốn gập ra sau (Curled Petal Lip)
+        c.beginPath();
+        c.moveTo(-s * 0.45, -s * 0.75);
+        c.quadraticCurveTo(0, -s * 0.65, s * 0.45, -s * 0.75);
+        c.quadraticCurveTo(0, -s * 0.85, -s * 0.45, -s * 0.75);
+        c.fillStyle = 'rgba(215, 246, 255, 0.45)';
+        c.fill();
+
+        // Gân hoa tơ mềm mỏng
+        c.strokeStyle = 'rgba(210, 245, 255, 0.28)';
+        c.lineWidth = 0.9;
+        c.beginPath();
+        c.moveTo(0, s * 0.65);
+        c.quadraticCurveTo(s * 0.08, 0, 0, -s * 0.7);
+        c.moveTo(-s * 0.05, s * 0.1);
+        c.quadraticCurveTo(-s * 0.35, -s * 0.15, -s * 0.5, -s * 0.4);
+        c.moveTo(s * 0.05, s * 0.1);
+        c.quadraticCurveTo(s * 0.35, -s * 0.15, s * 0.5, -s * 0.4);
+        c.stroke();
+
+        // Viền ánh sương nhẹ ở rìa
+        c.strokeStyle = 'rgba(235, 250, 255, 0.5)';
+        c.lineWidth = 0.6;
+        c.stroke();
+      }
+
+      // 2. CÁNH HOA KÉP (2 cánh lồng vào nhau lượn trong gió)
+      drawOverlappingPetals(c, s) {
+        c.save();
+        c.rotate(-0.25);
+        this.drawBotanicalSinglePetal(c, s * 0.85, false);
+        c.restore();
+
+        c.save();
+        c.rotate(0.35);
+        c.translate(s * 0.15, 0);
+        this.drawBotanicalSinglePetal(c, s, true);
+        c.restore();
+      }
+
+      // 3. ĐÓA HOA HỒNG XANH NHỎ NỞ TẦNG LỚP (Rosebud/Full Bloom tự nhiên)
+      drawRealisticRoseBloom(c, s) {
+        const layers = 5;
+        // Vẽ từ các cánh xòe ngoài cùng vào nụ tâm
+        for (let i = layers; i >= 1; i--) {
+          const r = s * (i / layers);
+          c.save();
+          c.rotate(i * 1.45 + (this.roll * 0.3));
+
+          c.beginPath();
+          c.moveTo(0, r * 0.85);
+          c.bezierCurveTo(-r * 0.85, r * 0.6, -r * 0.95, -r * 0.3, 0, -r * 0.95);
+          c.bezierCurveTo(r * 0.95, -r * 0.3, r * 0.85, r * 0.6, 0, r * 0.85);
+
+          const grad = c.createRadialGradient(0, 0, 1, 0, -r * 0.2, r * 0.9);
+          if (i === 1) {
+            // Nhụy cuộn chính giữa màu lam tuyết
+            grad.addColorStop(0, '#ffffff');
+            grad.addColorStop(0.5, '#76cff9');
+            grad.addColorStop(1, '#1b5b8d');
+          } else {
+            // Các cánh xoắn ngoài
+            grad.addColorStop(0, '#0a233b');
+            grad.addColorStop(0.55, '#216b9e');
+            grad.addColorStop(0.9, '#63bfe8');
+            grad.addColorStop(1, '#d5f3ff');
+          }
+
+          c.fillStyle = grad;
+          c.fill();
+
+          c.strokeStyle = 'rgba(225, 248, 255, 0.4)';
+          c.lineWidth = 0.7;
+          c.stroke();
+
+          c.restore();
+        }
+      }
     }
 
-    for (let i = 0; i < NUM_ROSES; i++) {
-      roses.push(new BlueRoseParticle(true));
+    for (let i = 0; i < NUM_FLOWERS; i++) {
+      flowers.push(new HyperRealisticBluePetal(true));
     }
 
-    // Vòng lặp vẽ Canvas hiệu ứng
-    function renderFxCanvas() {
-      ctx.clearRect(0, 0, width, height);
+    function animateCanvas() {
+      ctx.clearRect(0, 0, w, h);
 
-      // Vẽ các vòng sóng nước lan tỏa khi chạm
+      // Vẽ sóng nước lan tỏa
       for (let i = ripples.length - 1; i >= 0; i--) {
         const rip = ripples[i];
-        rip.radius += rip.speed;
-        rip.alpha -= 0.009;
+        rip.r += rip.speed;
+        rip.alpha -= 0.01;
 
-        if (rip.alpha <= 0 || rip.radius >= rip.maxRadius) {
+        if (rip.alpha <= 0 || rip.r >= rip.maxR) {
           ripples.splice(i, 1);
           continue;
         }
 
         ctx.save();
-        // Vòng sóng chính phát sáng cyan
         ctx.beginPath();
-        ctx.arc(rip.x, rip.y, rip.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(184, 240, 255, ${rip.alpha * 0.85})`;
-        ctx.lineWidth = rip.lineWidth;
-        ctx.shadowColor = 'rgba(157, 230, 245, 0.7)';
-        ctx.shadowBlur = 12;
+        ctx.arc(rip.x, rip.y, rip.r, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(130, 235, 255, ${rip.alpha * 0.85})`;
+        ctx.lineWidth = 2.2;
+        ctx.shadowColor = 'rgba(0, 240, 255, 0.65)';
+        ctx.shadowBlur = 10;
         ctx.stroke();
 
-        // Vòng khúc xạ nước bên trong
         ctx.beginPath();
-        ctx.arc(rip.x, rip.y, Math.max(0, rip.radius - 8), 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(100, 200, 235, ${rip.alpha * 0.45})`;
+        ctx.arc(rip.x, rip.y, Math.max(0, rip.r - 8), 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(180, 80, 255, ${rip.alpha * 0.4})`;
         ctx.lineWidth = 1.2;
         ctx.stroke();
         ctx.restore();
       }
 
-      // Vẽ và cập nhật hoa hồng rơi
-      roses.forEach(rose => {
-        rose.update();
-        rose.draw(ctx);
+      // Vẽ hoa và cánh hoa hồng xanh siêu thực
+      flowers.forEach(f => {
+        f.update();
+        f.draw(ctx);
       });
 
-      requestAnimationFrame(renderFxCanvas);
+      requestAnimationFrame(animateCanvas);
     }
-    renderFxCanvas();
+    animateCanvas();
 
-    /* ==========================================================================
-       3. NÚT "XEM BÁO ỨNG" & ÂM THANH SÓNG BIỂN
-       ========================================================================== */
+    // Nút Xem báo ứng
     const btnEnter = document.getElementById('btnEnter');
     btnEnter.addEventListener('click', (e) => {
       e.stopPropagation();
-      // Hiệu ứng sóng nước bùng nổ từ tâm nút bấm
       const rect = btnEnter.getBoundingClientRect();
-      spawnWaterRipple(rect.left + rect.width / 2, rect.top + rect.height / 2);
-
-      // Tạm thời thông báo sẵn sàng cho bước chuyển trang tiếp theo
-      alert("Đã kích hoạt bước vào: 'Xem Báo Ứng'!\n(Giao diện mở đầu đã hoàn thành xuất sắc, sẵn sàng cho bước tiếp theo của bạn)");
-    });
-
-    // Âm thanh sóng biển Web Audio tự động
-    let audioCtx = null, oceanGain = null, isPlaying = false;
-    function toggleOceanSound() {
-      if (!audioCtx) {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AudioContext();
-        oceanGain = audioCtx.createGain();
-        oceanGain.gain.setValueAtTime(0, audioCtx.currentTime);
-        oceanGain.connect(audioCtx.destination);
-
-        // Tạo tiếng sóng vỗ
-        const bufferSize = audioCtx.sampleRate * 3;
-        const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-        const data = noiseBuffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.08;
-
-        const noise = audioCtx.createBufferSource();
-        noise.buffer = noiseBuffer;
-        noise.loop = true;
-
-        const filter = audioCtx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(260, audioCtx.currentTime);
-
-        const lfo = audioCtx.createOscillator();
-        lfo.frequency.setValueAtTime(0.12, audioCtx.currentTime);
-        const lfoGain = audioCtx.createGain();
-        lfoGain.gain.setValueAtTime(300, audioCtx.currentTime);
-        lfo.connect(lfoGain);
-        lfoGain.connect(filter.frequency);
-
-        noise.connect(filter);
-        filter.connect(oceanGain);
-        noise.start();
-        lfo.start();
-      }
-
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-
-      isPlaying = !isPlaying;
-      if (isPlaying) {
-        oceanGain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 2);
-        document.getElementById('audioToggleBtn').style.borderColor = 'var(--crystal-cyan)';
-      } else {
-        oceanGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1);
-        document.getElementById('audioToggleBtn').style.borderColor = 'var(--glass-border)';
-      }
-    }
-
-    document.getElementById('audioToggleBtn').addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleOceanSound();
+      makeRipple(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      alert("✦ ĐÃ KÍCH HOẠT: XEM BÁO ỨNG ✦\n(Giao diện mở đầu đã hoàn thành xuất sắc chuẩn theo ý bạn!)");
     });
   </script>
 </body>
-</html
+</html>
