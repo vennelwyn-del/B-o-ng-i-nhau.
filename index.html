@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Báo Ứng Đời Nhau</title>
 
-  <!-- Google Fonts: Các font chữ mẫu (Bạn có thể nạp thêm font bạn thích ở đây) -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oregano:ital@0;1&display=swap" rel="stylesheet">
@@ -16,17 +16,17 @@
        ✦ 1. KHU VỰC TỰ ĐỔI FONT CHỮ CHO TỪNG DÒNG ✦
        ========================================================================== */
     :root {
-      /* Dòng 1: Tiêu đề nhỏ trên cùng (✦ BÁO ỨNG • ARCHIVE) */
+      /* Dòng 1: Tiêu đề nhỏ trên cùng */
       --font-top-tag:   'Cinzel', 'Oregano', serif;
 
       /* Dòng 2: Dòng câu nói “What is grief, if not love persevering?” */
-      --font-quote:     'Cormorant Garamond', Georgia, 'Oregano', serif;
+      --font-quote:     'Cormorant Garamond', 'Oregano', Georgia, serif;
 
       /* Dòng 3: Dòng chữ lớn (B Á O   Ứ N G   Đ Ờ I   N H A U) */
       --font-brand:     'Cinzel', 'Oregano', serif;
 
       /* Dòng 4: Chữ trên nút "Xem báo ứng" */
-      --font-button:    'Cormorant Garamond', Georgia, 'Oregano', serif;
+      --font-button:    'Cormorant Garamond', 'Oregano', Georgia, serif;
 
       /* Dòng 5: Dòng chữ nhỏ nhấp nháy "C H Ạ M   Đ Ể   M Ở" */
       --font-hint:      'Cinzel', 'Oregano', serif;
@@ -73,7 +73,7 @@
       100% { transform: scale(1.06) translateY(-8px); }
     }
 
-    /* CANVAS HIỆU ỨNG SÓNG NƯỚC KHI CHẠM & HOA HỒNG RƠI */
+    /* CANVAS HIỆU ỨNG: SÓNG NƯỚC & HOA HỒNG 3D ĐA GÓC NHÌN */
     #fxCanvas {
       position: fixed;
       top: 0;
@@ -126,7 +126,7 @@
       text-shadow: 0 0 14px rgba(0, 240, 255, 0.55);
     }
 
-    /* ĐĨA NHẠC MÀU LAM (BLUE VINYL RECORD) */
+    /* ĐĨA NHẠC MÀU LAM */
     .vinyl-player-box {
       display: flex;
       align-items: center;
@@ -214,7 +214,7 @@
       max-width: 680px;
     }
 
-    /* BỨC ẢNH LƠ LỬNG Ở GIỮA (FLOATING PICTURE CARD) */
+    /* BỨC ẢNH LƠ LỬNG Ở GIỮA */
     .floating-card-wrapper {
       position: relative;
       cursor: pointer;
@@ -375,7 +375,7 @@
   <!-- Lớp ảnh nền sóng nước -->
   <div class="water-bg-layer" id="waterBg"></div>
 
-  <!-- Canvas sóng nước tương tác & Hoa hồng xanh rơi -->
+  <!-- Canvas sóng nước tương tác & Hoa hồng 3D đa góc nhìn rơi -->
   <canvas id="fxCanvas"></canvas>
 
   <!-- Lớp phủ viền tối nghệ thuật -->
@@ -429,27 +429,27 @@
 
   <script>
     /* ==========================================================================
-       ✦ 2. KHU VỰC DÁN LINK ẢNH CỦA BẠN (DÁN LINK VÀO GIỮA CẶP DẤU '...') ✦
+       ✦ 2. KHU VỰC DÁN LINK ẢNH CỦA BẠN ✦
        ========================================================================== */
     const MY_CONFIG = {
-      // 1. Dán link ảnh nền sóng nước cá bơi ở đây (hoặc tên file 'bg.jpg'):
+      // 1. Link ảnh nền:
       backgroundImageUrl: 'https://www.pixelstalk.net/wp-content/uploads/2025/05/Swirling-schools-of-fish-shimmering-in-deep-blue-sea.webp',
 
-      // 2. Dán link bức ảnh lơ lửng ở giữa ở đây:
+      // 2. Link ảnh lơ lửng ở giữa:
       centerPictureUrl: 'https://i.pinimg.com/736x/90/e6/aa/90e6aa0bc289c51d64f54771058b65b6.jpg',
 
-      // 3. Link file nhạc mp3 (Nếu để trống thì tự động phát tiếng sóng biển du dương):
-      musicMp3Url: ''
+      // 3. Link file nhạc mp3:
+      musicMp3Url: 'https://open.spotify.com/playlist/5jZ5if9qoRWvhSYWm4SOr0?si=e4pxqy-CTc6luLS135FYYw'
     };
 
-    // Áp dụng link ảnh vào giao diện
+    // Gán ảnh
     const waterBg = document.getElementById('waterBg');
     const centerImg = document.getElementById('centerImg');
 
     waterBg.style.backgroundImage = `radial-gradient(circle at 50% 50%, rgba(0, 140, 200, 0.22) 0%, rgba(2, 8, 16, 0.88) 100%), url('${MY_CONFIG.backgroundImageUrl}')`;
     centerImg.src = MY_CONFIG.centerPictureUrl;
 
-    // Tương tác nghiêng 3D nhẹ của bức ảnh khi rê chuột
+    // Tương tác nghiêng 3D của bức ảnh khi rê chuột
     const cardWrapper = document.getElementById('cardWrapper');
     window.addEventListener('mousemove', (e) => {
       const x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -541,7 +541,7 @@
     vinylPlayer.addEventListener('click', toggleMusic);
 
     /* ==========================================================================
-       ✦ 4. CÁNH HOA HỒNG XANH SIÊU THỰC (REALISTIC BOTANICAL BLUE ROSE ENGINE)
+       ✦ 4. SÓNG NƯỚC KHI CHẠM ✦
        ========================================================================== */
     const canvas = document.getElementById('fxCanvas');
     const ctx = canvas.getContext('2d');
@@ -554,7 +554,6 @@
       h = canvas.height = window.innerHeight;
     });
 
-    // Sóng nước lan tỏa
     const ripples = [];
     function makeRipple(x, y) {
       ripples.push({ x, y, r: 4, maxR: Math.min(w, h) * 0.35 + 40, alpha: 0.9, speed: 2.8 });
@@ -565,204 +564,381 @@
 
     window.addEventListener('pointerdown', (e) => makeRipple(e.clientX, e.clientY));
 
-    // LỚP VẼ CÁNH HOA HỒNG XANH CHÂN THẬT
-    const flowers = [];
-    const NUM_FLOWERS = 28;
+    /* ==========================================================================
+       ✦ 5. HỆ THỐNG ĐA GÓC NHÌN 3D (MULTI-ANGLE VOLUMETRIC SYSTEM) ✦
+       (Dựng 4 góc chụp thật của đóa hoa: Chính diện, Nghiêng 45° thấy lòng, 
+        Ngang 90° thấy chiều cao, và Mặt đáy thấy đài hoa)
+       ========================================================================== */
+    const SPRITE_SIZE = 260;
+    const center = SPRITE_SIZE / 2;
 
-    class HyperRealisticBluePetal {
+    // --- GÓC 1: MẶT CHÍNH DIỆN (0° - Top-Down Bloom) ---
+    const spriteFront = document.createElement('canvas');
+    spriteFront.width = spriteFront.height = SPRITE_SIZE;
+    const s1 = spriteFront.getContext('2d');
+    (function drawFront() {
+      // 7 cánh xòe ngoài cùng
+      for (let i = 0; i < 7; i++) {
+        s1.save();
+        s1.translate(center, center);
+        s1.rotate((i * Math.PI * 2) / 7);
+        s1.beginPath();
+        s1.moveTo(0, -35);
+        s1.bezierCurveTo(-55, -45, -60, -95, 0, -100);
+        s1.bezierCurveTo(60, -95, 55, -45, 0, -35);
+        const g = s1.createRadialGradient(0, -65, 5, 0, -65, 55);
+        g.addColorStop(0, '#3895db');
+        g.addColorStop(0.65, '#7ec9fd');
+        g.addColorStop(1, '#e4f7ff');
+        s1.fillStyle = g;
+        s1.shadowColor = 'rgba(10, 45, 80, 0.3)';
+        s1.shadowBlur = 8;
+        s1.fill();
+        s1.strokeStyle = 'rgba(235, 250, 255, 0.75)';
+        s1.lineWidth = 0.8;
+        s1.stroke();
+        s1.restore();
+      }
+      // Cánh giữa
+      for (let i = 0; i < 6; i++) {
+        s1.save();
+        s1.translate(center, center);
+        s1.rotate((i * Math.PI * 2) / 6 + 0.5);
+        s1.beginPath();
+        s1.moveTo(0, -20);
+        s1.bezierCurveTo(-40, -30, -42, -72, 0, -75);
+        s1.bezierCurveTo(42, -72, 40, -30, 0, -20);
+        const g = s1.createRadialGradient(0, -45, 4, 0, -45, 40);
+        g.addColorStop(0, '#217ec8');
+        g.addColorStop(0.6, '#58b8f8');
+        g.addColorStop(1, '#c5edff');
+        s1.fillStyle = g;
+        s1.fill();
+        s1.restore();
+      }
+      // Nụ xoáy tâm hoa
+      for (let step = 0; step < 7; step++) {
+        s1.save();
+        s1.translate(center, center);
+        s1.rotate(step * 0.88);
+        const r = 24 - step * 3.2;
+        s1.beginPath();
+        s1.arc(0, 0, Math.max(2, r), 0.1, Math.PI * 1.6);
+        s1.strokeStyle = `rgba(235, 252, 255, ${0.95 - step * 0.08})`;
+        s1.lineWidth = 2 - step * 0.16;
+        s1.stroke();
+        s1.fillStyle = step % 2 === 0 ? '#3296e6' : '#64c0fb';
+        s1.fill();
+        s1.restore();
+      }
+    })();
+
+    // --- GÓC 2: GÓC NGHIÊNG 45° THẤY RÕ LÒNG SÂU VÀ ĐỘ CONG 3D (Perspective Chalice) ---
+    const spritePerspective = document.createElement('canvas');
+    spritePerspective.width = spritePerspective.height = SPRITE_SIZE;
+    const s2 = spritePerspective.getContext('2d');
+    (function drawPerspective() {
+      s2.save();
+      s2.translate(center, center + 10);
+
+      // Cánh phía sau vươn cao
+      for (let i = -2; i <= 2; i++) {
+        s2.save();
+        s2.rotate(i * 0.35);
+        s2.beginPath();
+        s2.moveTo(0, 0);
+        s2.bezierCurveTo(-45, -40, -50, -105, 0, -110);
+        s2.bezierCurveTo(50, -105, 45, -40, 0, 0);
+        const g = s2.createLinearGradient(0, 0, 0, -110);
+        g.addColorStop(0, '#1a649e');
+        g.addColorStop(0.7, '#62befa');
+        g.addColorStop(1, '#d8f4ff');
+        s2.fillStyle = g;
+        s2.fill();
+        s2.restore();
+      }
+
+      // Hốc bóng tối ở lòng hoa tạo chiều sâu hun hút
+      s2.beginPath();
+      s2.ellipse(0, -15, 36, 20, 0, 0, Math.PI * 2);
+      const cavityGrad = s2.createRadialGradient(0, -15, 2, 0, -15, 36);
+      cavityGrad.addColorStop(0, '#0b3558');
+      cavityGrad.addColorStop(0.8, '#1e75b8');
+      cavityGrad.addColorStop(1, 'transparent');
+      s2.fillStyle = cavityGrad;
+      s2.fill();
+
+      // Nụ xoáy nghiêng
+      s2.save();
+      s2.translate(0, -22);
+      s2.scale(1, 0.65);
+      for (let step = 0; step < 5; step++) {
+        s2.rotate(0.9);
+        s2.beginPath();
+        s2.arc(0, 0, 18 - step * 3, 0.2, Math.PI * 1.7);
+        s2.strokeStyle = '#daf3ff';
+        s2.lineWidth = 1.6;
+        s2.stroke();
+      }
+      s2.restore();
+
+      // Cánh hoa phía trước úp vồng xuống tạo khối lòng chảo
+      for (let i = -1; i <= 1; i++) {
+        s2.save();
+        s2.rotate(i * 0.45);
+        s2.beginPath();
+        s2.moveTo(0, 0);
+        s2.bezierCurveTo(-55, 10, -50, 48, 0, 52);
+        s2.bezierCurveTo(50, 48, 55, 10, 0, 0);
+        const g = s2.createLinearGradient(0, 0, 0, 52);
+        g.addColorStop(0, '#2c8bd6');
+        g.addColorStop(0.65, '#82d0fe');
+        g.addColorStop(1, '#effaff');
+        s2.fillStyle = g;
+        s2.shadowColor = 'rgba(5, 30, 60, 0.35)';
+        s2.shadowBlur = 8;
+        s2.fill();
+        s2.strokeStyle = 'rgba(235, 252, 255, 0.85)';
+        s2.lineWidth = 0.9;
+        s2.stroke();
+        s2.restore();
+      }
+      s2.restore();
+    })();
+
+    // --- GÓC 3: GÓC NHÌN NGANG 90° (Full Side Profile - Thấy Toàn Bộ Chiều Cao Đóa Hoa) ---
+    const spriteSide = document.createElement('canvas');
+    spriteSide.width = spriteSide.height = SPRITE_SIZE;
+    const s3 = spriteSide.getContext('2d');
+    (function drawSide() {
+      s3.save();
+      s3.translate(center, center + 15);
+
+      // Cánh vươn cao trung tâm
+      s3.beginPath();
+      s3.moveTo(-25, 0);
+      s3.bezierCurveTo(-35, -50, -20, -105, 0, -112);
+      s3.bezierCurveTo(20, -105, 35, -50, 25, 0);
+      s3.closePath();
+      const gCenter = s3.createLinearGradient(0, 0, 0, -112);
+      gCenter.addColorStop(0, '#1c6ca8');
+      gCenter.addColorStop(0.7, '#64befa');
+      gCenter.addColorStop(1, '#e3f7ff');
+      s3.fillStyle = gCenter;
+      s3.fill();
+
+      // Cánh xòe sang trái uốn cong
+      s3.beginPath();
+      s3.moveTo(-5, 0);
+      s3.bezierCurveTo(-45, -20, -85, -60, -80, -95);
+      s3.bezierCurveTo(-55, -80, -30, -35, -5, 0);
+      const gLeft = s3.createLinearGradient(-5, 0, -80, -95);
+      gLeft.addColorStop(0, '#2582cb');
+      gLeft.addColorStop(0.7, '#80cffe');
+      gLeft.addColorStop(1, '#f0fbff');
+      s3.fillStyle = gLeft;
+      s3.shadowColor = 'rgba(0,0,0,0.25)';
+      s3.shadowBlur = 6;
+      s3.fill();
+
+      // Cánh xòe sang phải uốn cong
+      s3.beginPath();
+      s3.moveTo(5, 0);
+      s3.bezierCurveTo(45, -20, 85, -60, 80, -95);
+      s3.bezierCurveTo(55, -80, 30, -35, 5, 0);
+      const gRight = s3.createLinearGradient(5, 0, 80, -95);
+      gRight.addColorStop(0, '#2582cb');
+      gRight.addColorStop(0.7, '#80cffe');
+      gRight.addColorStop(1, '#f0fbff');
+      s3.fillStyle = gRight;
+      s3.fill();
+
+      // Đài hoa và cuống hoa màu xanh ngọc dưới đáy
+      s3.beginPath();
+      s3.moveTo(-35, -5);
+      s3.bezierCurveTo(-25, 25, 0, 35, 0, 35);
+      s3.bezierCurveTo(0, 35, 25, 25, 35, -5);
+      s3.closePath();
+      const sepalGrad = s3.createLinearGradient(0, -5, 0, 35);
+      sepalGrad.addColorStop(0, '#0d4b55');
+      sepalGrad.addColorStop(0.7, '#1b7d8c');
+      sepalGrad.addColorStop(1, '#4de3c4');
+      s3.fillStyle = sepalGrad;
+      s3.fill();
+
+      // Cuống hoa
+      s3.beginPath();
+      s3.arc(0, 36, 7, 0, Math.PI * 2);
+      s3.fillStyle = '#14606c';
+      s3.fill();
+
+      s3.restore();
+    })();
+
+    // --- GÓC 4: MẶT ĐÁY (180° - Calyx & Sepals Thấy Rõ Cuống Khi Lộn Ngược) ---
+    const spriteBottom = document.createElement('canvas');
+    spriteBottom.width = spriteBottom.height = SPRITE_SIZE;
+    const s4 = spriteBottom.getContext('2d');
+    (function drawBottom() {
+      s4.save();
+      s4.translate(center, center);
+
+      // Lưng cánh hoa xanh thẫm
+      s4.beginPath();
+      s4.arc(0, 0, 92, 0, Math.PI * 2);
+      const g = s4.createRadialGradient(0, 0, 10, 0, 0, 92);
+      g.addColorStop(0, '#155282');
+      g.addColorStop(0.7, '#2b84c8');
+      g.addColorStop(1, '#72c5fa');
+      s4.fillStyle = g;
+      s4.fill();
+
+      // 5 lá đài hoa xanh ngọc chĩa nhọn
+      for (let i = 0; i < 5; i++) {
+        s4.save();
+        s4.rotate((i * Math.PI * 2) / 5);
+        s4.beginPath();
+        s4.moveTo(0, 0);
+        s4.bezierCurveTo(-18, -25, -20, -85, 0, -112);
+        s4.bezierCurveTo(20, -85, 18, -25, 0, 0);
+        const sepG = s4.createLinearGradient(0, 0, 0, -112);
+        sepG.addColorStop(0, '#0a3d46');
+        sepG.addColorStop(0.7, '#187887');
+        sepG.addColorStop(1, '#5eead4');
+        s4.fillStyle = sepG;
+        s4.shadowColor = 'rgba(0,0,0,0.35)';
+        s4.shadowBlur = 6;
+        s4.fill();
+        s4.restore();
+      }
+
+      // Cuống tròn trung tâm
+      s4.beginPath();
+      s4.arc(0, 0, 18, 0, Math.PI * 2);
+      s4.fillStyle = '#0d5561';
+      s4.fill();
+      s4.strokeStyle = '#2dd4bf';
+      s4.lineWidth = 1.6;
+      s4.stroke();
+
+      s4.restore();
+    })();
+
+    /* ==========================================================================
+       ✦ 6. ĐỘNG LỰC HỌC XOAY 3D VÀ RENDER THẬT ✦
+       ========================================================================== */
+    const flowers = [];
+    const NUM_FLOWERS = 20;
+
+    class Volumetric3DFlower {
       constructor(initRandomY = false) {
         this.reset(initRandomY);
       }
-
       reset(initRandomY = false) {
         this.x = Math.random() * w;
-        this.y = initRandomY ? Math.random() * h : -50;
-        this.size = 18 + Math.random() * 22; // Cỡ cánh hoa thực tế
-        this.speedY = 0.55 + Math.random() * 0.75;
-        this.speedX = (Math.random() - 0.5) * 0.45;
+        this.y = initRandomY ? Math.random() * h : -70;
+        this.size = 32 + Math.random() * 26; // Kích thước đóa hoa lớn nổi khối
 
-        // Góc xoay 3D theo không khí (Pitch, Yaw, Roll)
-        this.roll = Math.random() * Math.PI * 2;
-        this.rollSpeed = (Math.random() - 0.5) * 0.015;
-        this.pitch = Math.random() * Math.PI * 2;
-        this.pitchSpeed = 0.018 + Math.random() * 0.02;
-        this.yaw = (Math.random() - 0.5) * 0.35;
+        this.speedY = 0.55 + Math.random() * 0.7;
+        this.driftSpeed = 0.45 + Math.random() * 0.55;
 
-        this.swayAngle = Math.random() * Math.PI * 2;
-        this.swaySpeed = 0.012 + Math.random() * 0.018;
+        // Góc xoay 3 chiều không gian thật
+        this.pitch = Math.random() * Math.PI * 2; // Xoay lộn nhào (trục X)
+        this.yaw = Math.random() * Math.PI * 2;   // Xoay nghiêng (trục Y)
+        this.roll = Math.random() * Math.PI * 2;  // Xoay tròn (trục Z)
 
-        this.opacity = 0.85 + Math.random() * 0.15;
+        this.vPitch = (Math.random() - 0.5) * 0.022;
+        this.vYaw = (Math.random() - 0.5) * 0.018;
+        this.vRoll = (Math.random() - 0.5) * 0.016;
 
-        // 3 dạng hoa: Cánh hoa đơn lật cuộn (70%), Cánh hoa kép (15%), Đóa hoa hồng tuyết nhỏ (15%)
-        const randType = Math.random();
-        if (randType < 0.70) {
-          this.petalType = 'single';
-        } else if (randType < 0.85) {
-          this.petalType = 'double';
-        } else {
-          this.petalType = 'rosebud';
-        }
+        this.sway = Math.random() * Math.PI * 2;
+        this.swaySpeed = 0.016 + Math.random() * 0.018;
+
+        this.opacity = 0.88 + Math.random() * 0.12;
       }
-
       update() {
-        this.swayAngle += this.swaySpeed;
-        this.pitch += this.pitchSpeed;
-        this.roll += this.rollSpeed;
+        this.y += this.speedY;
+        this.sway += this.swaySpeed;
+        this.x += Math.sin(this.sway) * this.driftSpeed;
 
-        this.y += this.speedY + Math.cos(this.pitch) * 0.15;
-        this.x += Math.sin(this.swayAngle) * 0.8 + this.speedX;
+        this.pitch += this.vPitch;
+        this.yaw += this.vYaw;
+        this.roll += this.vRoll;
 
-        // Khi cánh hoa chạm mặt nước
-        if (this.y > h + 50) {
-          if (Math.random() > 0.45) makeRipple(this.x, h - 20);
+        // Chạm đáy mặt nước tạo gợn sóng
+        if (this.y > h + 55) {
+          if (Math.random() > 0.4) makeRipple(this.x, h - 25);
           this.reset(false);
         }
       }
-
       draw(c) {
         c.save();
         c.translate(this.x, this.y);
 
-        // Biến dạng xoay 3 chiều mô phỏng cánh hoa lượn trong không khí
-        const cosP = Math.cos(this.pitch);
-        const sinR = Math.sin(this.roll);
-        c.rotate(this.roll);
-        c.scale(1 + sinR * 0.15, Math.abs(cosP) * 0.8 + 0.2);
+        // Vector hướng góc nhìn 3D (cosTilt)
+        // cosTilt = 1: Đang nhìn thẳng chính diện
+        // cosTilt = 0: Đang nhìn ngang hông (Profile)
+        // cosTilt = -1: Đang nhìn mặt đáy (Cuống hoa)
+        const cosPitch = Math.cos(this.pitch);
+        const cosYaw = Math.cos(this.yaw);
+        const cosTilt = cosPitch * cosYaw;
+        const absTilt = Math.abs(cosTilt);
 
-        // Bóng đổ mờ dưới làn nước tạo chiều sâu 3D
-        c.shadowColor = 'rgba(2, 10, 20, 0.45)';
-        c.shadowBlur = 10;
-        c.shadowOffsetY = 6;
+        // Độ co giãn phối cảnh tự nhiên
+        const scaleX = cosYaw >= 0 ? 1 : -1;
+        const scaleY = cosPitch >= 0 ? 1 : -1;
+
+        // 1. Bóng đổ 3D mềm mại dưới làn nước
+        c.save();
+        c.translate(10, 16);
+        c.rotate(this.roll);
+        c.scale(0.85, 0.45 * Math.max(0.3, absTilt));
+        c.globalAlpha = 0.15 * this.opacity;
+        c.beginPath();
+        c.arc(0, 0, this.size * 0.85, 0, Math.PI * 2);
+        c.fillStyle = '#011222';
+        c.fill();
+        c.restore();
+
+        // 2. Chuyển đổi và Render góc nhìn 3D thật (Volumetric Rendering)
+        c.rotate(this.roll);
+        c.scale(scaleX, scaleY);
         c.globalAlpha = this.opacity;
 
-        if (this.petalType === 'single') {
-          this.drawBotanicalSinglePetal(c, this.size, cosP > 0);
-        } else if (this.petalType === 'double') {
-          this.drawOverlappingPetals(c, this.size);
-        } else {
-          this.drawRealisticRoseBloom(c, this.size * 0.95);
-        }
+        const rad = this.size;
 
-        c.restore();
-      }
-
-      // 1. CÁNH HOA HỒNG ĐƠN TỰ NHIÊN: Có độ uốn, mép lật, sống lưng và gân mờ
-      drawBotanicalSinglePetal(c, s, isFrontFace) {
-        c.beginPath();
-        // Cuống đáy cánh hoa
-        c.moveTo(0, s * 0.8);
-        // Đường lượn bụng trái
-        c.bezierCurveTo(-s * 0.75, s * 0.5, -s * 0.9, -s * 0.2, -s * 0.45, -s * 0.75);
-        // Chóp đỉnh cánh hoa gợn sóng hình trái tim nhẹ
-        c.bezierCurveTo(-s * 0.2, -s * 0.95, 0, -s * 0.82, s * 0.2, -s * 0.95);
-        // Đường lượn bụng phải
-        c.bezierCurveTo(s * 0.9, -s * 0.2, s * 0.75, s * 0.5, 0, s * 0.8);
-
-        // Gradient ombre chất nhung chân thực của hoa hồng xanh (từ ảnh 3)
-        const grad = c.createRadialGradient(0, s * 0.2, s * 0.1, 0, -s * 0.1, s * 1.1);
-        if (isFrontFace) {
-          // Mặt trước: nhung xanh đậm sang lam ngọc và ánh tuyết
-          grad.addColorStop(0, '#0a233c');      // Cuống cánh hoa xanh thẫm
-          grad.addColorStop(0.35, '#174a75');   // Lòng cánh màu xanh biển sâu
-          grad.addColorStop(0.75, '#358fc5');   // Thân cánh xanh lam
-          grad.addColorStop(0.95, '#82d3f8');   // Viền bắt sáng
-          grad.addColorStop(1, '#dcf4ff');      // Mép mỏng ánh tuyết
-        } else {
-          // Mặt sau: nhạt màu hơn và hơi mờ sương
-          grad.addColorStop(0, '#0d2d4c');
-          grad.addColorStop(0.4, '#1e5f91');
-          grad.addColorStop(0.85, '#56b1df');
-          grad.addColorStop(1, '#bfeaff');
-        }
-
-        c.fillStyle = grad;
-        c.fill();
-
-        // Mép cánh hoa uốn gập ra sau (Curled Petal Lip)
-        c.beginPath();
-        c.moveTo(-s * 0.45, -s * 0.75);
-        c.quadraticCurveTo(0, -s * 0.65, s * 0.45, -s * 0.75);
-        c.quadraticCurveTo(0, -s * 0.85, -s * 0.45, -s * 0.75);
-        c.fillStyle = 'rgba(215, 246, 255, 0.45)';
-        c.fill();
-
-        // Gân hoa tơ mềm mỏng
-        c.strokeStyle = 'rgba(210, 245, 255, 0.28)';
-        c.lineWidth = 0.9;
-        c.beginPath();
-        c.moveTo(0, s * 0.65);
-        c.quadraticCurveTo(s * 0.08, 0, 0, -s * 0.7);
-        c.moveTo(-s * 0.05, s * 0.1);
-        c.quadraticCurveTo(-s * 0.35, -s * 0.15, -s * 0.5, -s * 0.4);
-        c.moveTo(s * 0.05, s * 0.1);
-        c.quadraticCurveTo(s * 0.35, -s * 0.15, s * 0.5, -s * 0.4);
-        c.stroke();
-
-        // Viền ánh sương nhẹ ở rìa
-        c.strokeStyle = 'rgba(235, 250, 255, 0.5)';
-        c.lineWidth = 0.6;
-        c.stroke();
-      }
-
-      // 2. CÁNH HOA KÉP (2 cánh lồng vào nhau lượn trong gió)
-      drawOverlappingPetals(c, s) {
-        c.save();
-        c.rotate(-0.25);
-        this.drawBotanicalSinglePetal(c, s * 0.85, false);
-        c.restore();
-
-        c.save();
-        c.rotate(0.35);
-        c.translate(s * 0.15, 0);
-        this.drawBotanicalSinglePetal(c, s, true);
-        c.restore();
-      }
-
-      // 3. ĐÓA HOA HỒNG XANH NHỎ NỞ TẦNG LỚP (Rosebud/Full Bloom tự nhiên)
-      drawRealisticRoseBloom(c, s) {
-        const layers = 5;
-        // Vẽ từ các cánh xòe ngoài cùng vào nụ tâm
-        for (let i = layers; i >= 1; i--) {
-          const r = s * (i / layers);
-          c.save();
-          c.rotate(i * 1.45 + (this.roll * 0.3));
-
-          c.beginPath();
-          c.moveTo(0, r * 0.85);
-          c.bezierCurveTo(-r * 0.85, r * 0.6, -r * 0.95, -r * 0.3, 0, -r * 0.95);
-          c.bezierCurveTo(r * 0.95, -r * 0.3, r * 0.85, r * 0.6, 0, r * 0.85);
-
-          const grad = c.createRadialGradient(0, 0, 1, 0, -r * 0.2, r * 0.9);
-          if (i === 1) {
-            // Nhụy cuộn chính giữa màu lam tuyết
-            grad.addColorStop(0, '#ffffff');
-            grad.addColorStop(0.5, '#76cff9');
-            grad.addColorStop(1, '#1b5b8d');
+        if (cosTilt >= 0) {
+          // --- MẶT TRÊN CỦA HOA ---
+          if (absTilt > 0.65) {
+            // Góc 1: Nhìn chính diện (0° - 40°)
+            c.drawImage(spriteFront, -rad, -rad, rad * 2, rad * 2);
+          } else if (absTilt > 0.25) {
+            // Góc 2: Nhìn nghiêng 45° THẤY LÒNG HOA SÂU VÀ KHỐI NỔI
+            c.drawImage(spritePerspective, -rad, -rad, rad * 2, rad * 2);
           } else {
-            // Các cánh xoắn ngoài
-            grad.addColorStop(0, '#0a233b');
-            grad.addColorStop(0.55, '#216b9e');
-            grad.addColorStop(0.9, '#63bfe8');
-            grad.addColorStop(1, '#d5f3ff');
+            // Góc 3: Nhìn ngang 90° THẤY TOÀN BỘ CHIỀU CAO KHỐI HOA
+            c.drawImage(spriteSide, -rad, -rad, rad * 2, rad * 2);
           }
-
-          c.fillStyle = grad;
-          c.fill();
-
-          c.strokeStyle = 'rgba(225, 248, 255, 0.4)';
-          c.lineWidth = 0.7;
-          c.stroke();
-
-          c.restore();
+        } else {
+          // --- MẶT DƯỚI CỦA HOA ---
+          if (absTilt > 0.4) {
+            // Góc 4: Nhìn mặt đáy (thấy rõ đài hoa và cuống)
+            c.drawImage(spriteBottom, -rad, -rad, rad * 2, rad * 2);
+          } else {
+            // Góc 3: Nhìn ngang cạnh bên
+            c.drawImage(spriteSide, -rad, -rad, rad * 2, rad * 2);
+          }
         }
+
+        c.restore();
       }
     }
 
     for (let i = 0; i < NUM_FLOWERS; i++) {
-      flowers.push(new HyperRealisticBluePetal(true));
+      flowers.push(new Volumetric3DFlower(true));
     }
 
-    function animateCanvas() {
+    function animateLoop() {
       ctx.clearRect(0, 0, w, h);
 
       // Vẽ sóng nước lan tỏa
@@ -793,15 +969,15 @@
         ctx.restore();
       }
 
-      // Vẽ hoa và cánh hoa hồng xanh siêu thực
+      // Cập nhật và vẽ các đóa hoa hồng 3D đa góc nhìn
       flowers.forEach(f => {
         f.update();
         f.draw(ctx);
       });
 
-      requestAnimationFrame(animateCanvas);
+      requestAnimationFrame(animateLoop);
     }
-    animateCanvas();
+    animateLoop();
 
     // Nút Xem báo ứng
     const btnEnter = document.getElementById('btnEnter');
@@ -809,7 +985,7 @@
       e.stopPropagation();
       const rect = btnEnter.getBoundingClientRect();
       makeRipple(rect.left + rect.width / 2, rect.top + rect.height / 2);
-      alert("✦ ĐÃ KÍCH HOẠT: XEM BÁO ỨNG ✦\n(Giao diện mở đầu đã hoàn thành xuất sắc chuẩn theo ý bạn!)");
+      alert("✦ ĐÃ KÍCH HOẠT: XEM BÁO ỨNG ✦\n(Hệ thống hoa 3D đa góc nhìn đã hoạt động hoàn hảo!)");
     });
   </script>
 </body>
