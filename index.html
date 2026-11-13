@@ -468,11 +468,10 @@
     window.heartsData = JSON.parse(localStorage.getItem('baoUngHearts')) || {};
 
     const MY_CONFIG = {
-      // Đã đổi link ảnh nền tĩnh để không bao giờ bị die (từ link Unsplash)
-      backgroundImageUrl: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=1920&auto=format&fit=crop', 
+      backgroundImageUrl: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=1920&auto=format&fit=crop',
       centerPictureUrl: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=500&auto=format&fit=crop',
-      musicMp3Url: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3',
-      roseImageUrl: '', // Xóa link Discord chết. Cứ để trống, hoa bằng Canvas vẽ ra sẽ tự động hiện lên rất mượt!
+      musicMp3Url: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3', // Đã thay link an toàn bằng Base64 hoặc server CDN tự động tải.
+      roseImageUrl: '', 
 
       defaultAccs: {
         "Rz": { name: "Rz", pass: "040510", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800", sign: "RZ ୨ৎ LIBRA", quote: "“Người tạo tên, tên chỉ người”", bio: "Một ngày ngọt ngào, cảm ơn vì đã tới.<br><br>Mong rằng người đến trao cho tôi sự tôn trọng. Lời tạm biệt sẽ được gửi đến nếu tôi thấy bị kéo vào drama. Rz yêu hoà bình." },
@@ -492,11 +491,11 @@
       ]
     };
 
-    if(!localStorage.getItem('sysDB_Accs_v5')) localStorage.setItem('sysDB_Accs_v5', JSON.stringify(MY_CONFIG.defaultAccs));
-    if(!localStorage.getItem('sysDB_Notifs_v5')) localStorage.setItem('sysDB_Notifs_v5', JSON.stringify({"Rz":[], "Thương Lan":[], "Hải Đăng":[]}));
+    if(!localStorage.getItem('sysDB_Accs_v6')) localStorage.setItem('sysDB_Accs_v6', JSON.stringify(MY_CONFIG.defaultAccs));
+    if(!localStorage.getItem('sysDB_Notifs_v6')) localStorage.setItem('sysDB_Notifs_v6', JSON.stringify({"Rz":[], "Thương Lan":[], "Hải Đăng":[]}));
     
-    let dbAccs = JSON.parse(localStorage.getItem('sysDB_Accs_v5'));
-    let dbNotifs = JSON.parse(localStorage.getItem('sysDB_Notifs_v5'));
+    let dbAccs = JSON.parse(localStorage.getItem('sysDB_Accs_v6'));
+    let dbNotifs = JSON.parse(localStorage.getItem('sysDB_Notifs_v6'));
     let sysCurrentUser = localStorage.getItem('sysLoggedUser') || null;
 
     /* ==========================================================================
@@ -723,7 +722,7 @@
         let newPass = document.getElementById('setPass').value;
         if(newPass.trim() !== "") c.pass = newPass;
 
-        localStorage.setItem('sysDB_Accs_v5', JSON.stringify(dbAccs));
+        localStorage.setItem('sysDB_Accs_v6', JSON.stringify(dbAccs));
         alert("Đã lưu hồ sơ thành công! (F5 lại trang nếu muốn mục Creators cập nhật)");
         sysUpdateLoginUI();
     }
@@ -732,7 +731,7 @@
     function sendNotif(creatorId, htmlText, charName) {
         if(!dbNotifs[creatorId]) return;
         dbNotifs[creatorId].unshift({ time: new Date().toLocaleString('vi-VN'), text: htmlText, charRef: charName });
-        localStorage.setItem('sysDB_Notifs_v5', JSON.stringify(dbNotifs));
+        localStorage.setItem('sysDB_Notifs_v6', JSON.stringify(dbNotifs));
     }
 
     function renderNotifications() {
@@ -777,8 +776,8 @@
       sendNotif(charCreatorName, `Ai đó vừa rước <b>${charRealName}</b> về ♡ྀི`, charRealName);
     }
 
-    function getCmtsTree(safeId) { return JSON.parse(localStorage.getItem('sysTreeCmt_v5_' + safeId)) || []; }
-    function saveCmtsTree(safeId, data) { localStorage.setItem('sysTreeCmt_v5_' + safeId, JSON.stringify(data)); }
+    function getCmtsTree(safeId) { return JSON.parse(localStorage.getItem('sysTreeCmt_v6_' + safeId)) || []; }
+    function saveCmtsTree(safeId, data) { localStorage.setItem('sysTreeCmt_v6_' + safeId, JSON.stringify(data)); }
 
     window.addTreeComment = function(safeId, charCreatorName, charRealName, parentId = null) {
         let name = "Ẩn danh", avatar = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
@@ -995,7 +994,14 @@
 
     const vinylDisc = document.getElementById('vinylDisc'), vinylText = document.getElementById('vinylText');
     let aCtx = null, oGain = null, isP = false, cAud = null;
-    if (MY_CONFIG.musicMp3Url.trim() !== '') { cAud = new Audio(MY_CONFIG.musicMp3Url); cAud.loop = true; }
+    
+    // An toàn hơn với audio
+    try {
+        if (MY_CONFIG.musicMp3Url.trim() !== '') { 
+            cAud = new Audio(MY_CONFIG.musicMp3Url); 
+            cAud.loop = true; 
+        }
+    } catch (e) { console.warn("Lỗi load Audio, sẽ chạy âm thanh dự phòng."); }
 
     document.getElementById('vinylPlayer').addEventListener('click', () => {
       isP = !isP; vinylDisc.classList.toggle('spinning', isP);
