@@ -16,31 +16,35 @@
        ✦ 1. CÀI ĐẶT FONT VÀ MÀU SẮC ✦
        ========================================================================== */
     :root {
-      /* Font Menu & Khởi đầu */
       --font-top-tag:   'Cinzel', 'Oregano', serif;
       --font-quote:     'Cormorant Garamond', 'Oregano', Georgia, serif;
       --font-brand:     'Cinzel', 'Oregano', serif;
       --font-button:    'Cormorant Garamond', 'Oregano', Georgia, serif;
       --font-hint:      'Cinzel', 'Oregano', serif;
       
-      /* Font cho Thư viện Nhân vật */
       --font-char-name: 'Alex Brush', cursive;
       --font-char-text: 'Cormorant Garamond', 'Oregano', serif;
 
-      /* Bảng màu chủ đạo */
       --crystal-cyan: #00f0ff;
       --crystal-blue: #0066ff;
       --antique-cream: #f6f1e8;
       --glass-border: rgba(200, 240, 255, 0.35);
       
-      /* Nền kính cho thẻ nhân vật */
       --ice-bg: linear-gradient(155deg, rgba(220, 245, 255, 0.08) 0%, rgba(30, 68, 92, 0.25) 50%, rgba(8, 23, 34, 0.75) 100%);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
     body, html { width: 100%; height: 100%; overflow: hidden; background-color: #030b14; color: var(--antique-cream); }
 
-    /* LỚP NỀN ĐẠI DƯƠNG & HIỆU ỨNG */
+    /* ==========================================================================
+       ✦ TUỲ CHỈNH THANH TRƯỢT (SCROLLBAR) BIỂN SÂU ✦
+       ========================================================================== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(3, 11, 20, 0.5); border-radius: 8px; }
+    ::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.3); border-radius: 8px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.7); }
+
+    /* LỚP NỀN & HIỆU ỨNG */
     .water-bg-layer {
       position: fixed; inset: -15px; background-color: #04101e;
       background-position: center center; background-size: cover; background-repeat: no-repeat;
@@ -52,29 +56,32 @@
     #fxCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 5; pointer-events: auto; }
     .vignette-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 8; background: radial-gradient(circle at center, transparent 38%, rgba(2, 6, 12, 0.82) 100%); }
 
-    /* THANH MENU TRÊN CÙNG (LUÔN NỔI) */
+    /* THANH MENU TRÊN CÙNG */
     .top-bar {
       position: fixed; top: 0; left: 0; width: 100%; padding: 20px 30px; display: flex;
       justify-content: space-between; align-items: center; z-index: 50; pointer-events: none;
     }
     .top-bar > * { pointer-events: auto; }
 
-    /* Nút Creators */
+    /* NÚT CREATORS */
     .btn-creators-corner {
       display: inline-flex; align-items: center; gap: 10px; padding: 9px 22px;
       background: linear-gradient(135deg, rgba(0, 210, 255, 0.22) 0%, rgba(18, 48, 80, 0.75) 50%, rgba(140, 45, 220, 0.25) 100%);
       border: 1.5px solid var(--glass-border); border-radius: 40px; color: #ffffff;
       font-family: var(--font-button); font-size: 1.05rem; letter-spacing: 1.2px; cursor: pointer;
-      backdrop-filter: blur(14px); transition: all 0.35s ease;
+      backdrop-filter: blur(14px); 
       box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.22), 0 6px 22px rgba(0, 0, 0, 0.45), 0 0 20px rgba(0, 240, 255, 0.3);
+      opacity: 0; transform: translateX(-30px); pointer-events: none; transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
+    .btn-creators-corner.visible { opacity: 1; transform: translateX(0); pointer-events: auto; }
     .btn-creators-corner:hover { transform: translateY(-2px); border-color: #ffffff; box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.4), 0 0 30px rgba(0, 240, 255, 0.65); }
+    .btn-creators-corner .sparkle-mini { font-size: 0.9rem; color: var(--crystal-cyan); text-shadow: 0 0 8px var(--crystal-cyan); }
     
-    /* Đĩa nhạc */
+    /* ĐĨA NHẠC GÓC PHẢI */
     .vinyl-player-box {
       display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 6px 14px 6px 8px;
       background: rgba(6, 20, 32, 0.55); border-radius: 40px; border: 1px solid var(--glass-border);
-      backdrop-filter: blur(12px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); transition: all 0.35s ease;
+      backdrop-filter: blur(12px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); transition: all 0.35s ease; margin-left: auto;
     }
     .vinyl-player-box:hover { border-color: var(--crystal-cyan); transform: translateY(-2px); }
     .vinyl-disc {
@@ -123,7 +130,7 @@
     @keyframes pulseHint { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.95; } }
 
     /* ==========================================================================
-       ✦ MÀN HÌNH 2: THƯ VIỆN KÝ ỨC (CÁC KHỐI BĂNG NHÂN VẬT) ✦
+       ✦ MÀN HÌNH 2: THƯ VIỆN KÝ ỨC (BĂNG PHONG ẤN) ✦
        ========================================================================== */
     #archiveScreen {
       position: absolute; inset: 0; z-index: 15; padding: 100px 30px 50px;
@@ -138,7 +145,6 @@
 
     .character-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
     
-    /* Thẻ khối băng nhân vật */
     .char-card {
       background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 8px;
       padding: 20px; backdrop-filter: blur(12px); cursor: pointer; transition: all 0.4s ease;
@@ -155,10 +161,10 @@
     .char-title { font-family: var(--font-char-text); font-style: italic; font-size: 1rem; color: #a2edff; margin-bottom: 12px; }
 
     /* ==========================================================================
-       ✦ MÀN HÌNH OVERLAY: 3 CREATORS ✦
+       ✦ MÀN HÌNH OVERLAY: 3 CREATORS (ĐÃ FIX SCROLLBAR) ✦
        ========================================================================== */
     .creators-overlay {
-      position: fixed; inset: 0; z-index: 100; background: radial-gradient(circle at center, rgba(3, 14, 25, 0.9) 0%, rgba(1, 6, 12, 0.98) 100%);
+      position: fixed; inset: 0; z-index: 100; background: radial-gradient(circle at center, rgba(3, 14, 25, 0.95) 0%, rgba(1, 6, 12, 0.98) 100%);
       backdrop-filter: blur(20px); display: flex; flex-direction: column; align-items: center; justify-content: center;
       padding: 40px 24px; opacity: 0; visibility: hidden; pointer-events: none; transition: 0.5s ease;
     }
@@ -171,27 +177,42 @@
     }
     .close-btn:hover { background: rgba(220, 60, 90, 0.65); border-color: #ff6b8b; transform: rotate(90deg); }
 
-    .creators-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1400px; width: 100%; }
+    /* BẢNG CHỨA 3 CREATOR - ĐÃ BẬT THANH TRƯỢT LÊN XUỐNG */
+    .creators-grid { 
+      display: grid; 
+      grid-template-columns: repeat(3, 1fr); 
+      gap: 28px; 
+      max-width: 1400px; 
+      width: 100%; 
+      max-height: 75vh; /* Khống chế chiều cao */
+      overflow-y: auto; /* Bật thanh trượt dọc */
+      padding: 10px 15px; /* Tránh lẹm viền bóng đổ khi cuộn */
+    }
+    
     .creator-card {
       background: var(--ice-bg); border: 1.5px solid var(--glass-border); border-radius: 16px; padding: 24px 20px;
       backdrop-filter: blur(14px); text-align: center; display: flex; flex-direction: column; align-items: center; transition: 0.4s;
     }
     .creator-card:hover { transform: translateY(-8px); border-color: #fff; box-shadow: 0 0 45px rgba(0, 240, 255, 0.3); }
-    .creator-banner { width: 100%; height: 165px; border-radius: 10px; overflow: hidden; margin-bottom: 20px; border: 1.5px solid var(--glass-border); }
+    
+    .creator-banner { 
+      width: 100%; aspect-ratio: 3 / 4; border-radius: 12px; overflow: hidden; margin-bottom: 24px; 
+      border: 1.5px solid var(--glass-border); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
     .creator-banner img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
     .creator-card:hover .creator-banner img { transform: scale(1.06); }
     
-    .c-name { font-family: var(--font-top-tag); font-size: 1.45rem; margin-bottom: 4px; text-shadow: 0 0 12px var(--crystal-cyan); }
-    .c-sign { font-family: var(--font-top-tag); font-size: 0.72rem; letter-spacing: 3px; color: var(--crystal-cyan); margin-bottom: 14px; }
-    .c-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.15rem; margin-bottom: 14px; }
-    .c-bio { font-family: var(--font-char-text); font-size: 1rem; color: rgba(255,255,255,0.7); margin-bottom: 22px; flex-grow: 1; }
+    .c-name { font-family: var(--font-top-tag); font-size: 1.7rem; margin-bottom: 6px; text-shadow: 0 0 12px var(--crystal-cyan); font-weight: 600; }
+    .c-sign { font-family: var(--font-top-tag); font-size: 0.8rem; letter-spacing: 4px; color: var(--crystal-cyan); margin-bottom: 18px; text-transform: uppercase;}
+    .c-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.2rem; margin-bottom: 18px; color: #fff; text-shadow: 0 0 10px rgba(0, 240, 255, 0.35);}
+    .c-bio { font-family: var(--font-char-text); font-size: 1.05rem; color: rgba(255,255,255,0.85); margin-bottom: 24px; flex-grow: 1; line-height: 1.6; }
     
     .carrd-btn {
-      width: 82px; height: 82px; border-radius: 14px; border: 1.5px solid var(--crystal-cyan);
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
-      color: #fff; text-decoration: none; background: rgba(0, 210, 255, 0.1); transition: 0.3s;
+      width: max-content; padding: 10px 28px; height: auto; border-radius: 30px; border: 1px solid var(--crystal-cyan);
+      display: inline-flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px;
+      color: #fff; text-decoration: none; background: transparent; transition: 0.3s; margin-top: auto;
     }
-    .carrd-btn:hover { background: rgba(0, 210, 255, 0.4); border-color: #fff; transform: translateY(-4px) scale(1.05); }
+    .carrd-btn:hover { background: rgba(0, 210, 255, 0.2); border-color: #fff; box-shadow: 0 0 15px rgba(0, 240, 255, 0.5); transform: translateY(-2px); }
 
     /* ==========================================================================
        ✦ MÀN HÌNH OVERLAY: CHI TIẾT NHÂN VẬT ✦
@@ -215,7 +236,7 @@
     .modal-tag { color: #a2edff; font-family: var(--font-top-tag); font-size: 0.8rem; margin-bottom: 5px; letter-spacing: 2px; }
 
     @media (max-width: 900px) {
-      .creators-grid { grid-template-columns: 1fr; overflow-y: auto; max-height: 85vh; padding: 10px; gap: 20px;}
+      .creators-grid { grid-template-columns: 1fr; max-height: 75vh;}
       .char-slab { grid-template-columns: 1fr; overflow-y: auto; }
       .char-slab-img { border-right: none; border-bottom: 1px solid var(--glass-border); }
       .char-slab-img img { max-height: 250px; }
@@ -231,9 +252,11 @@
 
   <!-- THANH MENU LUÔN NỔI -->
   <header class="top-bar">
+    <!-- NÚT GÓC TRÁI (CHỈ HIỆN KHI VÀO TRONG THƯ VIỆN) -->
     <button class="btn-creators-corner" id="btnOpenCreators">
       <span class="sparkle-mini">❖</span><span>Creators of Báo ứng</span>
     </button>
+    
     <div class="vinyl-player-box" id="vinylPlayer">
       <div class="vinyl-disc" id="vinylDisc"><div class="vinyl-center-label"></div></div>
       <span class="vinyl-text" id="vinylText">Âm Nhạc</span>
@@ -275,6 +298,7 @@
       <div style="font-family: var(--font-top-tag); color: var(--crystal-cyan); letter-spacing: 5px; font-size: 0.7rem;">✦ BÁO ỨNG ĐỜI NHAU ARCHIVE ✦</div>
       <h2 style="font-family: var(--font-brand); color: #fff; font-size: 2.2rem; letter-spacing: 4px; margin-top: 5px;">Creators</h2>
     </div>
+    <!-- Bảng Grid Creators có thanh trượt -->
     <div class="creators-grid" id="creatorsGrid"></div>
   </div>
 
@@ -312,30 +336,35 @@
       // 2. DANH SÁCH 3 CREATORS
       creators: [
         {
-          bannerImg: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
-          name: 'Vennelwyn', sign: '✦ Pisces • Song Ngư',
-          quote: '“Một đời dây dưa, vạn kiếp trầm luân không dứt.”',
-          bio: 'Kẻ dệt nên những mảnh ký ức tiền kiếp nơi biển sâu, lưu giữ duyên nghiệp và nỗi vương vấn của muôn trùng sóng vỗ.',
-          carrdText: 'CARRD', carrdUrl: 'https://carrd.co'
+          bannerImg: 'https://media.discordapp.net/attachments/1569989641325650012/1570580752263946280/TA-2026-11-12-23-24-53-artist_ma-819578102-0.png?ex=6af79ccf&is=6af64b4f&hm=869766a3b32594afbbd6ff2df0f5d84a8cd27997fc8ecc7154b7092fdb2b1e0d&=&format=webp&quality=lossless&width=341&height=512',
+          name: '⮪✣ Lavallee de Dahli ✣⮫', 
+          sign: 'RZ ▯/ LIBRA',
+          quote: '“Người tạo tên, tên chỉ người”',
+          bio: 'Một ngày ngọt ngào, cảm ơn vì đã tới.<br><br>Mong rằng người đến trao cho tôi sự tôn trọng. Tôi sẽ tôn trọng và tiếp đón nếu người đến với thiện ý. Lời tạm biệt sẽ được gửi đến nếu tôi thấy bị kéo vào drama. Rz yêu hoà bình.<br><br>Nếu mọi người thích bot nào, đừng ngại thể hiện tình cảm bằng tim nhé.',
+          carrdText: 'CARRD', 
+          carrdUrl: 'https://carrd.co'
         },
         {
           bannerImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
-          name: 'Thương Lan Quân', sign: '✦ Scorpio • Thiên Yết',
+          name: 'Thương Lan Quân', 
+          sign: '✦ Scorpio • Thiên Yết',
           quote: '“Khối băng ngàn năm cũng có ngày tan vì một lời thề.”',
           bio: 'Chấp bút những khúc ca bi tráng và những cuộc tương phùng báo ứng, khắc sâu dấu vết của thời gian lên từng tạo tác.',
-          carrdText: 'CARRD', carrdUrl: 'https://carrd.co'
+          carrdText: 'CARRD', 
+          carrdUrl: 'https://carrd.co'
         },
         {
           bannerImg: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80',
-          name: 'Hải Đăng Sư', sign: '✦ Cancer • Cự Giải',
+          name: 'Hải Đăng Sư', 
+          sign: '✦ Cancer • Cự Giải',
           quote: '“Ngọn đèn trong đêm bão chưa từng vì ai mà tắt lịm.”',
           bio: 'Người trông coi những trang hồ sơ lưu trữ cổ xưa, gìn giữ ánh sáng cuối cùng nơi hải đăng trước khi triều dâng.',
-          carrdText: 'CARRD', carrdUrl: 'https://carrd.co'
+          carrdText: 'CARRD', 
+          carrdUrl: 'https://carrd.co'
         }
       ],
 
       // 3. DANH SÁCH NHÂN VẬT (BĂNG PHONG ẤN)
-      // Bạn có thể copy nguyên 1 cụm {...} dán thêm xuống dưới để tạo thêm nhân vật
       characters: [
         {
           name: "Thương Lan",
@@ -363,7 +392,7 @@
           title: "Cửu Vĩ Ngư Linh — Duyên Nghiệp Luân Hồi",
           karma: "Đổi cả ngàn năm tu hành nơi biển tuyết, chỉ để một lần nhìn thấy người bước qua cầu.",
           lore: "Tương truyền sinh ra từ đóa hoa sen xanh nở giữa đợt rét cực hạn của đại dương. Chín chiếc đuôi mềm như lụa nhưng sắc bén như băng đao khi kẻ thù chạm vào ký ức cấm kỵ.",
-          img: "" // Nếu để trống link ảnh, hệ thống tự động hiển thị chữ [CHƯA CÓ ẢNH]
+          img: "" 
         }
       ]
     };
@@ -385,6 +414,7 @@
        ========================================================================== */
     const landingScreen = document.getElementById('landingScreen');
     const archiveScreen = document.getElementById('archiveScreen');
+    const btnOpenCreators = document.getElementById('btnOpenCreators');
 
     document.getElementById('btnEnter').addEventListener('click', (e) => {
       e.stopPropagation();
@@ -394,6 +424,9 @@
       // Mờ dần màn khởi đầu, trồi lên màn Thư viện nhân vật
       landingScreen.classList.add('hidden');
       archiveScreen.classList.add('visible');
+      
+      // LÚC NÀY NÚT "CREATORS" MỚI XUẤT HIỆN Ở GÓC TRÁI TRÊN CÙNG
+      btnOpenCreators.classList.add('visible');
     });
 
     /* ==========================================================================
@@ -409,15 +442,15 @@
           <div class="c-quote">${c.quote}</div>
           <p class="c-bio">${c.bio}</p>
           <a href="${c.carrdUrl}" target="_blank" class="carrd-btn">
-            <span style="font-size:1.2rem">❖</span>
-            <span style="font-family:var(--font-top-tag);font-size:0.7rem;letter-spacing:2px">${c.carrdText}</span>
+            <span style="font-size:1.1rem; margin-top:-2px;">❖</span>
+            <span style="font-family:var(--font-top-tag);font-size:0.75rem;letter-spacing:2px">${c.carrdText}</span>
           </a>
         </div>
       `;
     });
 
     const overlayC = document.getElementById('creatorsOverlay');
-    document.getElementById('btnOpenCreators').addEventListener('click', () => overlayC.classList.add('active'));
+    btnOpenCreators.addEventListener('click', () => overlayC.classList.add('active'));
     document.getElementById('btnCloseCreators').addEventListener('click', () => overlayC.classList.remove('active'));
 
     /* ==========================================================================
@@ -446,7 +479,7 @@
         imgEl.src = c.img;
         imgEl.style.display = 'block';
       } else {
-        imgEl.style.display = 'none'; // Giấu ảnh nếu chưa có
+        imgEl.style.display = 'none';
       }
       
       document.getElementById('modalCharName').textContent = c.name;
@@ -509,7 +542,6 @@
     let w = canvas.width = window.innerWidth, h = canvas.height = window.innerHeight;
     window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
 
-    // Sóng nước
     const ripples = [];
     function makeRipple(x, y) {
       ripples.push({ x, y, r: 4, maxR: Math.min(w, h) * 0.35 + 40, alpha: 0.9, speed: 2.8 });
@@ -517,7 +549,6 @@
     }
     window.addEventListener('pointerdown', (e) => makeRipple(e.clientX, e.clientY));
 
-    // Hoa hồng
     let cImg = null;
     if(MY_CONFIG.roseImageUrl) { 
       cImg = new Image(); cImg.crossOrigin = 'anonymous'; cImg.src = MY_CONFIG.roseImageUrl; 
