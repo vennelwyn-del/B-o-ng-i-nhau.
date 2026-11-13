@@ -13,7 +13,7 @@
 
   <style>
     /* ==========================================================================
-       ✦ TÔNG MÀU ĐẠI DƯƠNG VÀ FONT CHỮ ✦
+       ✦ 1. TÔNG MÀU ĐẠI DƯƠNG VÀ FONT CHỮ ✦
        ========================================================================== */
     :root {
       --font-top-tag:   'Cinzel', serif;
@@ -234,7 +234,7 @@
     .light-mode .carrd-btn { background: rgba(255,255,255,0.7); border-color: rgba(1,42,74,0.2); color: var(--c-dark); }
     .carrd-btn:hover { background: var(--c-light); border-color: var(--c-light); color: #fff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79, 165, 216, 0.4); }
 
-    /* CHỌN TÀI KHOẢN LOGIN */
+    /* MODAL: CHỌN TÀI KHOẢN LOGIN */
     .login-box { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 30px; width: 90%; max-width: 400px; text-align: center; }
     .light-mode .login-box { background: rgba(255,255,255,0.9); border-color: rgba(1,42,74,0.2); color: var(--c-dark);}
     .login-acc-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
@@ -245,14 +245,7 @@
     .pass-input { width: 100%; padding: 12px; margin: 20px 0; border-radius: 8px; background: rgba(1,3,44,0.6); border: 1px solid var(--c-light); color: #fff; font-family: var(--font-ui); text-align: center; letter-spacing: 5px;}
     .light-mode .pass-input { background: #fff; color: var(--c-dark); }
 
-    /* MODAL SETTINGS & NOTI */
-    .settings-modal-content { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 30px; width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto;}
-    .light-mode .settings-modal-content { background: rgba(255,255,255,0.9); border-color: rgba(1,42,74,0.2); color: var(--c-dark); }
-    .settings-group { margin-bottom: 15px; text-align: left; font-family: var(--font-ui);}
-    .settings-group label { display: block; font-size: 0.85rem; color: var(--c-light); margin-bottom: 5px; font-weight: 600;}
-    .settings-group input, .settings-group textarea { width: 100%; background: rgba(1,13,85,0.4); border: 1px solid var(--glass-border); padding: 10px; border-radius: 6px; color: #fff; font-family: inherit;}
-    .light-mode .settings-group input, .light-mode .settings-group textarea { background: #fff; color: var(--c-dark); border-color: rgba(1,42,74,0.2); }
-    
+    /* MODAL: NOTIFICATION */
     .noti-list-box { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 25px; width: 90%; max-width: 500px; max-height: 70vh; overflow-y: auto;}
     .light-mode .noti-list-box { background: rgba(255,255,255,0.9); border-color: rgba(1,42,74,0.2); color: var(--c-dark); }
     .noti-item { background: rgba(1,3,44,0.5); border-left: 3px solid var(--c-light); padding: 12px; margin-bottom: 10px; border-radius: 4px; font-family: var(--font-ui); font-size: 0.85rem; cursor: pointer; transition: 0.3s;}
@@ -284,13 +277,14 @@
     .c-col-right::-webkit-scrollbar-thumb { background: rgba(79, 165, 216, 0.5); border-radius: 4px;}
     
     .c-right-header { display: flex; justify-content: flex-end; margin-bottom: 10px;}
-    
-    .btn-action-small { background: rgba(1, 3, 44, 0.5); border: 1px solid rgba(219, 235, 248, 0.2); color: var(--c-lightest); padding: 5px 12px; border-radius: 20px; font-family: var(--font-ui); font-size: 0.75rem; cursor: pointer; transition: 0.3s; }
-    .light-mode .btn-action-small { background: rgba(255,255,255,0.8); color: var(--c-dark); border-color: rgba(1,42,74,0.2);}
-    .btn-action-small:hover { background: rgba(79,165,216,0.3); border-color: var(--c-light); }
-    .btn-action-small.liked { color: #ff6b8b; border-color: #ff6b8b; background: rgba(255,107,139,0.1); }
-    
+    .heart-btn { background: rgba(1, 3, 44, 0.5); border: 1px solid rgba(219, 235, 248, 0.2); color: var(--c-lightest); padding: 7px 16px; border-radius: 20px; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; }
+    .light-mode .heart-btn { background: rgba(255,255,255,0.7); border-color: rgba(1,42,74,0.2); color: var(--c-dark);}
+    .heart-btn:hover:not(.disabled) { background: rgba(255, 107, 139, 0.15); border-color: #ff6b8b; color: #ff6b8b; }
+    .heart-btn.liked { border-color: #ff6b8b; color: #ff6b8b; background: rgba(255, 107, 139, 0.1); }
+    .heart-btn.disabled { cursor: not-allowed; opacity: 0.9; }
+
     .c-section-title { font-size: 1.15rem; color: var(--c-light); font-weight: 600; margin: 15px 0 5px; text-transform: uppercase;}
+    .c-warning-content { border-left: 3px solid #ff6b8b; padding-left: 14px; color: #ff6b8b; background: linear-gradient(90deg, rgba(255, 107, 139, 0.15) 0%, transparent 100%); padding: 6px 14px; margin-top:5px; font-style: italic;}
     
     .c-tags-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px;}
     .c-tag-item { font-family: var(--font-ui); font-size: 0.8rem; background: rgba(1, 3, 44, 0.5); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(219, 235, 248, 0.2); }
@@ -450,35 +444,14 @@
       <h3 style="font-family:var(--font-char-name); font-size:1.8rem;" id="loginAttemptName"></h3>
       <p style="font-family:var(--font-ui); font-size:0.8rem; color:#ff6b8b; margin-top:10px;">Nhập mật khẩu (Mặc định: 1234)</p>
       <input type="password" id="loginPassInput" class="pass-input" placeholder="••••">
-      <button class="btn-theme-toggle" style="width:100%; justify-content:center; background:var(--c-light); border:none; color:#fff;" onclick="attemptLogin()">Đăng Nhập</button>
-    </div>
-  </div>
-
-  <!-- MODAL: CÀI ĐẶT HỒ SƠ -->
-  <div class="custom-overlay" id="settingsOverlay">
-    <button class="close-btn" onclick="this.parentElement.classList.remove('active')" style="top:20px; right:20px;">&times;</button>
-    <div class="settings-modal-content">
-      <h2 style="font-family:var(--font-brand); text-align:center; margin-bottom:20px;">⚙️ Cài Đặt Hồ Sơ</h2>
-      <div class="settings-group">
-        <label>Mật khẩu mới (Để trống nếu không đổi)</label>
-        <input type="password" id="setPass" placeholder="Nhập mật khẩu mới...">
-      </div>
-      <div class="settings-group">
-        <label>Link Ảnh Đại Diện (Avatar)</label>
-        <input type="text" id="setAvatar" placeholder="Dán link ảnh (https://...)">
-      </div>
-      <div class="settings-group">
-        <label>Đôi lời giới thiệu (Bio)</label>
-        <textarea id="setBio" rows="4" placeholder="Viết vài dòng về bạn..."></textarea>
-      </div>
-      <button class="btn-theme-toggle" style="width:100%; justify-content:center; background:var(--c-light); border:none; color:#fff; margin-top:10px;" onclick="saveCreatorSettings()">Lưu Thay Đổi (Chỉ lưu trên trình duyệt hiện tại)</button>
+      <button class="btn-action-enter" style="width:100%; justify-content:center; padding:10px; font-size:1rem;" onclick="attemptLogin()">Đăng Nhập</button>
     </div>
   </div>
 
   <!-- MODAL: THÔNG BÁO -->
   <div class="custom-overlay" id="notiOverlay">
     <button class="close-btn" onclick="this.parentElement.classList.remove('active')" style="top:20px; right:20px;">&times;</button>
-    <div class="noti-list-box">
+    <div class="login-box" style="width:95%; max-width:600px; max-height:70vh; overflow-y:auto; text-align:left;">
       <h2 style="font-family:var(--font-brand); text-align:center; margin-bottom:20px;">🔔 Thông báo của bạn</h2>
       <div id="notiListRender"></div>
     </div>
@@ -496,7 +469,6 @@
     window.sessionLikes = new Set(); 
     window.loggedInCreator = localStorage.getItem('baoUngLoggedIn') || null;
     window.heartsData = JSON.parse(localStorage.getItem('baoUngHearts')) || {};
-    window.creatorsSettingsCache = JSON.parse(localStorage.getItem('baoUngCreatorSettings')) || {};
 
     const MY_CONFIG = {
       backgroundImageUrl: 'https://media.discordapp.net/attachments/1551974401703153826/1570614382659117206/ba1183ab02a36413722df50621909ae1.png',
@@ -550,16 +522,6 @@
         }
       ]
     };
-
-    /* Áp dụng Setting đè lên config nếu có */
-    window.applyCreatorSettingsToConfig = function() {
-      MY_CONFIG.creators.forEach(c => {
-         let fData = window.creatorsSettingsCache[c.id];
-         if(fData) { if(fData.avatar) c.bannerImg = fData.avatar; if(fData.bio) c.bio = fData.bio; }
-      });
-      renderCreatorsGrid(); updateTopBarAuthUI();
-    }
-    applyCreatorSettingsToConfig();
 
     /* NỀN VÀ MOUSE MOVE */
     document.getElementById('waterBg').style.backgroundImage = `radial-gradient(circle at 50% 50%, rgba(7,84,176,0.3) 0%, rgba(1,3,44,0.92) 100%), url('${MY_CONFIG.backgroundImageUrl}')`;
@@ -618,17 +580,16 @@
     
     document.getElementById('btnOpenCreators').addEventListener('click', () => document.getElementById('creatorsOverlay').classList.add('active'));
 
-    /* LOGIC LOGIN & SETTINGS THÔNG BÁO MỚI */
+    /* LOGIC LOGIN VÀ HIỂN THỊ NÚT GÓC TRÁI */
     window.updateTopBarAuthUI = function() {
       const authArea = document.getElementById('authMenuArea');
       if(window.loggedInCreator) {
         let cData = MY_CONFIG.creators.find(c => c.id === window.loggedInCreator);
         let nameShort = cData ? cData.name.split(' ')[0] : 'Creator';
         authArea.innerHTML = `
-          <button class="btn-creators-corner" style="border-color:#ff6b8b; color:#ff6b8b" onclick="document.getElementById('settingsOverlay').classList.add('active')"> ⚙️ Cài Đặt </button>
           <button class="btn-creators-corner" style="border-color:var(--c-lightest)" onclick="document.getElementById('notiOverlay').classList.add('active')"> 🔔 <span id="notiBadgeCount">0</span> </button>
           <button class="btn-creators-corner" style="background:rgba(255,107,139,0.2); border-color:#ff6b8b; color:#fff" onclick="logoutCreator()"> Đăng xuất </button>
-          <span style="display:inline-flex; align-items:center; padding:0 10px; font-family:var(--font-char-name); font-size:1.3rem; color:var(--c-lightest);">𐚁. ${nameShort}</span>
+          <span style="display:inline-flex; align-items:center; padding:0 10px; font-family:var(--font-char-name); font-size:1.4rem; color:var(--c-lightest);">𐚁. ${nameShort}</span>
         `;
         window.updateNotificationBadge();
       } else {
@@ -647,40 +608,18 @@
     
     window.attemptLogin = async function() {
       const pass = document.getElementById('loginPassInput').value;
-      let fData = window.creatorsSettingsCache[tempLoginId];
-      let realPass = (fData && fData.password) ? fData.password : "1234"; 
-
-      if(pass === realPass) { 
+      if(pass === '1234') { 
         window.loggedInCreator = tempLoginId;
         localStorage.setItem('baoUngLoggedIn', tempLoginId);
         document.getElementById('loginPassOverlay').classList.remove('active');
         document.getElementById('loginPassInput').value = '';
         updateTopBarAuthUI();
-        alert(`Chào mừng ${tempLoginId} đã trở lại ᰔᩚ`);
       } else {
-        alert("Sai mật khẩu! Nhập lại đi ngoan xinh yêu ૮(˶˃ᆺ˂˶)ა");
+        alert("Sai mật khẩu! Mặc định là 1234 nha ngoan xinh yêu ૮(˶˃ᆺ˂˶)ა");
       }
     }
 
     window.logoutCreator = function() { window.loggedInCreator = null; localStorage.removeItem('baoUngLoggedIn'); updateTopBarAuthUI(); }
-
-    window.saveCreatorSettings = function() {
-       let p = document.getElementById('setPass').value;
-       let a = document.getElementById('setAvatar').value;
-       let bio = document.getElementById('setBio').value;
-       
-       let data = window.creatorsSettingsCache[window.loggedInCreator] || {};
-       if(p) data.password = p;
-       if(a) data.avatar = a;
-       if(bio) data.bio = bio.replace(/\n/g, '<br>');
-       
-       window.creatorsSettingsCache[window.loggedInCreator] = data;
-       localStorage.setItem('baoUngCreatorSettings', JSON.stringify(window.creatorsSettingsCache));
-       
-       alert("Đã lưu cài đặt tạm thời (Sẽ mất nếu đổi máy). Chờ gắn Firebase để lưu vĩnh viễn nhé ᰔᩚ");
-       document.getElementById('settingsOverlay').classList.remove('active');
-       applyCreatorSettingsToConfig();
-    }
 
     /* THÔNG BÁO VÀ CHUYỂN HƯỚNG TỚI COMMENT */
     window.updateNotificationBadge = function() {
@@ -705,7 +644,7 @@
              cmt.replies.forEach(rep => {
                if(!rep.isCreator) {
                  notiCount++;
-                 notiHtml += `<div class="noti-item" onclick="openCharByIdAndScroll('${sId}', '${cmt.id}')">💬 <strong>${rep.name}</strong> đã phản hồi lời nhắn ở <em>${ch.name}</em>: "${rep.text}"</div>`;
+                 notiHtml += `<div class="noti-item" onclick="openCharByIdAndScroll('${sId}', '${cmt.id}')">💬 <strong>${rep.name}</strong> đã phản hồi ở <em>${ch.name}</em>: "${rep.text}"</div>`;
                }
              });
           }
@@ -774,10 +713,7 @@
       filtered.forEach((char) => {
         const card = document.createElement('div'); card.className = 'char-card show-anim';
         
-        let cId = char.creator;
-        let fData = window.creatorsSettingsCache[cId];
-        let bg = (fData && fData.cardBg) ? fData.cardBg : (char.cardBg || char.img || "");
-        
+        let bg = char.cardBg || char.img || ""; // Lấy cardBg trước, không có lấy img
         if(bg) {
           const grad = document.body.classList.contains('light-mode') 
              ? `linear-gradient(155deg, rgba(255,255,255,0.7) 0%, rgba(225,245,254,0.9) 100%)` 
@@ -790,7 +726,7 @@
       });
     }
 
-    /* MỞ BẢNG HỒ SƠ CHI TIẾT NHÂN VẬT & COMMENT FIREBASE */
+    /* MỞ BẢNG HỒ SƠ CHI TIẾT NHÂN VẬT & COMMENT ĐA TẦNG */
     window.currentOpenCharId = null;
 
     window.openChar = function(c) {
@@ -799,8 +735,7 @@
       
       const isLight = document.body.classList.contains('light-mode');
       
-      let fData = window.creatorsSettingsCache[c.creator];
-      let bg = (fData && fData.cardBg) ? fData.cardBg : (c.cardBg || c.img || "");
+      let bg = c.cardBg || c.img || "";
       let grad = isLight ? 'rgba(255,255,255,0.85), rgba(225,245,254,0.95)' : 'rgba(7,84,176,0.8), rgba(1,3,44,0.95)';
       const modalCont = document.getElementById('modalSlabContent');
       if(bg) modalCont.style.background = `linear-gradient(155deg, ${grad}), url('${bg}') center/cover`;
@@ -844,7 +779,7 @@
                 <div class="cmt-form">
                    <input type="text" id="cmtName-${safeId}" class="cmt-input" placeholder="Điền tên (Ngoại trừ Creator sẽ tự nhận diện)" ${window.loggedInCreator ? 'disabled value="[ Đang dùng thân phận Creator ]"' : ''}>
                    <textarea id="cmtText-${safeId}" class="cmt-textarea" rows="2" placeholder="Lời nhắn của ngoan yêu 𓆩❤︎𓆪"></textarea>
-                   <button class="btn-submit-cmt" onclick="addLocalComment('${safeId}')"> Gửi gắm ᯓᡣ𐭩 </button>
+                   <button class="btn-action-enter" style="padding:10px 20px; font-size:1rem;" onclick="addLocalComment('${safeId}')"> Gửi gắm ᯓᡣ𐭩 </button>
                 </div>
              </div>
           </div>
@@ -910,7 +845,17 @@
         }
     }
 
-    /* ĐẨY TIM COMMENT LÊN FIREBASE (Tạm Local) */
+    /* ĐẨY TIM COMMENT */
+    window.addLocalHeart = function(charId, e) {
+      if (window.sessionLikes.has(charId)) return;
+      window.sessionLikes.add(charId);
+      window.heartsData[charId] = (window.heartsData[charId] || 0) + 1;
+      localStorage.setItem('baoUngHearts', JSON.stringify(window.heartsData));
+      document.getElementById(`count-${charId}`).textContent = window.heartsData[charId];
+      e.currentTarget.classList.add('liked', 'disabled');
+      e.currentTarget.innerHTML = `❤️ <span id="count-${charId}">${window.heartsData[charId]}</span>`;
+    }
+
     window.likeLocalComment = function(charId, cmtId, e) {
        if (window.sessionLikes.has(cmtId)) return;
        window.sessionLikes.add(cmtId);
@@ -930,7 +875,7 @@
        box.style.display = box.style.display === 'none' ? 'flex' : 'none';
     }
 
-    /* ĐẨY PHẢN HỒI LÊN FIREBASE (Tạm local) */
+    /* ĐẨY PHẢN HỒI (Creator tự nhận danh tính) */
     window.addLocalReply = function(charId, cmtId) {
        let textInput = document.getElementById('repText_' + cmtId).value.trim();
        if(!textInput) return;
@@ -954,7 +899,7 @@
        }
     }
 
-    /* ĐẨY COMMENT MỚI LÊN FIREBASE (Tạm local) */
+    /* ĐẨY COMMENT MỚI (Creator tự nhận danh tính) */
     window.addLocalComment = function(charId) {
         let textInput = document.getElementById('cmtText-' + charId).value.trim();
         if(!textInput) { alert("Ngoan yêu quên nhập lời nhắn kìa ૮ ˶ᵔ ᵕ ᵔ˶ ა"); return;}
@@ -1031,7 +976,7 @@
         f.y += f.sy; f.f += f.vf; f.x += Math.sin(f.f)*f.dx; f.a += f.va;
         if(f.y > h+50) { if(Math.random()>.5) makeRipple(f.x, h-25); f.y = -65; f.x = Math.random()*w; }
         ctx.save(); ctx.translate(f.x, f.y); const tx = Math.cos(f.f)*0.25+0.85, ty = Math.sin(f.f*.75)*0.2+0.88;
-        ctx.rotate(f.a); ctx.scale(tx, ty); ctx.globalAlpha = f.op; ctx.drawImage(rCanv, -f.s, -f.s, f.s*2, f.s*2); ctx.restore();
+        ctx.rotate(f.a); ctx.scale(tx, ty); ctx.globalAlpha = f.op; if(cImg && cImg.complete) ctx.drawImage(cImg, -f.s, -f.s, f.s*2, f.s*2); else ctx.drawImage(rCanv, -f.s, -f.s, f.s*2, f.s*2); ctx.restore();
       });
       requestAnimationFrame(anim);
     }
