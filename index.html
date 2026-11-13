@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oregano:ital@0;1&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Cinzel:wght@400;600&family=Alex+Brush&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Cinzel:wght@400;600&family=Alex+Brush&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     /* ==========================================================================
@@ -26,7 +26,7 @@
       --font-char-text: 'Cormorant Garamond', serif;
       --font-ui:        'Montserrat', sans-serif;
 
-      /* MẶC ĐỊNH: DARK MODE (BIỂN ĐÊM) */
+      /* DARK MODE */
       --c-lightest: #dbebf8; 
       --c-light:    #4fa5d8; 
       --c-mid:      #0754b0; 
@@ -35,11 +35,10 @@
       
       --glass-border: rgba(219, 235, 248, 0.25);
       --ice-bg: linear-gradient(155deg, rgba(219, 235, 248, 0.12) 0%, rgba(7, 84, 176, 0.15) 50%, rgba(1, 13, 85, 0.7) 100%);
-      
       --bg-gradient: radial-gradient(circle at 50% 50%, rgba(7,84,176,0.3) 0%, rgba(1,3,44,0.92) 100%);
     }
 
-    /* CHẾ ĐỘ LIGHT MODE (BIỂN NGÀY NẮNG) */
+    /* LIGHT MODE */
     body.light-mode {
       --c-lightest: #012a4a; 
       --c-light:    #0288d1; 
@@ -48,362 +47,256 @@
       --c-darkest:  #f0f8ff; 
       
       --glass-border: rgba(1, 42, 74, 0.15);
-      --ice-bg: linear-gradient(155deg, rgba(255, 255, 255, 0.85) 0%, rgba(225, 245, 254, 0.7) 50%, rgba(240, 248, 255, 0.95) 100%);
+      --ice-bg: linear-gradient(155deg, rgba(255, 255, 255, 0.9) 0%, rgba(225, 245, 254, 0.8) 50%, rgba(240, 248, 255, 0.95) 100%);
       --bg-gradient: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4) 0%, rgba(225,245,254,0.85) 100%);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
     body, html { width: 100%; height: 100%; overflow: hidden; background-color: var(--c-darkest); color: var(--c-lightest); transition: background-color 0.5s, color 0.5s; }
     
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: rgba(1, 3, 44, 0.2); border-radius: 8px; }
-    ::-webkit-scrollbar-thumb { background: rgba(79, 165, 216, 0.4); border-radius: 8px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--c-light); }
-
-    .water-bg-layer {
-      position: fixed; inset: -15px; background-color: var(--c-dark);
-      background-position: center center; background-size: cover; background-repeat: no-repeat;
-      filter: saturate(1.1) contrast(1.15); z-index: 1;
-      animation: waterUndulate 12s ease-in-out infinite alternate; pointer-events: none;
-      transition: all 0.5s ease;
-    }
-    .light-mode .water-bg-layer { filter: saturate(1) contrast(1) brightness(1.1); opacity: 0.85; }
-
-    @keyframes waterUndulate { 0% { transform: scale(1.02); } 100% { transform: scale(1.06) translateY(-8px); } }
-    #fxCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 5; pointer-events: auto; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(79, 165, 216, 0.4); border-radius: 10px; }
     
+    .water-bg-layer { position: fixed; inset: -15px; background-color: var(--c-dark); background-position: center center; background-size: cover; background-repeat: no-repeat; filter: saturate(1.1) contrast(1.15); z-index: 1; animation: waterUndulate 12s ease-in-out infinite alternate; pointer-events: none; transition: all 0.5s ease; }
+    .light-mode .water-bg-layer { filter: saturate(1) contrast(1) brightness(1.1); opacity: 0.85; }
+    @keyframes waterUndulate { 0% { transform: scale(1.02); } 100% { transform: scale(1.06) translateY(-8px); } }
+    
+    #fxCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 5; pointer-events: auto; }
     .vignette-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 8; background: radial-gradient(circle at center, transparent 38%, rgba(1, 3, 44, 0.9) 100%); transition: background 0.5s; }
     .light-mode .vignette-overlay { background: radial-gradient(circle at center, transparent 38%, rgba(255, 255, 255, 0.7) 100%); }
 
-    /* THANH MENU */
-    .top-bar { position: fixed; top: 0; left: 0; width: 100%; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; z-index: 50; pointer-events: none; }
+    /* ==========================================================================
+       ✦ THANH MENU TỐI ƯU ✦
+       ========================================================================== */
+    .top-bar { position: fixed; top: 0; left: 0; width: 100%; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; z-index: 50; pointer-events: none; }
     .top-bar > * { pointer-events: auto; }
     
     .btn-creators-corner {
-      display: inline-flex; align-items: center; gap: 10px; padding: 9px 22px;
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px;
       background: linear-gradient(135deg, rgba(79, 165, 216, 0.25) 0%, rgba(7, 84, 176, 0.65) 50%, rgba(1, 13, 85, 0.9) 100%);
-      border: 1px solid var(--glass-border); border-radius: 40px; color: #fff; font-family: var(--font-button); font-size: 1.05rem; cursor: pointer;
-      backdrop-filter: blur(14px); opacity: 0; transform: translateX(-30px); pointer-events: none; transition: all 0.8s ease;
+      border: 1px solid var(--glass-border); border-radius: 40px; color: #fff; font-family: var(--font-button); font-size: 1rem; cursor: pointer;
+      backdrop-filter: blur(14px); opacity: 0; transform: translateX(-30px); pointer-events: none; transition: 0.5s;
       box-shadow: inset 0 0 18px rgba(219, 235, 248, 0.15), 0 6px 20px rgba(1, 3, 44, 0.6);
     }
     .light-mode .btn-creators-corner { background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(129, 212, 250, 0.6) 100%); color: var(--c-lightest); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
     .btn-creators-corner.visible { opacity: 1; transform: translateX(0); pointer-events: auto; }
-    .btn-creators-corner:hover { border-color: var(--c-lightest); transform: translateY(-2px); box-shadow: 0 0 20px rgba(79, 165, 216, 0.6); }
+    .btn-creators-corner:hover { border-color: var(--c-lightest); transform: translateY(-2px); }
     
-    .top-right-controls { display: flex; gap: 15px; margin-left: auto; }
-
-    .btn-theme-toggle {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; padding: 6px 16px;
-      background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border);
-      backdrop-filter: blur(12px); box-shadow: 0 6px 20px rgba(1, 3, 44, 0.6); transition: 0.3s;
-      color: var(--c-lightest); font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500;
-    }
-    .light-mode .btn-theme-toggle { background: rgba(255, 255, 255, 0.7); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-    .btn-theme-toggle:hover { border-color: var(--c-light); transform: translateY(-2px); }
-
-    .vinyl-player-box {
-      display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 6px 14px 6px 8px;
-      background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border);
-      backdrop-filter: blur(12px); box-shadow: 0 6px 20px rgba(1, 3, 44, 0.6); transition: 0.3s;
-    }
-    .light-mode .vinyl-player-box { background: rgba(255, 255, 255, 0.7); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-    .vinyl-player-box:hover { border-color: var(--c-light); transform: translateY(-2px); }
-    .vinyl-disc { width: 40px; height: 40px; border-radius: 50%; background: repeating-radial-gradient(circle, #01032c 0px, #01032c 2px, #010d55 3px, #0754b0 4px); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(79, 165, 216, 0.4), inset 0 0 4px rgba(219, 235, 248, 0.3); }
-    .vinyl-center-label { width: 15px; height: 15px; border-radius: 50%; background: radial-gradient(circle, #dbebf8 0%, #4fa5d8 50%, #0754b0 100%); }
+    .top-right-controls { display: flex; gap: 12px; margin-left: auto; }
+    .btn-theme-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; padding: 6px 14px; background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border); backdrop-filter: blur(12px); color: var(--c-lightest); font-family: var(--font-ui); font-size: 0.8rem; font-weight: 500; transition: 0.3s; }
+    .light-mode .btn-theme-toggle { background: rgba(255, 255, 255, 0.7); }
+    
+    .vinyl-player-box { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 5px 12px 5px 6px; background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border); backdrop-filter: blur(12px); transition: 0.3s; }
+    .light-mode .vinyl-player-box { background: rgba(255, 255, 255, 0.7); }
+    .vinyl-disc { width: 34px; height: 34px; border-radius: 50%; background: repeating-radial-gradient(circle, #01032c 0px, #01032c 2px, #010d55 3px, #0754b0 4px); display: flex; align-items: center; justify-content: center; }
+    .vinyl-center-label { width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle, #dbebf8 0%, #4fa5d8 50%, #0754b0 100%); }
     .vinyl-disc.spinning { animation: spinVinyl 3.5s linear infinite; }
     @keyframes spinVinyl { 100% { transform: rotate(360deg); } }
-    .vinyl-text { font-family: var(--font-top-tag); font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--c-lightest); }
+    .vinyl-text { font-family: var(--font-top-tag); font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--c-lightest); }
 
-    /* MÀN HÌNH 1: KHỞI ĐẦU */
-    #landingScreen { position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 50px; transition: opacity 1s ease, visibility 1s ease; pointer-events: none; }
+    /* MENU TRÊN ĐIỆN THOẠI (THU GỌN THÀNH ICON) */
+    @media (max-width: 768px) {
+      .top-bar { padding: 12px 15px; }
+      .btn-creators-corner { padding: 8px; border-radius: 50%; }
+      .btn-creators-corner span:last-child { display: none; } /* Ẩn chữ Creators of báo ứng */
+      .btn-creators-corner .sparkle-mini { margin: 0; font-size: 1.2rem; display: block; }
+      
+      .btn-theme-toggle span { font-size: 0; }
+      .btn-theme-toggle span::before { content: 'ʕ˖͜͡˖ʔ'; font-size: 1.1rem; }
+      .btn-theme-toggle { padding: 8px 12px; }
+      
+      .vinyl-text { display: none; }
+      .vinyl-player-box { padding: 6px; border-radius: 50%; }
+      .vinyl-disc { width: 30px; height: 30px; }
+    }
+
+    /* ==========================================================================
+       ✦ MÀN HÌNH 1: KHỞI ĐẦU ✦
+       ========================================================================== */
+    #landingScreen { position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; transition: 1s ease; pointer-events: none; }
     #landingScreen.hidden { opacity: 0; visibility: hidden; }
     #landingScreen > * { pointer-events: auto; }
     
     .floating-card-wrapper { position: relative; cursor: pointer; animation: floatSmooth 6s ease-in-out infinite; perspective: 1000px; }
-    @keyframes floatSmooth { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-14px); } }
-    .floating-picture-frame {
-      width: 250px; height: 330px; padding: 10px; border-radius: 12px; background: linear-gradient(145deg, rgba(219, 235, 248, 0.15) 0%, rgba(7, 84, 176, 0.4) 50%, rgba(1, 13, 85, 0.85) 100%);
-      border: 1px solid var(--glass-border); transition: 0.4s; overflow: hidden; box-shadow: inset 0 0 25px rgba(219, 235, 248, 0.15), 0 20px 50px rgba(1, 3, 44, 0.8), 0 0 45px rgba(79, 165, 216, 0.25);
-    }
-    .light-mode .floating-picture-frame { background: rgba(255,255,255,0.6); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+    @keyframes floatSmooth { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
+    .floating-picture-frame { width: 220px; height: 300px; padding: 8px; border-radius: 12px; background: var(--ice-bg); border: 1px solid var(--glass-border); transition: 0.4s; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
     .floating-picture-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
-    .quote-text { font-family: var(--font-quote); font-style: italic; font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-top: 24px; text-shadow: 0 0 20px rgba(79, 165, 216, 0.7); color: var(--c-lightest); }
-    .brand-title { font-family: var(--font-brand); font-size: 0.76rem; letter-spacing: 8px; margin: 12px 0 26px; text-shadow: 0 0 12px rgba(79, 165, 216, 0.5); color: var(--c-lightest); }
-    .light-mode .quote-text, .light-mode .brand-title { text-shadow: 0 0 15px rgba(255,255,255,0.8); }
+    .quote-text { font-family: var(--font-quote); font-style: italic; font-size: clamp(1.4rem, 4vw, 2.2rem); margin-top: 24px; text-shadow: 0 0 15px rgba(79, 165, 216, 0.8); text-align: center; }
+    .brand-title { font-family: var(--font-brand); font-size: 0.7rem; letter-spacing: 6px; margin: 10px 0 25px; text-align: center; }
     
-    .btn-action-enter {
-      display: inline-flex; align-items: center; gap: 14px; padding: 13px 40px; border-radius: 40px; background: linear-gradient(135deg, rgba(79, 165, 216, 0.2) 0%, rgba(7, 84, 176, 0.6) 50%, rgba(1, 13, 85, 0.9) 100%);
-      border: 1px solid var(--glass-border); color: #fff; font-family: var(--font-button); font-size: 1.25rem; cursor: pointer; backdrop-filter: blur(16px); transition: 0.3s;
-      box-shadow: inset 0 0 20px rgba(219, 235, 248, 0.2), 0 10px 30px rgba(1, 3, 44, 0.6);
-    }
-    .light-mode .btn-action-enter { background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(129, 212, 250, 0.8) 100%); color: var(--c-lightest); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-    .btn-action-enter:hover { transform: translateY(-3px) scale(1.03); border-color: var(--c-lightest); }
-    .tap-hint { font-family: var(--font-hint); font-size: 0.65rem; letter-spacing: 5px; margin-top: 14px; animation: pulseHint 2.5s infinite; color: var(--c-light); }
-
-    /* MÀN HÌNH 2: THƯ VIỆN & BỘ LỌC */
-    #archiveScreen { position: absolute; inset: 0; z-index: 15; padding: 90px 30px 50px; overflow-y: auto; overflow-x: hidden; pointer-events: none; opacity: 0; transform: translateY(30px); transition: all 1s ease 0.3s; }
-    #archiveScreen.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-    
-    .archive-header-box { text-align: center; margin: 0 auto 40px; padding: 45px 20px; max-width: 850px; background: linear-gradient(145deg, rgba(79, 165, 216, 0.1) 0%, rgba(1, 13, 85, 0.35) 100%); border: 1px solid var(--glass-border); border-radius: 18px; backdrop-filter: blur(14px); box-shadow: 0 15px 35px rgba(1, 3, 44, 0.6), inset 0 0 20px rgba(219, 235, 248, 0.05); }
-    .light-mode .archive-header-box { background: rgba(255, 255, 255, 0.6); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-    .archive-title { font-family: var(--font-brand); font-size: clamp(2rem, 4.5vw, 3.2rem); letter-spacing: 5px; color: var(--c-lightest); margin-bottom: 12px; text-shadow: 0 0 20px rgba(79, 165, 216, 0.6); line-height: 1.2; }
-    .archive-subtitle { font-family: var(--font-ui); font-size: 1.1rem; color: var(--c-lightest); margin-bottom: 18px; font-weight: 400; letter-spacing: 1px; }
-    .archive-divider { font-size: 1.4rem; color: var(--c-light); margin-bottom: 18px; letter-spacing: 3px; text-shadow: 0 0 10px var(--c-mid); }
-    .archive-slogan { font-family: var(--font-quote); font-size: 1.6rem; font-style: italic; color: var(--c-lightest); opacity: 0.95; }
-    
-    .archive-controls { max-width: 1100px; margin: 0 auto 40px; display: flex; flex-direction: column; gap: 20px; font-family: var(--font-ui), sans-serif; }
-    .search-wrapper { position: relative; width: 100%; }
-    .search-input { width: 100%; padding: 14px 24px; font-family: inherit; font-size: 1rem; color: var(--c-lightest); background: rgba(1, 13, 85, 0.4); border: 1px solid var(--glass-border); border-radius: 40px; backdrop-filter: blur(10px); outline: none; transition: 0.3s; box-shadow: inset 0 2px 10px rgba(1, 3, 44, 0.5); }
-    .light-mode .search-input { background: rgba(255, 255, 255, 0.8); box-shadow: inset 0 2px 10px rgba(0,0,0,0.05); }
-    .search-input::placeholder { color: rgba(219, 235, 248, 0.6); }
-    .light-mode .search-input::placeholder { color: rgba(1, 42, 74, 0.5); }
-    .search-input:focus { border-color: var(--c-light); box-shadow: 0 0 15px rgba(79, 165, 216, 0.4); }
-    
-    .filters-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
-    .toggle-pill-group { display: inline-flex; background: rgba(1, 3, 44, 0.4); border: 1px solid rgba(219, 235, 248, 0.15); border-radius: 40px; padding: 4px; box-shadow: inset 0 2px 10px rgba(1, 3, 44, 0.8); }
-    .light-mode .toggle-pill-group { background: rgba(255,255,255,0.7); box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); border-color: rgba(1,42,74,0.1); }
-    .toggle-btn { padding: 8px 24px; border-radius: 30px; border: none; background: transparent; color: rgba(219, 235, 248, 0.7); font-family: inherit; font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: 0.3s; }
-    .light-mode .toggle-btn { color: rgba(1,42,74,0.6); }
-    .toggle-btn:hover { color: var(--c-lightest); }
-    .toggle-btn.active { background: var(--c-light); color: #fff; box-shadow: 0 0 15px rgba(79, 165, 216, 0.5); font-weight: 600; }
-
-    .tags-panel { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px 24px; backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(1, 3, 44, 0.5); }
-    .tags-header { font-size: 1.05rem; font-weight: 600; color: var(--c-light); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px; }
-    .tags-list { display: flex; flex-wrap: nowrap; gap: 10px; overflow-x: auto; padding-bottom: 12px; }
-    
-    .tag-btn { white-space: nowrap; padding: 6px 16px; background: rgba(1, 3, 44, 0.4); border: 1px solid rgba(219, 235, 248, 0.2); border-radius: 20px; color: rgba(219, 235, 248, 0.8); font-family: inherit; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
-    .light-mode .tag-btn { background: rgba(255,255,255,0.7); color: rgba(1,42,74,0.7); border-color: rgba(1,42,74,0.1); }
-    .tag-btn:hover { background: rgba(219, 235, 248, 0.15); color: var(--c-lightest); }
-    .tag-btn.active { border-color: var(--c-light); background: rgba(79, 165, 216, 0.2); color: var(--c-lightest); box-shadow: 0 0 12px rgba(79, 165, 216, 0.5); }
-    .light-mode .tag-btn.active { background: var(--c-light); color: #fff; }
-    .tag-btn.tag-red { border-color: rgba(255, 107, 139, 0.4); color: rgba(255, 107, 139, 0.9); }
-    .tag-btn.tag-red.active { border-color: #ff6b8b; background: rgba(255, 107, 139, 0.25); box-shadow: 0 0 15px rgba(255, 107, 139, 0.6); color: #fff; }
-
-    /* LƯỚI THẺ NHÂN VẬT */
-    .character-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; padding-bottom: 40px;}
-    .char-card { 
-      background: var(--ice-bg); 
-      border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; 
-      backdrop-filter: blur(12px); cursor: pointer; transition: 0.4s; 
-      box-shadow: inset 0 0 20px rgba(219, 235, 248, 0.08), 0 10px 30px rgba(1, 3, 44, 0.5); 
-      display: flex; flex-direction: column; position: relative; overflow: hidden;
-    }
-    .light-mode .char-card { box-shadow: 0 10px 25px rgba(0,0,0,0.08), inset 0 0 20px rgba(255,255,255,0.6); }
-    .char-card:hover { transform: translateY(-5px); border-color: var(--c-light); box-shadow: 0 0 25px rgba(79, 165, 216, 0.4); }
-    .char-card.show-anim { animation: fadeInScale 0.4s ease forwards; }
-    
-    .char-img-box { width: 100%; height: 260px; border-radius: 6px; overflow: hidden; margin-bottom: 16px; border: 1px dashed var(--glass-border); background: rgba(1, 3, 44, 0.3); position: relative; z-index: 2;}
-    .light-mode .char-img-box { background: rgba(255,255,255,0.5); border-color: rgba(1,42,74,0.2); }
-    .char-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-    .char-card:hover .char-img-box img { transform: scale(1.05); }
-    
-    .char-name-outer { font-family: var(--font-char-name); font-size: 2.2rem; margin-bottom: 6px; text-shadow: 0 0 12px rgba(79, 165, 216, 0.8), 0 0 5px #000; color: var(--c-lightest); position: relative; z-index: 2;}
-    .light-mode .char-name-outer { text-shadow: none; color: var(--c-lightest); }
-    .char-title-outer { font-family: var(--font-char-text); font-style: italic; font-size: 1.05rem; color: var(--c-light); margin-bottom: 12px; text-shadow: 0 1px 3px #000; position: relative; z-index: 2;}
-    .light-mode .char-title-outer { text-shadow: none; }
-    
-    .char-tags-mini { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; position: relative; z-index: 2;}
-    .char-tags-mini span { font-family: var(--font-ui); font-size: 0.65rem; background: rgba(1, 3, 44, 0.5); padding: 4px 8px; border-radius: 10px; border: 1px solid rgba(219, 235, 248, 0.25); color: rgba(219, 235, 248, 0.9); }
-    .light-mode .char-tags-mini span { background: rgba(255,255,255,0.8); color: var(--c-lightest); border-color: rgba(1,42,74,0.15); }
-
-    /* FOOTER CHỮ CHÍNH GIỮA DƯỚI CÙNG */
-    .archive-footer {
-      margin-top: 60px;
-      text-align: center;
-      padding-bottom: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      position: relative;
-      z-index: 10;
-    }
-    .footer-brand {
-      font-family: var(--font-brand);
-      font-size: clamp(1.2rem, 3.5vw, 1.8rem);
-      letter-spacing: 12px; /* Dàn đều các chữ */
-      color: var(--c-lightest);
-      text-shadow: 0 0 12px rgba(79, 165, 216, 0.6);
-      text-transform: uppercase;
-      margin-left: 12px; /* Offset cho letter spacing để căn chuẩn giữa */
-    }
-    .light-mode .footer-brand { text-shadow: 0 0 10px rgba(255,255,255,0.8); }
-    .footer-msg {
-      font-family: var(--font-quote);
-      font-style: italic;
-      font-size: 1.15rem;
-      color: var(--c-light);
-      opacity: 0.9;
-    }
-    .light-mode .footer-msg { color: var(--c-lightest); }
-    .footer-divider {
-      font-family: var(--font-ui);
-      font-size: 0.9rem;
-      letter-spacing: 3px;
-      color: var(--c-light);
-      margin-top: 5px;
-      opacity: 0.7;
-    }
-    .light-mode .footer-divider { color: var(--c-lightest); }
-
-    @media (max-width: 900px) {
-      .footer-brand { letter-spacing: 8px; margin-left: 8px; }
-    }
+    .btn-action-enter { display: inline-flex; align-items: center; gap: 10px; padding: 12px 35px; border-radius: 40px; background: linear-gradient(135deg, rgba(79, 165, 216, 0.2) 0%, rgba(1, 13, 85, 0.8) 100%); border: 1px solid var(--glass-border); color: #fff; font-family: var(--font-button); font-size: 1.15rem; cursor: pointer; backdrop-filter: blur(16px); transition: 0.3s; }
+    .light-mode .btn-action-enter { background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(129, 212, 250, 0.8) 100%); color: var(--c-lightest); }
+    .btn-action-enter:hover { transform: scale(1.05); }
+    .tap-hint { font-family: var(--font-hint); font-size: 0.6rem; letter-spacing: 4px; margin-top: 15px; animation: pulseHint 2.5s infinite; opacity: 0.8; }
+    @keyframes pulseHint { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
 
     /* ==========================================================================
-       ✦ GIAO DIỆN MODAL VÀ NÚT TẮT X ✦
+       ✦ MÀN HÌNH 2: THƯ VIỆN & BỘ LỌC ✦
+       ========================================================================== */
+    #archiveScreen { position: absolute; inset: 0; z-index: 15; padding: 80px 20px 40px; overflow-y: auto; overflow-x: hidden; pointer-events: none; opacity: 0; transform: translateY(20px); transition: 1s ease 0.2s; }
+    #archiveScreen.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    
+    .archive-header-box { text-align: center; margin: 0 auto 30px; padding: 35px 15px; max-width: 800px; background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px; backdrop-filter: blur(14px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .archive-title { font-family: var(--font-brand); font-size: clamp(1.6rem, 5vw, 2.8rem); letter-spacing: 3px; margin-bottom: 10px; text-shadow: 0 0 15px rgba(79, 165, 216, 0.6); }
+    .archive-subtitle { font-family: var(--font-ui); font-size: 0.95rem; margin-bottom: 15px; }
+    .archive-divider { font-size: 1.2rem; color: var(--c-light); margin-bottom: 15px; }
+    .archive-slogan { font-family: var(--font-quote); font-size: 1.4rem; font-style: italic; opacity: 0.9; }
+    
+    .archive-controls { max-width: 1000px; margin: 0 auto 30px; display: flex; flex-direction: column; gap: 15px; }
+    .search-input { width: 100%; padding: 12px 20px; font-family: var(--font-ui); font-size: 0.95rem; color: var(--c-lightest); background: rgba(1, 13, 85, 0.4); border: 1px solid var(--glass-border); border-radius: 30px; backdrop-filter: blur(10px); outline: none; transition: 0.3s; }
+    .light-mode .search-input { background: rgba(255, 255, 255, 0.8); }
+    
+    .filters-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .toggle-pill-group { display: inline-flex; background: rgba(1, 3, 44, 0.4); border: 1px solid var(--glass-border); border-radius: 30px; padding: 4px; }
+    .light-mode .toggle-pill-group { background: rgba(255,255,255,0.7); }
+    .toggle-btn { padding: 6px 18px; border-radius: 20px; border: none; background: transparent; color: inherit; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; cursor: pointer; opacity: 0.7; transition: 0.3s; }
+    .toggle-btn.active { background: var(--c-light); color: #fff; opacity: 1; font-weight: 600; }
+
+    .tags-panel { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; }
+    .tags-header { font-family: var(--font-ui); font-size: 0.9rem; font-weight: 600; color: var(--c-light); margin-bottom: 10px; text-transform: uppercase; }
+    .tags-list { display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
+    .tag-btn { white-space: nowrap; padding: 5px 14px; background: rgba(1, 3, 44, 0.4); border: 1px solid var(--glass-border); border-radius: 15px; color: inherit; font-family: var(--font-ui); font-size: 0.8rem; cursor: pointer; opacity: 0.8; }
+    .light-mode .tag-btn { background: rgba(255,255,255,0.6); }
+    .tag-btn.active { border-color: var(--c-light); background: rgba(79, 165, 216, 0.2); opacity: 1; }
+    .light-mode .tag-btn.active { background: var(--c-light); color: #fff; }
+    .tag-btn.tag-red { border-color: rgba(255, 107, 139, 0.4); color: #ff6b8b; }
+    .tag-btn.tag-red.active { background: rgba(255, 107, 139, 0.2); color: #fff; border-color: #ff6b8b; }
+    .light-mode .tag-btn.tag-red.active { background: #ff6b8b; }
+
+    /* LƯỚI DANH SÁCH NHÂN VẬT - TỐI ƯU APP CHO ĐIỆN THOẠI */
+    .character-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 20px;}
+    
+    .char-card { 
+      background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 12px; 
+      padding: 16px; backdrop-filter: blur(12px); cursor: pointer; transition: 0.3s; 
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3); 
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .char-card:hover { transform: translateY(-4px); border-color: var(--c-light); }
+    .char-img-box { width: 100%; height: 220px; border-radius: 8px; overflow: hidden; margin-bottom: 12px; background: rgba(0,0,0,0.2); }
+    .char-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+    .char-card:hover .char-img-box img { transform: scale(1.05); }
+    .char-info-box { display: flex; flex-direction: column; }
+    .char-name-outer { font-family: var(--font-char-name); font-size: 1.8rem; margin-bottom: 4px; color: var(--c-lightest); line-height: 1.2; }
+    .char-title-outer { font-family: var(--font-char-text); font-style: italic; font-size: 0.95rem; color: var(--c-light); margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}
+    .char-tags-mini { display: flex; flex-wrap: wrap; gap: 6px; }
+    .char-tags-mini span { font-family: var(--font-ui); font-size: 0.6rem; background: rgba(1, 3, 44, 0.4); padding: 3px 6px; border-radius: 8px; border: 1px solid var(--glass-border); }
+    .light-mode .char-tags-mini span { background: rgba(255,255,255,0.7); }
+
+    /* ÉP KIỂU LIST VIEW DỌC TRÊN ĐIỆN THOẠI (NHƯ ẢNH MẪU 4) */
+    @media (max-width: 600px) {
+      .character-grid { grid-template-columns: 1fr; gap: 12px; }
+      .char-card { flex-direction: row; gap: 15px; padding: 12px; align-items: center; }
+      .char-img-box { width: 85px; height: 110px; margin-bottom: 0; flex-shrink: 0; }
+      .char-info-box { flex-grow: 1; overflow: hidden; }
+      .char-name-outer { font-size: 1.5rem; }
+      .char-title-outer { font-size: 0.85rem; margin-bottom: 6px; }
+    }
+
+    /* FOOTER */
+    .archive-footer { margin-top: 40px; text-align: center; display: flex; flex-direction: column; gap: 8px; opacity: 0.8; }
+    .footer-brand { font-family: var(--font-brand); font-size: clamp(1rem, 3vw, 1.4rem); letter-spacing: 8px; margin-left: 8px; }
+    .footer-msg { font-family: var(--font-quote); font-style: italic; font-size: 1rem; color: var(--c-light); }
+
+    /* ==========================================================================
+       ✦ GIAO DIỆN MODAL (CREATORS & CHARACTER) ✦
        ========================================================================== */
     .creators-overlay, .char-modal {
-      position: fixed; inset: 0; z-index: 100; background: radial-gradient(circle at center, rgba(1, 13, 85, 0.65) 0%, rgba(1, 3, 44, 0.92) 100%);
-      backdrop-filter: blur(20px); display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 30px 15px; opacity: 0; visibility: hidden; transition: 0.4s ease;
+      position: fixed; inset: 0; z-index: 100; background: rgba(1, 3, 44, 0.85); backdrop-filter: blur(15px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 15px; opacity: 0; visibility: hidden; transition: 0.3s;
     }
-    .light-mode .creators-overlay, .light-mode .char-modal { background: radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(225,245,254,0.95) 100%); }
+    .light-mode .creators-overlay, .light-mode .char-modal { background: rgba(240, 248, 255, 0.85); }
     .creators-overlay.active, .char-modal.active { opacity: 1; visibility: visible; }
 
     .close-btn {
-      position: absolute; width: 40px; height: 40px; border-radius: 50%;
+      position: absolute; top: 15px; right: 15px; width: 34px; height: 34px; border-radius: 50%;
       background: rgba(1, 13, 85, 0.6); border: 1px solid var(--glass-border); color: #fff;
-      display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; transition: 0.3s; z-index: 110;
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; z-index: 110;
     }
-    .light-mode .close-btn { background: rgba(255,255,255,0.9); color: var(--c-lightest); border-color: rgba(1,42,74,0.2); }
-    .close-btn:hover { background: rgba(255, 107, 139, 0.8); border-color: #ff6b8b; color: #fff; transform: rotate(90deg) scale(1.1); box-shadow: 0 0 15px rgba(255, 107, 139, 0.6); }
+    .light-mode .close-btn { background: rgba(255,255,255,0.9); color: var(--c-dark); }
+    .close-btn:hover { background: #ff6b8b; border-color: #ff6b8b; }
 
     /* Creators Modal */
-    .creators-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1400px; width: 100%; max-height: 75vh; overflow-y: auto; padding: 10px 15px; }
-    .creator-card { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; transition: 0.4s; }
-    .light-mode .creator-card { box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-    .creator-card:hover { transform: translateY(-8px); border-color: var(--c-light); box-shadow: 0 0 40px rgba(79, 165, 216, 0.3); }
-    
-    .creator-banner { width: 100%; aspect-ratio: 3 / 4; border-radius: 12px; overflow: hidden; margin-bottom: 24px; border: 1px solid var(--glass-border); }
-    .creator-banner img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
-    .creator-card:hover .creator-banner img { transform: scale(1.06); }
-    
-    .c-name { font-family: var(--font-top-tag); font-size: 1.7rem; margin-bottom: 6px; text-shadow: 0 0 12px var(--c-light); font-weight: 600; color: var(--c-lightest); }
-    .light-mode .c-name { text-shadow: none; }
-    .c-sign { font-family: var(--font-top-tag); font-size: 0.8rem; letter-spacing: 4px; color: var(--c-light); margin-bottom: 18px; text-transform: uppercase;}
-    .c-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.2rem; margin-bottom: 18px; color: var(--c-lightest); opacity: 0.9;}
-    .c-bio { font-family: var(--font-char-text); font-size: 1.05rem; color: var(--c-lightest); opacity: 0.85; margin-bottom: 24px; flex-grow: 1; line-height: 1.6; }
-    
-    .creator-actions { display: flex; gap: 10px; width: 100%; margin-top: auto; justify-content: center; }
-    .carrd-btn { 
-      flex: 1; padding: 10px 14px; border-radius: 30px; 
-      background: rgba(219, 235, 248, 0.05); border: 1px solid rgba(219, 235, 248, 0.25); 
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px; 
-      color: var(--c-lightest); text-decoration: none; transition: 0.3s; backdrop-filter: blur(5px);
-    }
-    .light-mode .carrd-btn { background: rgba(255,255,255,0.7); border-color: rgba(1,42,74,0.2); color: var(--c-lightest); }
-    .carrd-btn:hover { background: var(--c-light); border-color: var(--c-light); color: #fff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79, 165, 216, 0.4); }
+    .creators-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; max-height: 80vh; overflow-y: auto; padding: 10px; }
+    .creator-card { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; text-align: center; }
+    .creator-banner { width: 100%; aspect-ratio: 1; border-radius: 50%; width: 120px; margin: 0 auto 15px; border: 2px solid var(--glass-border); overflow: hidden; }
+    .creator-banner img { width: 100%; height: 100%; object-fit: cover; }
+    .c-name { font-family: var(--font-top-tag); font-size: 1.4rem; font-weight: 600; margin-bottom: 4px; }
+    .c-sign { font-family: var(--font-ui); font-size: 0.7rem; color: var(--c-light); margin-bottom: 10px; }
+    .c-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.1rem; margin-bottom: 10px; opacity: 0.9;}
+    .c-bio { font-family: var(--font-char-text); font-size: 0.95rem; margin-bottom: 15px; opacity: 0.8; }
+    .creator-actions { display: flex; gap: 8px; justify-content: center; }
+    .carrd-btn { padding: 6px 12px; border-radius: 20px; border: 1px solid var(--glass-border); font-family: var(--font-ui); font-size: 0.7rem; color: inherit; text-decoration: none; }
+    .carrd-btn:hover { background: var(--c-light); color: #fff; }
 
-    /* HỒ SƠ CHI TIẾT NHÂN VẬT */
+    /* HỒ SƠ CHI TIẾT NHÂN VẬT - THIẾT KẾ CHUẨN APP (NHỎ GỌN, KHÔNG BỊ ĐÈ) */
     .char-slab-new {
-      background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 20px;
-      width: 80vw; max-width: 1200px; height: 80vh; max-height: 800px;
-      box-shadow: 0 25px 60px rgba(1, 3, 44, 0.9), inset 0 0 25px rgba(219, 235, 248, 0.15);
-      backdrop-filter: blur(16px); padding: 35px 40px; display: grid; grid-template-columns: 1fr 2px 1.2fr; gap: 40px; position: relative;
+      background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px;
+      width: 100%; max-width: 650px; height: 90vh; max-height: 800px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4); backdrop-filter: blur(20px);
+      display: flex; flex-direction: column; position: relative; overflow: hidden;
     }
-    .light-mode .char-slab-new { box-shadow: 0 15px 40px rgba(0,0,0,0.1), inset 0 0 25px rgba(255,255,255,0.8); }
     
-    .c-col-left { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; overflow-y: auto;}
-    
-    .c-main-name-wrap { position: relative; margin-bottom: 6px; display: flex; align-items: center; justify-content: center;}
-    .c-main-name { font-family: var(--font-char-name); font-size: 3.5rem; color: var(--c-lightest); text-shadow: 0 0 15px rgba(79, 165, 216, 0.8); line-height: 1.2; font-weight: 600;}
-    .light-mode .c-main-name { text-shadow: 0 0 10px rgba(255,255,255,0.8); }
-    
-    .c-name-corner-tl { position: absolute; top: 0; left: -25px; width: 15px; height: 15px; border-top: 2px solid var(--c-lightest); border-left: 2px solid var(--c-lightest); }
-    .c-name-corner-br { position: absolute; top: 0; right: -25px; width: 15px; height: 15px; border-top: 2px solid var(--c-lightest); border-right: 2px solid var(--c-lightest); }
-    
-    .c-creator-name { font-family: var(--font-char-text); font-size: 1.15rem; color: var(--c-lightest); margin-bottom: 15px; opacity: 0.9; display: flex; align-items: center; gap: 6px;}
-    .c-divider { font-size: 1rem; color: var(--c-light); margin-bottom: 15px; letter-spacing: 2px;}
-    
-    .c-img-wrap { 
-      position: relative; width: 100%; max-width: 320px; aspect-ratio: 1; border-radius: 12px; 
-      border: 1px solid var(--glass-border); overflow: hidden; margin: 10px 0; 
-      box-shadow: 0 10px 30px rgba(1,3,44,0.6); background: rgba(1,3,44,0.4); 
+    /* Lớp phủ gradient đen/trắng nhẹ để dễ đọc chữ đè lên ảnh nền */
+    .char-slab-inner-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: linear-gradient(180deg, rgba(1,3,44,0.7) 0%, rgba(1,3,44,0.95) 40%);
     }
-    .light-mode .c-img-wrap { box-shadow: 0 10px 20px rgba(0,0,0,0.1); background: rgba(255,255,255,0.5); }
-    .c-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-    
-    .c-img-overlay-btns { position: absolute; bottom: 12px; left: 0; width: 100%; display: flex; justify-content: center; gap: 12px; z-index: 10; }
-    .c-img-overlay-btns a {
-      background: rgba(1, 3, 44, 0.45); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px;
-      color: #fff; font-family: var(--font-ui); font-size: 0.8rem; padding: 6px 14px; text-decoration: none; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-    .light-mode .c-img-overlay-btns a { background: rgba(255,255,255,0.8); color: var(--c-lightest); border-color: rgba(1,42,74,0.2); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .c-img-overlay-btns a:hover { background: var(--c-light); color: #fff; border-color: #fff; }
+    .light-mode .char-slab-inner-bg { background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(240,248,255,0.95) 40%); }
 
-    .c-slogan { font-family: var(--font-quote); font-style: italic; font-size: 1.3rem; color: var(--c-lightest); margin-top: 20px; padding: 0 10px; line-height: 1.5; opacity: 0.95; }
-    .c-vert-line { width: 2px; height: 100%; background: linear-gradient(to bottom, transparent, rgba(219, 235, 248, 0.3), transparent); }
-    .light-mode .c-vert-line { background: linear-gradient(to bottom, transparent, rgba(1, 42, 74, 0.2), transparent); }
-    
-    .c-col-right { display: flex; flex-direction: column; gap: 24px; font-family: var(--font-char-text); color: var(--c-lightest); font-size: 1.15rem; line-height: 1.6; text-align: left; height: 100%; overflow-y: auto; padding-right: 15px;}
-    .c-col-right::-webkit-scrollbar { width: 4px; }
-    .c-col-right::-webkit-scrollbar-thumb { background: rgba(79, 165, 216, 0.5); border-radius: 4px;}
+    .c-content-wrapper { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; padding: 20px; }
 
-    .c-right-header { display: flex; justify-content: flex-end; margin-bottom: -15px; }
-    .heart-btn { background: rgba(1, 3, 44, 0.5); border: 1px solid rgba(219, 235, 248, 0.2); color: var(--c-lightest); padding: 7px 16px; border-radius: 20px; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; }
-    .light-mode .heart-btn { background: rgba(255,255,255,0.7); border-color: rgba(1,42,74,0.2); }
-    .heart-btn:hover:not(.disabled) { background: rgba(255, 107, 139, 0.15); border-color: #ff6b8b; color: #ff6b8b; }
-    .heart-btn.liked { border-color: #ff6b8b; color: #ff6b8b; background: rgba(255, 107, 139, 0.1); }
-    .heart-btn.disabled { cursor: not-allowed; opacity: 0.9; }
+    /* Phần đầu: Ảnh + Tên */
+    .c-top-profile { display: flex; gap: 15px; margin-bottom: 20px; align-items: stretch; }
+    .c-avatar-box { width: 110px; flex-shrink: 0; border-radius: 10px; border: 1px solid var(--glass-border); overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+    .c-avatar-box img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 3/4; }
+    
+    .c-profile-info { display: flex; flex-direction: column; justify-content: center; text-align: left; }
+    .c-creator-name { font-family: var(--font-ui); font-size: 0.75rem; color: var(--c-light); font-weight: 600; margin-bottom: 2px; text-transform: uppercase; }
+    .c-main-name { font-family: var(--font-char-name); font-size: 2.2rem; color: var(--c-lightest); line-height: 1.1; margin-bottom: 5px; }
+    
+    .c-action-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+    .heart-btn { background: rgba(1, 3, 44, 0.5); border: 1px solid var(--glass-border); color: var(--c-lightest); padding: 5px 12px; border-radius: 15px; font-family: var(--font-ui); font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+    .heart-btn.liked { color: #ff6b8b; border-color: #ff6b8b; }
+    
+    /* Phần nội dung cuộn bên dưới */
+    .c-scroll-content { flex-grow: 1; overflow-y: auto; padding-right: 5px; display: flex; flex-direction: column; gap: 20px; }
+    .c-scroll-content::-webkit-scrollbar { width: 3px; }
+    
+    .c-slogan { font-family: var(--font-quote); font-style: italic; font-size: 1.1rem; color: var(--c-lightest); opacity: 0.9; border-left: 2px solid var(--c-light); padding-left: 10px; }
+    
+    .c-section-title { font-family: var(--font-char-text); font-size: 1.1rem; color: var(--c-light); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; }
+    .c-warning-content { border-left: 2px solid #ff6b8b; padding-left: 10px; color: #ff6b8b; font-size: 0.95rem; font-style: italic; }
+    
+    .c-tags-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+    .c-tag-item { font-family: var(--font-ui); font-size: 0.75rem; background: rgba(1, 3, 44, 0.4); padding: 4px 10px; border-radius: 15px; border: 1px solid var(--glass-border); }
+    
+    .c-text-body { font-family: var(--font-char-text); font-size: 1.05rem; line-height: 1.5; color: var(--c-lightest); opacity: 0.9; white-space: pre-wrap; }
+    
+    .c-list-item { font-family: var(--font-ui); font-size: 0.9rem; margin-top: 5px; }
+    .c-list-item a { color: var(--c-lightest); text-decoration: none; border-bottom: 1px dashed var(--glass-border); padding-bottom: 2px; }
+    
+    /* COMMENT */
+    .cmt-container { background: rgba(1, 3, 44, 0.2); border: 1px solid var(--glass-border); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+    .cmt-list { max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .cmt-item { background: rgba(219, 235, 248, 0.05); border-left: 2px solid var(--c-light); padding: 8px 10px; border-radius: 4px; font-family: var(--font-ui); }
+    .cmt-head { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .cmt-name { font-weight: 600; font-size: 0.8rem; }
+    .cmt-date { font-size: 0.65rem; opacity: 0.7; }
+    .cmt-text { font-size: 0.85rem; line-height: 1.3; }
+    
+    .cmt-input, .cmt-textarea { width: 100%; background: rgba(1, 13, 85, 0.3); border: 1px solid var(--glass-border); border-radius: 6px; padding: 8px 12px; color: inherit; font-family: var(--font-ui); font-size: 0.85rem; margin-bottom: 8px; }
+    .btn-submit-cmt { padding: 6px 15px; background: transparent; border: 1px solid var(--c-light); border-radius: 15px; color: inherit; font-family: var(--font-ui); font-size: 0.8rem; cursor: pointer; float: right; }
 
-    .c-section-title { font-family: var(--font-char-text); font-size: 1.25rem; color: var(--c-light); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;}
-    
-    .c-warning-content { border-left: 3px solid #ff6b8b; padding-left: 14px; margin-top: 5px; font-style: italic; color: #ff6b8b; font-size: 1.1rem; background: linear-gradient(90deg, rgba(255, 107, 139, 0.15) 0%, transparent 100%); padding-top: 6px; padding-bottom: 6px;}
-    .c-tags-wrap { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 5px;}
-    .c-tag-item { font-family: var(--font-ui); font-size: 0.85rem; background: rgba(1, 3, 44, 0.5); padding: 5px 14px; border-radius: 20px; border: 1px solid rgba(219, 235, 248, 0.2); }
-    .light-mode .c-tag-item { background: rgba(255,255,255,0.7); border-color: rgba(1,42,74,0.15); }
-    
-    .c-list-item { margin-top: 6px; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;}
-    .c-list-item a { color: var(--c-lightest); text-decoration: none; transition: 0.3s; border-bottom: 1px solid transparent; }
-    .c-list-item a:hover { color: var(--c-light); border-bottom-color: var(--c-light); }
-
-    /* HỆ THỐNG COMMENT */
-    .cmt-container { background: rgba(1, 3, 44, 0.3); border: 1px solid rgba(219, 235, 248, 0.15); border-radius: 12px; padding: 15px; margin-top: 5px; display: flex; flex-direction: column; gap: 12px; }
-    .light-mode .cmt-container { background: rgba(255,255,255,0.5); border-color: rgba(1,42,74,0.15); }
-    
-    .cmt-list { max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding-right: 5px; }
-    .cmt-list::-webkit-scrollbar { width: 4px; }
-    .cmt-list::-webkit-scrollbar-thumb { background: rgba(79, 165, 216, 0.5); border-radius: 4px;}
-    
-    .cmt-item { background: rgba(219, 235, 248, 0.05); border-left: 2px solid var(--c-light); padding: 10px 12px; border-radius: 4px; font-family: var(--font-ui); }
-    .light-mode .cmt-item { background: rgba(255,255,255,0.7); }
-    .cmt-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-    .cmt-name { font-weight: 600; color: var(--c-lightest); font-size: 0.85rem; }
-    .cmt-date { font-size: 0.7rem; color: var(--c-light); opacity: 0.8; }
-    .cmt-text { font-size: 0.9rem; color: var(--c-lightest); opacity: 0.9; line-height: 1.4; word-wrap: break-word; }
-    
-    .cmt-form { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-    .cmt-input, .cmt-textarea { 
-      width: 100%; background: rgba(1, 13, 85, 0.5); border: 1px solid rgba(219, 235, 248, 0.2); 
-      border-radius: 8px; padding: 10px 14px; color: #fff; font-family: var(--font-ui); 
-      font-size: 0.9rem; outline: none; transition: 0.3s; resize: none;
-    }
-    .light-mode .cmt-input, .light-mode .cmt-textarea { background: rgba(255,255,255,0.8); color: var(--c-lightest); border-color: rgba(1,42,74,0.2); }
-    .cmt-input::placeholder, .cmt-textarea::placeholder { color: rgba(219, 235, 248, 0.5); }
-    .light-mode .cmt-input::placeholder, .light-mode .cmt-textarea::placeholder { color: rgba(1,42,74,0.5); }
-    .cmt-input:focus, .cmt-textarea:focus { border-color: var(--c-light); box-shadow: 0 0 10px rgba(79, 165, 216, 0.2); }
-    
-    .btn-submit-cmt {
-      align-self: flex-end; padding: 8px 20px; background: rgba(79, 165, 216, 0.2); 
-      border: 1px solid var(--c-light); border-radius: 20px; color: var(--c-lightest);
-      font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: 0.3s;
-    }
-    .light-mode .btn-submit-cmt { background: #fff; border-color: var(--c-light); color: var(--c-lightest); }
-    .btn-submit-cmt:hover { background: var(--c-light); color: #fff; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(79, 165, 216, 0.3); }
-
-    @media (max-width: 900px) {
-      .creators-grid { grid-template-columns: 1fr; }
-      .char-slab-new { width: 92vw; height: 85vh; max-height: 85vh; grid-template-columns: 1fr; padding: 25px 20px; gap: 20px; overflow-y: auto;}
-      .c-col-left { height: auto; overflow-y: visible;}
-      .c-vert-line { width: 100%; height: 2px; background: linear-gradient(to right, transparent, rgba(219, 235, 248, 0.2), transparent); margin: 10px 0; }
-      .light-mode .c-vert-line { background: linear-gradient(to right, transparent, rgba(1,42,74,0.15), transparent); }
-      .c-col-right { height: auto; overflow-y: visible; padding-right: 0;}
-      .archive-title { font-size: 1.6rem; }
-      .archive-subtitle { font-size: 0.95rem; }
-      .c-main-name { font-size: 2.4rem; }
-      .c-right-header { justify-content: center; margin-bottom: 10px; }
-      .creator-actions { flex-direction: column; }
+    @media (min-width: 768px) {
+      /* Mở rộng xíu trên màn máy tính cho đẹp */
+      .char-slab-new { max-width: 750px; padding: 30px; }
+      .c-avatar-box { width: 160px; }
+      .c-main-name { font-size: 2.8rem; }
+      .c-slogan { font-size: 1.2rem; }
+      .c-text-body { font-size: 1.15rem; }
     }
   </style>
 </head>
@@ -416,14 +309,13 @@
   <!-- MENU -->
   <header class="top-bar">
     <button class="btn-creators-corner" id="btnOpenCreators">
-      <span style="color:var(--c-light)"> 𓆩ꨄ︎𓆪 ༝༚ </span><span> Creators of Báo ứng </span>
+      <span class="sparkle-mini" style="color:var(--c-light)"> 𓆩ꨄ︎𓆪 </span><span> Creators of Báo ứng </span>
     </button>
     
     <div class="top-right-controls">
       <button class="btn-theme-toggle" id="btnThemeToggle" title="Bật/Tắt Giao Diện Sáng Tối">
         <span> ʕ˖͜͡˖ʔ Sáng/Tối </span>
       </button>
-
       <div class="vinyl-player-box" id="vinylPlayer">
         <div class="vinyl-disc" id="vinylDisc"><div class="vinyl-center-label"></div></div>
         <span class="vinyl-text" id="vinylText"> Radio </span>
@@ -439,7 +331,7 @@
     <h1 class="quote-text">“What is grief, if not love persevering?”</h1>
     <div class="brand-title"> B Á O   Ứ N G   Đ Ờ I   N H A U </div>
     <button class="btn-action-enter" id="btnEnter">
-      <span style="color: var(--c-light)"> 𓆩ꨄ︎𓆪 ༝༚ </span><span> Xem báo ứng </span>
+      <span style="color: var(--c-light)"> 𓆩ꨄ︎𓆪 </span><span> Xem báo ứng </span>
     </button>
     <div class="tap-hint"> 𓆝 𓆟 𓆞 C H Ạ M   Đ Ể   M Ở 𓆝 𓆟 𓆞 </div>
   </main>
@@ -473,29 +365,29 @@
 
     <div class="character-grid" id="charGrid"></div>
 
-    <!-- FOOTER KẾT THÚC TRANG -->
     <div class="archive-footer">
       <div class="footer-brand">BÁO ỨNG ĐỜI NHAU</div>
       <div class="footer-msg">Ôm ôm ngoan yêu tới với chúng tớ 𝜗𝜚</div>
       <div class="footer-divider">────୨ৎ────</div>
     </div>
-
   </section>
 
   <!-- MODAL 1: CREATORS -->
-  <div class="creators-overlay" id="creatorsOverlay">
-    <button class="close-btn" id="btnCloseCreators" style="top: 25px; right: 30px;">&times;</button>
-    <div style="text-align: center; margin-bottom: 20px;">
-      <div style="font-family: var(--font-top-tag); color: var(--c-light); letter-spacing: 5px; font-size: 0.7rem;"> ᰔᩚ BÁO ỨNG ĐỜI NHAU ARCHIVE ᰔᩚ </div>
-      <h2 style="font-family: var(--font-brand); color: var(--c-lightest); font-size: 2.2rem; letter-spacing: 4px; margin-top: 5px;"> ᝰ.ᐟ Creators ᯓᡣ𐭩 </h2>
+  <div class="creators-overlay" id="creatorsOverlay" onclick="if(event.target === this) this.classList.remove('active')">
+    <div style="background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 20px; max-width: 900px; width: 95vw; max-height: 85vh; position: relative; display: flex; flex-direction: column;">
+        <button class="close-btn" id="btnCloseCreators">&times;</button>
+        <div style="text-align: center; margin-bottom: 20px; flex-shrink: 0;">
+          <div style="font-family: var(--font-top-tag); color: var(--c-light); letter-spacing: 5px; font-size: 0.7rem;"> ᰔᩚ BÁO ỨNG ĐỜI NHAU ᰔᩚ </div>
+          <h2 style="font-family: var(--font-brand); color: var(--c-lightest); font-size: 1.8rem; letter-spacing: 2px; margin-top: 5px;"> Creators </h2>
+        </div>
+        <div class="creators-grid" id="creatorsGrid"></div>
     </div>
-    <div class="creators-grid" id="creatorsGrid"></div>
   </div>
 
-  <!-- MODAL 2: HỒ SƠ CHI TIẾT NHÂN VẬT -->
+  <!-- MODAL 2: HỒ SƠ CHI TIẾT NHÂN VẬT CHUẨN APP -->
   <div class="char-modal" id="charModal" onclick="if(event.target === this) closeCharModal()">
     <div class="char-slab-new" id="modalSlabContent">
-      <!-- Nút tắt X và nội dung sẽ được render bằng JS -->
+      <!-- Sẽ được fill bằng JS -->
     </div>
   </div>
 
@@ -518,28 +410,25 @@
           bannerImg: 'https://media.discordapp.net/attachments/1569989641325650012/1570580752263946280/TA-2026-11-12-23-24-53-artist_ma-819578102-0.png?ex=6af79ccf&is=6af64b4f&hm=869766a3b32594afbbd6ff2df0f5d84a8cd27997fc8ecc7154b7092fdb2b1e0d&=&format=webp&quality=lossless&width=341&height=512',
           name: '⮪✣ Lavallee de Dahli ✣⮫', sign: 'RZ ୨ৎ LIBRA',
           quote: '“Người tạo tên, tên chỉ người”',
-          bio: 'Một ngày ngọt ngào, cảm ơn vì đã tới.<br><br>Mong rằng người đến trao cho tôi sự tôn trọng. Tôi sẽ tôn trọng và tiếp đón nếu người đến với thiện ý. Lời tạm biệt sẽ được gửi đến nếu tôi thấy bị kéo vào drama. Rz yêu hoà bình.<br><br>Nếu mọi người thích bot nào, đừng ngại thể hiện tình cảm bằng tim nhé.',
-          
+          bio: 'Một ngày ngọt ngào, cảm ơn vì đã tới.<br><br>Mong rằng người đến trao cho tôi sự tôn trọng. Lời tạm biệt sẽ được gửi đến nếu tôi thấy bị kéo vào drama. Rz yêu hoà bình.<br><br>Nếu mọi người thích bot nào, đừng ngại thể hiện tình cảm bằng tim nhé.',
           carrdText: 'Gửi thông tin౨ৎ', carrdUrl: 'https://carrd.co',
           creText: 'Nguồn ảnh', creUrl: 'https://pinterest.com'
         },
         {
-          id: "Thương Lan Quân",
+          id: "Thương Lan",
           bannerImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
           name: 'Thương Lan Quân', sign: '✦ Scorpio • Thiên Yết',
           quote: '“Khối băng ngàn năm cũng có ngày tan vì một lời thề.”',
           bio: 'Chấp bút những khúc ca bi tráng và những cuộc tương phùng báo ứng, khắc sâu dấu vết của thời gian lên từng tạo tác.',
-          
           carrdText: 'CARRD', carrdUrl: 'https://carrd.co',
           creText: 'Nguồn ảnh', creUrl: 'https://pinterest.com'
         },
         {
-          id: "Hải Đăng Sư",
+          id: "Hải Đăng",
           bannerImg: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80',
           name: 'Hải Đăng Sư', sign: '✦ Cancer • Cự Giải',
           quote: '“Ngọn đèn trong đêm bão chưa từng vì ai mà tắt lịm.”',
           bio: 'Người trông coi những trang hồ sơ lưu trữ cổ xưa, gìn giữ ánh sáng cuối cùng nơi hải đăng trước khi triều dâng.',
-          
           carrdText: 'CARRD', carrdUrl: 'https://carrd.co',
           creText: 'Nguồn ảnh', creUrl: 'https://pinterest.com'
         }
@@ -557,7 +446,7 @@
           name: "Thương Lan",
           title: "Lời Thề Băng Giá của Độc Túc Ngư Cơ, mong ngài đừng quên.",
           type: "Character", 
-          creator: "Thương Lan Quân", 
+          creator: "Thương Lan", 
           tags: ["#Cổ Trang", "#Ngược", "#Fantasy"],
           warning: "Chứa yếu tố giam cầm và bạo lực lạnh.", 
           lore: "Từng là người bảo hộ vùng biển phía Bắc trước khi bị bán đứng bởi chính thuyền nhân nàng từng cứu vớt. Hiện kiếp tương phùng chỉ để đòi lại mảnh hồn rách nát.",
@@ -570,7 +459,7 @@
           name: "Vương Quốc Gầm Sóng",
           title: "Khám Phá Bí Ẩn Trấn Hải.",
           type: "Open World",
-          creator: "Hải Đăng Sư",
+          creator: "Hải Đăng",
           tags: ["#Open World", "#Magic", "#Fantasy"],
           lore: "Một thế giới mở rộng lớn nơi người chơi có thể tự do khám phá và thay đổi số phận của các nhân vật. Nơi bắt đầu và kết thúc của vạn kiếp luân hồi.",
           img: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=500&q=80",
@@ -594,7 +483,7 @@
       ]
     };
 
-    /* HỆ THỐNG GIAO DIỆN SÁNG/TỐI (LIGHT/DARK MODE) */
+    /* HỆ THỐNG GIAO DIỆN SÁNG/TỐI */
     const btnThemeToggle = document.getElementById('btnThemeToggle');
     const waterBg = document.getElementById('waterBg');
 
@@ -603,27 +492,19 @@
         waterBg.style.backgroundImage = `${gradient}, url('${MY_CONFIG.backgroundImageUrl}')`;
     }
 
-    if (localStorage.getItem('baoUngTheme') === 'light') {
-        document.body.classList.add('light-mode');
-    }
-    
+    if (localStorage.getItem('baoUngTheme') === 'light') document.body.classList.add('light-mode');
     applyBackground();
     document.getElementById('centerImg').src = MY_CONFIG.centerPictureUrl;
 
     btnThemeToggle.addEventListener('click', () => {
         document.body.classList.toggle('light-mode');
-        if (document.body.classList.contains('light-mode')) {
-            localStorage.setItem('baoUngTheme', 'light');
-        } else {
-            localStorage.setItem('baoUngTheme', 'dark');
-        }
+        localStorage.setItem('baoUngTheme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
         applyBackground();
     });
 
     const cardWrapper = document.getElementById('cardWrapper');
     window.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth) * 2 - 1;
-      const y = (e.clientY / window.innerHeight) * 2 - 1;
+      const x = (e.clientX / window.innerWidth) * 2 - 1, y = (e.clientY / window.innerHeight) * 2 - 1;
       cardWrapper.style.transform = `perspective(1000px) rotateY(${x * 9}deg) rotateX(${-y * 9}deg)`;
     });
 
@@ -653,16 +534,9 @@
           <div class="c-sign">${c.sign}</div>
           <div class="c-quote">${c.quote}</div>
           <p class="c-bio">${c.bio}</p>
-          
           <div class="creator-actions">
-            <a href="${c.carrdUrl}" target="_blank" class="carrd-btn">
-              <span style="font-size:1.1rem; margin-top:-2px;"> ᰔᩚ </span>
-              <span style="font-family:var(--font-top-tag);font-size:0.7rem;letter-spacing:2px">${c.carrdText}</span>
-            </a>
-            <a href="${c.creUrl}" target="_blank" class="carrd-btn">
-              <span style="font-size:1.1rem; margin-top:-2px;"> 📸 </span>
-              <span style="font-family:var(--font-top-tag);font-size:0.7rem;letter-spacing:2px">${c.creText}</span>
-            </a>
+            <a href="${c.carrdUrl}" target="_blank" class="carrd-btn">${c.carrdText}</a>
+            <a href="${c.creUrl}" target="_blank" class="carrd-btn">${c.creText}</a>
           </div>
         </div>
       `;
@@ -680,8 +554,7 @@
     MY_CONFIG.allTags.forEach(tag => {
       const isRed = (tag === '#R18' || tag === '#R21' || tag === '#Warning');
       const btn = document.createElement('button');
-      btn.className = `tag-btn ${isRed ? 'tag-red' : ''}`;
-      btn.textContent = tag;
+      btn.className = `tag-btn ${isRed ? 'tag-red' : ''}`; btn.textContent = tag;
       btn.onclick = () => {
         if(selectedTags.has(tag)) selectedTags.delete(tag); else selectedTags.add(tag);
         btn.classList.toggle('active'); renderCharacters();
@@ -708,20 +581,15 @@
       event.stopPropagation();
       if (window.sessionLikes.has(charId)) return;
       window.sessionLikes.add(charId);
-
       if (!window.heartsData[charId]) window.heartsData[charId] = 0;
       window.heartsData[charId]++;
       localStorage.setItem('baoUngHearts', JSON.stringify(window.heartsData));
       
       const countSpan = document.getElementById(`count-${charId}`);
       if (countSpan) countSpan.textContent = window.heartsData[charId];
-      
-      const btn = event.currentTarget; 
-      btn.classList.add('liked', 'disabled');
-      const icon = btn.querySelector('.heart-icon'); 
-      icon.textContent = '❤️';
-      icon.style.transform = 'scale(1.4)'; 
-      setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
+      const btn = event.currentTarget; btn.classList.add('liked', 'disabled');
+      const icon = btn.querySelector('.heart-icon'); icon.textContent = '❤️';
+      icon.style.transform = 'scale(1.4)'; setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
     }
 
     /* GHI NHẬN VÀ HIỂN THỊ COMMENT */
@@ -732,19 +600,11 @@
         
         let html = '';
         cmts.forEach(c => {
-            html += `
-              <div class="cmt-item">
-                <div class="cmt-head">
-                  <span class="cmt-name">${c.name}</span>
-                  <span class="cmt-date">${c.date}</span>
-                </div>
-                <div class="cmt-text">${c.text}</div>
-              </div>
-            `;
+            html += `<div class="cmt-item"><div class="cmt-head"><span class="cmt-name">${c.name}</span><span class="cmt-date">${c.date}</span></div><div class="cmt-text">${c.text}</div></div>`;
         });
         const listDiv = document.getElementById('cmtList-' + charId);
         if(listDiv) {
-            listDiv.innerHTML = html || `<div style="opacity:0.6; font-size:0.95rem; font-style:italic; text-align:center; padding:10px;">Chưa có lời nhắn nào, ngoan yêu hãy là người đầu tiên nhé ᰔᩚ</div>`;
+            listDiv.innerHTML = html || `<div style="opacity:0.6; font-size:0.9rem; font-style:italic; text-align:center; padding:10px;">Chưa có lời nhắn nào, ngoan yêu hãy là người đầu tiên nhé ᰔᩚ</div>`;
             listDiv.scrollTop = listDiv.scrollHeight; 
         }
     }
@@ -752,7 +612,6 @@
     window.addComment = function(charId) {
         let nameInput = document.getElementById('cmtName-' + charId).value.trim();
         let textInput = document.getElementById('cmtText-' + charId).value.trim();
-        
         if(!textInput) { alert("Ngoan yêu quên nhập lời nhắn rồi nè ૮ ˶ᵔ ᵕ ᵔ˶ ა"); return; }
         
         let name = nameInput ? nameInput : "Ẩn danh";
@@ -762,9 +621,7 @@
         cmts.push({ name: name, text: textInput, date: date });
         localStorage.setItem('baoUngCmts_' + charId, JSON.stringify(cmts));
         
-        document.getElementById('cmtName-' + charId).value = '';
-        document.getElementById('cmtText-' + charId).value = '';
-        
+        document.getElementById('cmtName-' + charId).value = ''; document.getElementById('cmtText-' + charId).value = '';
         loadComments(charId);
     }
 
@@ -773,9 +630,7 @@
     const charModal = document.getElementById('charModal');
     const modalSlabContent = document.getElementById('modalSlabContent');
 
-    window.closeCharModal = function() {
-        charModal.classList.remove('active');
-    };
+    window.closeCharModal = function() { charModal.classList.remove('active'); };
 
     function renderCharacters() {
       charGrid.innerHTML = '';
@@ -796,25 +651,21 @@
         card.className = 'char-card show-anim';
         
         if (char.cardBg && char.cardBg.trim() !== "") {
-            const isLight = document.body.classList.contains('light-mode');
-            const grad = isLight 
-              ? `linear-gradient(155deg, rgba(255,255,255,0.7) 0%, rgba(225,245,254,0.9) 100%)`
-              : `linear-gradient(155deg, rgba(7, 84, 176, 0.4) 0%, rgba(1, 3, 44, 0.8) 100%)`;
-            
-            card.style.background = `${grad}, url('${char.cardBg}')`;
-            card.style.backgroundSize = 'cover';
-            card.style.backgroundPosition = 'center';
+            card.style.backgroundImage = `linear-gradient(155deg, rgba(1, 3, 44, 0.4) 0%, rgba(1, 3, 44, 0.8) 100%), url('${char.cardBg}')`;
+            card.style.backgroundSize = 'cover'; card.style.backgroundPosition = 'center';
         }
 
         let tagsHtml = (char.tags || []).slice(0,3).map(t => `<span>${t}</span>`).join('');
 
         card.innerHTML = `
           <div class="char-img-box">
-            ${char.img ? `<img src="${char.img}">` : `<div style="display:flex;height:100%;align-items:center;justify-content:center;color:var(--c-light);font-family:var(--font-top-tag);font-size:0.8rem;">[ BĂNG PHONG ẤN ]</div>`}
+            ${char.img ? `<img src="${char.img}">` : `<div style="display:flex;height:100%;align-items:center;justify-content:center;color:var(--c-light);font-size:0.8rem;">[ BĂNG PHONG ẤN ]</div>`}
           </div>
-          <h3 class="char-name-outer">${char.name}</h3>
-          <div class="char-title-outer">“${char.title}”</div>
-          <div class="char-tags-mini">${tagsHtml}</div>
+          <div class="char-info-box">
+            <h3 class="char-name-outer">${char.name}</h3>
+            <div class="char-title-outer">“${char.title}”</div>
+            <div class="char-tags-mini">${tagsHtml}</div>
+          </div>
         `;
         card.onclick = () => openChar(char);
         charGrid.appendChild(card);
@@ -824,20 +675,15 @@
     }
     renderCharacters();
 
-    /* HÀM MỞ MODAL NHÂN VẬT - CHUẨN GIAO DIỆN MỚI NHẤT */
+    /* HÀM MỞ MODAL NHÂN VẬT CHUẨN APP (GỌN GÀNG, KHÔNG ĐÈ NHAU) */
     function openChar(c) {
       const safeId = c.name.replace(/[^a-zA-Z0-9]/g, '_');
       const currentHearts = window.heartsData[safeId] || 0;
       const isSessionLiked = window.sessionLikes.has(safeId);
 
       let bgUrl = c.cardBg && c.cardBg.trim() !== "" ? c.cardBg : (c.img ? c.img : "");
-      const isLight = document.body.classList.contains('light-mode');
-      
       if (bgUrl) {
-          const grad = isLight
-            ? `linear-gradient(155deg, rgba(255,255,255,0.85) 0%, rgba(225,245,254,0.95) 100%)`
-            : `linear-gradient(155deg, rgba(7, 84, 176, 0.8) 0%, rgba(1, 3, 44, 0.95) 100%)`;
-          modalSlabContent.style.background = `${grad}, url('${bgUrl}')`;
+          modalSlabContent.style.backgroundImage = `url('${bgUrl}')`;
           modalSlabContent.style.backgroundSize = 'cover';
           modalSlabContent.style.backgroundPosition = 'center';
       } else {
@@ -848,7 +694,7 @@
       if (c.warning && c.warning.trim() !== "") {
         warningHtml = `
           <div>
-            <div class="c-section-title" style="color: #ff6b8b;">゛WARNING ˎˊ˗ 🚨 .ᐟ.ᐟ</div>
+            <div class="c-section-title" style="color: #ff6b8b;">゛WARNING ˎˊ˗ 🚨</div>
             <div class="c-warning-content">↳ «${c.warning}»</div>
           </div>
         `;
@@ -856,91 +702,72 @@
 
       let tagsHtml = (c.tags || []).map(t => {
         let isRed = (t==='#R18' || t==='#R21' || t==='#Warning');
-        let borderColor = isLight ? (isRed ? 'rgba(255,107,139,0.5)' : 'rgba(1,42,74,0.15)') : (isRed ? 'rgba(255,107,139,0.4)' : 'rgba(219,235,248,0.2)');
-        let textColor = isRed ? '#ff6b8b' : 'var(--c-lightest)';
-        return `<span class="c-tag-item" style="border-color:${borderColor}; color:${textColor};">${t}</span>`;
+        return `<span class="c-tag-item" style="border-color:${isRed?'rgba(255,107,139,0.5)':'rgba(219,235,248,0.2)'}; color:${isRed?'#ff6b8b':'inherit'};">${t}</span>`;
       }).join('');
       
-      let sourceBtnHtml = c.imgSource ? `<a href="${c.imgSource}" target="_blank">Nguồn ảnh hàng</a>` : '';
+      let sourceBtnHtml = c.imgSource ? `<a href="${c.imgSource}" target="_blank">Nguồn ảnh</a>` : '';
 
       modalSlabContent.innerHTML = `
-        <button class="close-btn" onclick="closeCharModal()" style="position: absolute; top: 15px; right: 15px; z-index: 10;">&times;</button>
+        <div class="char-slab-inner-bg"></div>
+        <button class="close-btn" onclick="closeCharModal()">&times;</button>
         
-        <!-- CỘT TRÁI -->
-        <div class="c-col-left">
-          <div class="c-main-name-wrap">
-            <span class="c-name-corner-tl"></span>
-            <h2 class="c-main-name">${c.name}</h2>
-            <span class="c-name-corner-br"></span>
-          </div>
-          <div class="c-creator-name">𐚁. ${c.creator}</div>
-          <div class="c-divider">-ˋˏ ── .✦</div>
-          
-          <div class="c-img-wrap">
-            ${c.img ? `<img src="${c.img}">` : `<div style="display:flex;height:100%;align-items:center;justify-content:center;color:var(--c-light);font-family:var(--font-top-tag);">[ Trống ]</div>`}
-            
-            <div class="c-img-overlay-btns">
-               ${sourceBtnHtml}
-            </div>
-          </div>
-          
-          <div class="c-slogan">“${c.title}”</div>
-          <div class="c-divider" style="margin-top:20px">-ˋˏ ── .✦</div>
-        </div>
-
-        <div class="c-vert-line"></div>
-
-        <!-- CỘT PHẢI -->
-        <div class="c-col-right">
-          <div class="c-right-header">
-            <button class="heart-btn ${isSessionLiked ? 'liked disabled' : ''}" onclick="addHeart('${safeId}', event)">
-              <span class="heart-icon">${isSessionLiked ? '❤️' : '🤍'}</span> 
-              Rước về ఌ︎ <span id="count-${safeId}">${currentHearts}</span>
-            </button>
-          </div>
-
-          <!-- WARNING -->
-          ${warningHtml}
-
-          <!-- HASHTAGS -->
-          <div>
-            <div class="c-section-title">⋮ ⌗ ┆ (Hashtags)</div>
-            <div class="c-tags-wrap">${tagsHtml}</div>
-          </div>
-
-          <!-- SƠ LƯỢC VỀ NHÂN VẬT -->
-          <div>
-            <div class="c-section-title">≽ ⌢ Sơ lược về nhân vật ⸝⸝</div>
-            <div style="white-space: pre-wrap;">${c.lore}</div>
-          </div>
-
-          <!-- ĐỊA CHỈ -->
-          <div>
-             <div class="c-section-title">⋏ ˊ- Địa chỉ ⸝⸝</div>
-             <div class="c-list-item">↳ <a href="#">Đọc kĩ hướng dẫn trước khi sử dụng</a></div>
-             ${c.ggaiLink ? `<div class="c-list-item">↳ <a href="${c.ggaiLink}" target="_blank">Book hàng ➻❥</a></div>` : ''}
-          </div>
-          
-          <!-- COMMENT -->
-          <div>
-             <div class="c-section-title">◫ Góc giao lưu ⸝⸝</div>
-             <div style="font-family: var(--font-ui); font-size: 0.8rem; color: var(--c-light); margin-top: 5px; font-style: italic; line-height: 1.4;">"Nếu ngoan xinh yêu tìm được link gốc của ảnh chính xác hơn link chúng tớ tìm, vui lòng comment để chúng tớ bổ sung. Iu thương ♡ ︎"</div>
-             
-             <!-- HỆ THỐNG COMMENT -->
-             <div class="cmt-container">
-                <div class="c-section-title" style="font-size: 1.05rem;">Sổ lưu trữ nhân duyên (<span id="cmtCount-${safeId}">0</span>)</div>
-                <div class="cmt-list" id="cmtList-${safeId}"></div>
-
-                <div class="c-section-title" style="font-size: 1.05rem; margin-top:10px;">Kí sổ nhân duyên</div>
-                <div class="cmt-form">
-                   <input type="text" id="cmtName-${safeId}" class="cmt-input" placeholder="Điền tên của ngoan yêu 𓆩❤︎𓆪 (không bắt buộc)">
-                   <textarea id="cmtText-${safeId}" class="cmt-textarea" rows="3" placeholder="Lời nhắn của ngoan yêu 𓆩❤︎𓆪"></textarea>
-                   <button class="btn-submit-cmt" onclick="addComment('${safeId}')"> Gửi gắm ᯓᡣ𐭩 </button>
+        <div class="c-content-wrapper">
+            <!-- HEADER APP -->
+            <div class="c-top-profile">
+                <div class="c-avatar-box">
+                    ${c.img ? `<img src="${c.img}">` : `<div style="display:flex;height:100%;align-items:center;justify-content:center;">Trống</div>`}
                 </div>
-             </div>
+                <div class="c-profile-info">
+                    <div class="c-creator-name">𐚁. ${c.creator}</div>
+                    <h2 class="c-main-name">${c.name}</h2>
+                    <div class="c-action-row">
+                        <button class="heart-btn ${isSessionLiked ? 'liked disabled' : ''}" onclick="addHeart('${safeId}', event)">
+                            <span class="heart-icon">${isSessionLiked ? '❤️' : '🤍'}</span> 
+                            <span id="count-${safeId}">${currentHearts}</span>
+                        </button>
+                        ${sourceBtnHtml}
+                    </div>
+                </div>
+            </div>
 
-          </div>
+            <!-- NỘI DUNG CUỘN DỌC GỌN GÀNG -->
+            <div class="c-scroll-content">
+                <div class="c-slogan">“${c.title}”</div>
+                
+                ${warningHtml}
 
+                <div>
+                    <div class="c-section-title">⋮ ⌗ ┆ (Hashtags)</div>
+                    <div class="c-tags-wrap">${tagsHtml}</div>
+                </div>
+
+                <div>
+                    <div class="c-section-title">≽ ⌢ Sơ lược về nhân vật ⸝⸝</div>
+                    <div class="c-text-body">${c.lore}</div>
+                </div>
+
+                <div>
+                    <div class="c-section-title">⋏ ˊ- Địa chỉ ⸝⸝</div>
+                    <div class="c-list-item">↳ <a href="#">Đọc kĩ hướng dẫn trước khi sử dụng</a></div>
+                    ${c.ggaiLink ? `<div class="c-list-item">↳ <a href="${c.ggaiLink}" target="_blank">Book hàng ➻❥</a></div>` : ''}
+                </div>
+                
+                <div>
+                    <div class="c-section-title">◫ Góc giao lưu ⸝⸝</div>
+                    <div style="font-family: var(--font-ui); font-size: 0.8rem; opacity: 0.7; margin: 5px 0 10px; font-style: italic;">"Nếu ngoan xinh yêu tìm được link gốc của ảnh chính xác hơn link chúng tớ tìm, vui lòng comment để chúng tớ bổ sung. Iu thương ♡ ︎"</div>
+                    
+                    <div class="cmt-container">
+                        <div class="c-section-title" style="font-size: 0.9rem;">Sổ lưu trữ nhân duyên (<span id="cmtCount-${safeId}">0</span>)</div>
+                        <div class="cmt-list" id="cmtList-${safeId}"></div>
+                        <div class="c-section-title" style="font-size: 0.9rem; margin-top:10px;">Kí sổ nhân duyên</div>
+                        <input type="text" id="cmtName-${safeId}" class="cmt-input" placeholder="Điền tên (không bắt buộc)">
+                        <textarea id="cmtText-${safeId}" class="cmt-textarea" rows="2" placeholder="Lời nhắn của ngoan yêu 𓆩❤︎𓆪"></textarea>
+                        <div>
+                            <button class="btn-submit-cmt" onclick="addComment('${safeId}')"> Gửi ᯓᡣ𐭩 </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
       `;
 
@@ -955,7 +782,7 @@
 
     document.getElementById('vinylPlayer').addEventListener('click', () => {
       isP = !isP; vinylDisc.classList.toggle('spinning', isP);
-      vinylText.textContent = isP ? "Đang Phát" : "Tạm Dừng"; vinylText.style.color = isP ? "var(--c-light)" : "var(--c-lightest)";
+      vinylText.textContent = isP ? "Đang Phát" : "Radio"; 
       if (isP) { if (cAud) cAud.play().catch(() => playOcean()); else playOcean(); } 
       else { if (cAud) cAud.pause(); else if (oGain) oGain.gain.linearRampToValueAtTime(0, aCtx.currentTime + 1); }
     });
