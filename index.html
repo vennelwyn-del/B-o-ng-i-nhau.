@@ -13,7 +13,7 @@
 
   <style>
     /* ==========================================================================
-       ✦ 1. TÔNG MÀU ĐẠI DƯƠNG VÀ FONT CHỮ ✦
+       ✦ TÔNG MÀU ĐẠI DƯƠNG VÀ FONT CHỮ ✦
        ========================================================================== */
     :root {
       --font-top-tag:   'Cinzel', serif;
@@ -38,7 +38,6 @@
       --bg-gradient: radial-gradient(circle at 50% 50%, rgba(7,84,176,0.3) 0%, rgba(1,3,44,0.92) 100%);
     }
 
-    /* CHẾ ĐỘ LIGHT MODE (BIỂN NGÀY NẮNG) */
     body.light-mode {
       --c-lightest: #012a4a; 
       --c-light:    #0288d1; 
@@ -54,7 +53,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body, html { width: 100%; height: 100%; overflow: hidden; background-color: var(--c-darkest); color: var(--c-lightest); transition: background-color 0.5s, color 0.5s; }
     
-    /* KHÔI PHỤC THANH CUỘN */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: rgba(1, 3, 44, 0.2); border-radius: 8px; }
     ::-webkit-scrollbar-thumb { background: rgba(79, 165, 216, 0.5); border-radius: 8px; }
@@ -286,14 +284,13 @@
     .c-col-right::-webkit-scrollbar-thumb { background: rgba(79, 165, 216, 0.5); border-radius: 4px;}
     
     .c-right-header { display: flex; justify-content: flex-end; margin-bottom: 10px;}
-    .heart-btn { background: rgba(1, 3, 44, 0.5); border: 1px solid rgba(219, 235, 248, 0.2); color: var(--c-lightest); padding: 7px 16px; border-radius: 20px; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; }
-    .light-mode .heart-btn { background: rgba(255,255,255,0.7); border-color: rgba(1,42,74,0.2); color: var(--c-dark);}
-    .heart-btn:hover:not(.disabled) { background: rgba(255, 107, 139, 0.15); border-color: #ff6b8b; color: #ff6b8b; }
-    .heart-btn.liked { border-color: #ff6b8b; color: #ff6b8b; background: rgba(255, 107, 139, 0.1); }
-    .heart-btn.disabled { cursor: not-allowed; opacity: 0.9; }
-
+    
+    .btn-action-small { background: rgba(1, 3, 44, 0.5); border: 1px solid rgba(219, 235, 248, 0.2); color: var(--c-lightest); padding: 5px 12px; border-radius: 20px; font-family: var(--font-ui); font-size: 0.75rem; cursor: pointer; transition: 0.3s; }
+    .light-mode .btn-action-small { background: rgba(255,255,255,0.8); color: var(--c-dark); border-color: rgba(1,42,74,0.2);}
+    .btn-action-small:hover { background: rgba(79,165,216,0.3); border-color: var(--c-light); }
+    .btn-action-small.liked { color: #ff6b8b; border-color: #ff6b8b; background: rgba(255,107,139,0.1); }
+    
     .c-section-title { font-size: 1.15rem; color: var(--c-light); font-weight: 600; margin: 15px 0 5px; text-transform: uppercase;}
-    .c-warning-content { border-left: 3px solid #ff6b8b; padding-left: 14px; color: #ff6b8b; background: linear-gradient(90deg, rgba(255, 107, 139, 0.15) 0%, transparent 100%); padding: 6px 14px; margin-top:5px; font-style: italic;}
     
     .c-tags-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px;}
     .c-tag-item { font-family: var(--font-ui); font-size: 0.8rem; background: rgba(1, 3, 44, 0.5); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(219, 235, 248, 0.2); }
@@ -323,17 +320,16 @@
     .cmt-date { font-size: 0.7rem; opacity: 0.6; }
     .cmt-text { font-size: 0.95rem; opacity: 0.95; margin-bottom: 8px; word-break: break-word;}
     
-    .btn-action-small { background: rgba(1, 3, 44, 0.5); border: 1px solid rgba(219, 235, 248, 0.2); color: var(--c-lightest); padding: 5px 12px; border-radius: 20px; font-family: var(--font-ui); font-size: 0.75rem; cursor: pointer; transition: 0.3s; }
-    .light-mode .btn-action-small { background: rgba(255,255,255,0.8); color: var(--c-dark); border-color: rgba(1,42,74,0.2);}
-    .btn-action-small:hover { background: rgba(79,165,216,0.3); border-color: var(--c-light); }
-    .btn-action-small.liked { color: #ff6b8b; border-color: #ff6b8b; background: rgba(255,107,139,0.1); }
+    .cmt-actions { display: flex; gap: 10px; margin-bottom: 8px;}
     
+    /* Box reply */
     .reply-list { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; border-left: 2px solid rgba(219,235,248,0.2); padding-left: 10px;}
     .light-mode .reply-list { border-left-color: rgba(1,42,74,0.2); }
     .reply-item { display: flex; gap: 8px; background: rgba(1,3,44,0.3); padding: 8px; border-radius: 6px;}
     .light-mode .reply-item { background: rgba(225,245,254,0.5); }
     .reply-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid var(--c-light); flex-shrink: 0;}
-    
+    .reply-text { font-size: 0.85rem; opacity: 0.9; }
+
     .cmt-form { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
     .cmt-input, .cmt-textarea { width: 100%; background: rgba(1, 13, 85, 0.5); border: 1px solid rgba(219, 235, 248, 0.2); border-radius: 8px; padding: 10px; color: #fff; font-family: var(--font-ui); font-size: 0.9rem; outline: none; }
     .light-mode .cmt-input, .light-mode .cmt-textarea { background: rgba(255,255,255,0.8); color: var(--c-dark); border-color: rgba(1,42,74,0.2); }
@@ -493,10 +489,10 @@
     <div class="char-slab-new" id="modalSlabContent"></div>
   </div>
 
-  <!-- ==========================================================================
-       ✦ TOÀN BỘ DỮ LIỆU & LOGIC ✦
-       ========================================================================== -->
   <script>
+    /* ==========================================================================
+       ✦ TOÀN BỘ DỮ LIỆU & LOGIC ✦
+       ========================================================================== */
     window.sessionLikes = new Set(); 
     window.loggedInCreator = localStorage.getItem('baoUngLoggedIn') || null;
     window.heartsData = JSON.parse(localStorage.getItem('baoUngHearts')) || {};
@@ -743,7 +739,7 @@
     let currentSearch = "", currentType = "All", currentCreator = "All", selectedTags = new Set();
     const tagsBox = document.getElementById('tagsBox');
     MY_CONFIG.allTags.forEach(tag => {
-      let isRed = (tag === '#R18' || tag === '#R21' || tag === '#Warning');
+      let isRed = (tag === '#R18' || tag === '#Warning');
       tagsBox.innerHTML += `<button class="tag-btn ${isRed?'tag-red':''}" onclick="toggleTag('${tag}', this)">${tag}</button>`;
     });
 
@@ -777,7 +773,10 @@
 
       filtered.forEach((char) => {
         const card = document.createElement('div'); card.className = 'char-card show-anim';
-        let bg = char.cardBg || char.img || ""; // Lấy cardBg trước, không có lấy img
+        
+        let cId = char.creator;
+        let fData = window.creatorsSettingsCache[cId];
+        let bg = (fData && fData.cardBg) ? fData.cardBg : (char.cardBg || char.img || "");
         
         if(bg) {
           const grad = document.body.classList.contains('light-mode') 
@@ -791,7 +790,7 @@
       });
     }
 
-    /* MỞ BẢNG HỒ SƠ CHI TIẾT NHÂN VẬT & COMMENT ĐA TẦNG */
+    /* MỞ BẢNG HỒ SƠ CHI TIẾT NHÂN VẬT & COMMENT FIREBASE */
     window.currentOpenCharId = null;
 
     window.openChar = function(c) {
@@ -799,22 +798,23 @@
       window.currentOpenCharId = safeId; 
       
       const isLight = document.body.classList.contains('light-mode');
-      let bg = c.cardBg || c.img || "";
+      
+      let fData = window.creatorsSettingsCache[c.creator];
+      let bg = (fData && fData.cardBg) ? fData.cardBg : (c.cardBg || c.img || "");
       let grad = isLight ? 'rgba(255,255,255,0.85), rgba(225,245,254,0.95)' : 'rgba(7,84,176,0.8), rgba(1,3,44,0.95)';
       const modalCont = document.getElementById('modalSlabContent');
-      
       if(bg) modalCont.style.background = `linear-gradient(155deg, ${grad}), url('${bg}') center/cover`;
       else modalCont.style.background = 'var(--ice-bg)';
 
       let tagsHtml = (c.tags || []).map(t => {
-        let isRed = (t==='#R18' || t==='#R21' || t==='#Warning');
+        let isRed = (t==='#R18' || t==='#Warning');
         let bdCol = isLight ? (isRed?'rgba(255,107,139,0.5)':'rgba(1,42,74,0.15)') : (isRed?'rgba(255,107,139,0.4)':'rgba(219,235,248,0.2)');
         return `<span class="c-tag-item" style="border-color:${bdCol}; color:${isRed?'#ff6b8b':'var(--c-lightest)'};">${t}</span>`;
       }).join('');
 
       let btnHeartHtml = window.sessionLikes.has(safeId) 
-        ? `<button class="heart-btn liked disabled">❤️ <span id="count-${safeId}">${window.heartsData[safeId]||0}</span></button>` 
-        : `<button class="heart-btn" onclick="addLocalHeart('${safeId}', event)">🤍 <span id="count-${safeId}">${window.heartsData[safeId]||0}</span></button>`;
+        ? `<button class="heart-btn liked disabled">❤️ <span id="count-${safeId}">...</span></button>` 
+        : `<button class="heart-btn" onclick="addLocalHeart('${safeId}', event)">🤍 <span id="count-${safeId}">...</span></button>`;
 
       modalCont.innerHTML = `
         <button class="close-btn" onclick="window.currentOpenCharId = null; document.getElementById('charModal').classList.remove('active')" style="top:15px; right:15px; z-index:10;">&times;</button>
@@ -838,7 +838,7 @@
              <div class="c-section-title">◫ Góc giao lưu</div>
              <div class="cmt-container">
                 <div style="font-size:1.05rem;font-weight:600;">Sổ lưu trữ nhân duyên (<span id="cmtCount-${safeId}">0</span>) ❀</div>
-                <div class="cmt-list" id="cmtList-${safeId}">Đang tải...</div>
+                <div class="cmt-list" id="cmtList-${safeId}" style="max-height: 400px;">Đang tải...</div>
                 
                 <div style="font-size:1.05rem;font-weight:600;margin-top:10px;">Kí sổ nhân duyên ❀</div>
                 <div class="cmt-form">
@@ -856,17 +856,21 @@
 
     /* RENDER COMMENT ĐA TẦNG (CÓ LIKE VÀ REPLY) */
     window.loadRealtimeComments = function(charId) {
-        let cmts = JSON.parse(localStorage.getItem('baoUngCmts_' + charId)) || [];
+        let fireData = { hearts: window.heartsData[charId] || 0, comments: JSON.parse(localStorage.getItem('baoUngCmts_' + charId)) || [] };
         
+        let countSpan = document.getElementById('count-' + charId);
+        if(countSpan) countSpan.textContent = fireData.hearts || 0;
+
         let cmtCount = document.getElementById('cmtCount-' + charId);
-        if(cmtCount) cmtCount.textContent = cmts.length;
+        if(cmtCount) cmtCount.textContent = fireData.comments ? fireData.comments.length : 0;
         
         let html = '';
-        if(cmts.length > 0) {
-          cmts.forEach(c => {
+        if(fireData.comments && fireData.comments.length > 0) {
+          fireData.comments.forEach(c => {
               let isCre = c.isCreator ? 'is-creator' : '';
               let avatarHtml = c.avatar ? `<img src="${c.avatar}" class="cmt-avatar">` : `<div class="cmt-avatar" style="background:var(--c-light); display:flex; align-items:center; justify-content:center; font-size:12px; color:#fff;">?</div>`;
               
+              // Render List Reply
               let repHtml = '';
               if(c.replies && c.replies.length > 0) {
                  repHtml = `<div class="reply-list">` + c.replies.map(r => {
@@ -906,22 +910,12 @@
         }
     }
 
-    /* ĐẨY TIM VÀ COMMENT */
-    window.addLocalHeart = function(charId, e) {
-      if (window.sessionLikes.has(charId)) return;
-      window.sessionLikes.add(charId);
-      window.heartsData[charId] = (window.heartsData[charId] || 0) + 1;
-      localStorage.setItem('baoUngHearts', JSON.stringify(window.heartsData));
-      document.getElementById(`count-${charId}`).textContent = window.heartsData[charId];
-      e.currentTarget.classList.add('liked', 'disabled');
-      e.currentTarget.innerHTML = `❤️ <span id="count-${charId}">${window.heartsData[charId]}</span>`;
-    }
-
+    /* ĐẨY TIM COMMENT LÊN FIREBASE (Tạm Local) */
     window.likeLocalComment = function(charId, cmtId, e) {
        if (window.sessionLikes.has(cmtId)) return;
        window.sessionLikes.add(cmtId);
        e.currentTarget.classList.add('liked');
-       
+
        let cmts = JSON.parse(localStorage.getItem('baoUngCmts_' + charId)) || [];
        let idx = cmts.findIndex(c => c.id === cmtId);
        if(idx !== -1) {
@@ -936,12 +930,19 @@
        box.style.display = box.style.display === 'none' ? 'flex' : 'none';
     }
 
+    /* ĐẨY PHẢN HỒI LÊN FIREBASE (Tạm local) */
     window.addLocalReply = function(charId, cmtId) {
        let textInput = document.getElementById('repText_' + cmtId).value.trim();
        if(!textInput) return;
+       
        let name = document.getElementById('repName_' + cmtId).value.trim() || "Ẩn danh";
        let avatar = ""; let isCreator = false;
-       if(window.loggedInCreator) { let cData = MY_CONFIG.creators.find(c => c.id === window.loggedInCreator); if(cData) { name = cData.name; avatar = cData.bannerImg; isCreator = true; } }
+       
+       if(window.loggedInCreator) {
+          let cData = MY_CONFIG.creators.find(c => c.id === window.loggedInCreator);
+          if(cData) { name = cData.name; avatar = cData.bannerImg; isCreator = true; }
+       }
+
        let cmts = JSON.parse(localStorage.getItem('baoUngCmts_' + charId)) || [];
        let idx = cmts.findIndex(c => c.id === cmtId);
        if(idx !== -1) {
@@ -953,6 +954,7 @@
        }
     }
 
+    /* ĐẨY COMMENT MỚI LÊN FIREBASE (Tạm local) */
     window.addLocalComment = function(charId) {
         let textInput = document.getElementById('cmtText-' + charId).value.trim();
         if(!textInput) { alert("Ngoan yêu quên nhập lời nhắn kìa ૮ ˶ᵔ ᵕ ᵔ˶ ა"); return;}
@@ -970,13 +972,13 @@
         let cmts = JSON.parse(localStorage.getItem('baoUngCmts_' + charId)) || [];
         cmts.push(newCmt);
         localStorage.setItem('baoUngCmts_' + charId, JSON.stringify(cmts));
-        
+
         document.getElementById('cmtName-' + charId).value = ''; document.getElementById('cmtText-' + charId).value = '';
         window.loadRealtimeComments(charId);
         window.updateNotificationBadge();
     }
 
-    /* TRÌNH PHÁT NHẠC Ở GÓC VÀ HIỆU ỨNG NƯỚC CANVAS */
+    /* ĐĨA NHẠC & SÓNG BIỂN */
     const vinylDisc = document.getElementById('vinylDisc'), vinylText = document.getElementById('vinylText');
     let aCtx = null, oGain = null, isP = false, cAud = null;
     if (MY_CONFIG.musicMp3Url.trim() !== '') { cAud = new Audio(MY_CONFIG.musicMp3Url); cAud.loop = true; }
@@ -1035,7 +1037,6 @@
     }
     anim();
     
-    // Gọi hàm load ảnh sau khi mọi thứ lên hình
     renderCharacters();
   </script>
 </body>
