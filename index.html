@@ -229,7 +229,7 @@
     }
     .c-layout-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
     
-    /* Block link chìm mờ ảo đè lên ảnh */
+    /* Block link chìm mờ ảo đè lên ảnh (Chỉ để lại nút Nguồn Ảnh) */
     .c-layout-btns { 
         position: absolute; bottom: 12px; left: 0; width: 100%; 
         display: flex; gap: 8px; justify-content: center; z-index: 2; pointer-events: none; 
@@ -468,13 +468,14 @@
     window.heartsData = JSON.parse(localStorage.getItem('baoUngHearts')) || {};
 
     const MY_CONFIG = {
-      backgroundImageUrl: 'https://media.discordapp.net/attachments/1551974401703153826/1570614382659117206/ba1183ab02a36413722df50621909ae1.png?ex=6af7bc21&is=6af66aa1&hm=fff003d68c13a1ed0853931c9daa31284de2d251be593f31aaaab98ecbce10c8&=&format=webp&quality=lossless',
-      centerPictureUrl: 'https://media.discordapp.net/attachments/1551974401703153826/1570616505098444901/IMG_4574.jpg?ex=6af7be1b&is=6af66c9b&hm=a2f9d6f841732419fdc0707e19d6ac0387deda09aafb70187c29c5ddaa8c2b7c&=&format=webp',
+      // Đã đổi link ảnh nền tĩnh để không bao giờ bị die (từ link Unsplash)
+      backgroundImageUrl: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=1920&auto=format&fit=crop', 
+      centerPictureUrl: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=500&auto=format&fit=crop',
       musicMp3Url: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3',
-      roseImageUrl: 'https://media.discordapp.net/attachments/1255689844584087583/1570539154306109481/OIP-removebg-preview.png?ex=6af77611&is=6af62491&hm=93a0cd8dfec78e362368d71c1078f78936177d22d99a811a99f819757f8e88a3&=&format=webp&quality=lossless', 
+      roseImageUrl: '', // Xóa link Discord chết. Cứ để trống, hoa bằng Canvas vẽ ra sẽ tự động hiện lên rất mượt!
 
       defaultAccs: {
-        "Rz": { name: "Rz", pass: "040510", image: "https://media.discordapp.net/attachments/1569989641325650012/1570580752263946280/TA-2026-11-12-23-24-53-artist_ma-819578102-0.png", sign: "RZ ୨ৎ LIBRA", quote: "“Người tạo tên, tên chỉ người”", bio: "Một ngày ngọt ngào, cảm ơn vì đã tới.<br><br>Mong rằng người đến trao cho tôi sự tôn trọng. Lời tạm biệt sẽ được gửi đến nếu tôi thấy bị kéo vào drama. Rz yêu hoà bình." },
+        "Rz": { name: "Rz", pass: "040510", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800", sign: "RZ ୨ৎ LIBRA", quote: "“Người tạo tên, tên chỉ người”", bio: "Một ngày ngọt ngào, cảm ơn vì đã tới.<br><br>Mong rằng người đến trao cho tôi sự tôn trọng. Lời tạm biệt sẽ được gửi đến nếu tôi thấy bị kéo vào drama. Rz yêu hoà bình." },
         "Thương Lan": { name: "Thương Lan", pass: "242114", image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800", sign: "✦ SCORPIO • THIÊN YẾT", quote: "“Khối băng ngàn năm cũng có ngày tan vì một lời thề.”", bio: "Chấp bút những khúc ca bi tráng và những cuộc tương phùng báo ứng, khắc sâu dấu vết của thời gian lên từng tạo tác." },
         "Hải Đăng": { name: "Hải Đăng", pass: "123456", image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800", sign: "✦ CANCER • CỰ GIẢI", quote: "“Ngọn đèn trong đêm bão chưa từng vì ai mà tắt lịm.”", bio: "Người trông coi những trang hồ sơ lưu trữ cổ xưa, gìn giữ ánh sáng cuối cùng nơi hải đăng trước khi triều dâng." }
       },
@@ -486,16 +487,16 @@
           name: "Thương Lan", title: "Lời Thề Băng Giá của Độc Túc Ngư Cơ, mong ngài đừng quên.", type: "Character", creator: "Thương Lan", tags: ["#Cổ Trang", "#Ngược", "#Fantasy"], warning: "Chứa yếu tố giam cầm và bạo lực lạnh.", lore: "Từng là người bảo hộ vùng biển phía Bắc trước khi bị bán đứng bởi chính thuyền nhân nàng từng cứu vớt. Hiện kiếp tương phùng chỉ để đòi lại mảnh hồn rách nát.", img: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=500&q=80", imgSource: "#", ggaiLink: "#"
         },
         {
-          name: "Vương Quốc Gầm Sóng", title: "Khám Phá Bí Ẩn Trấn Hải.", type: "Open World", creator: "Hải Đăng", tags: ["#Open World", "#Fantasy"], lore: "Một thế giới mở rộng lớn nơi người chơi có thể tự do khám phá và thay đổi số phận của các nhân vật.", img: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=500&q=80"
+          name: "Vương Quốc Gầm Sóng", title: "Khám Phá Bí Ẩn Trấn Hải.", type: "Open World", creator: "Hải Đăng", tags: ["#Open World", "#Fantasy"], lore: "Một thế giới mở rộng lớn nơi người chơi có thể tự do khám phá và thay đổi số phận của các nhân vật.", img: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=500&q=80", ggaiLink: "#"
         }
       ]
     };
 
-    if(!localStorage.getItem('sysDB_Accs_v4')) localStorage.setItem('sysDB_Accs_v4', JSON.stringify(MY_CONFIG.defaultAccs));
-    if(!localStorage.getItem('sysDB_Notifs_v4')) localStorage.setItem('sysDB_Notifs_v4', JSON.stringify({"Rz":[], "Thương Lan":[], "Hải Đăng":[]}));
+    if(!localStorage.getItem('sysDB_Accs_v5')) localStorage.setItem('sysDB_Accs_v5', JSON.stringify(MY_CONFIG.defaultAccs));
+    if(!localStorage.getItem('sysDB_Notifs_v5')) localStorage.setItem('sysDB_Notifs_v5', JSON.stringify({"Rz":[], "Thương Lan":[], "Hải Đăng":[]}));
     
-    let dbAccs = JSON.parse(localStorage.getItem('sysDB_Accs_v4'));
-    let dbNotifs = JSON.parse(localStorage.getItem('sysDB_Notifs_v4'));
+    let dbAccs = JSON.parse(localStorage.getItem('sysDB_Accs_v5'));
+    let dbNotifs = JSON.parse(localStorage.getItem('sysDB_Notifs_v5'));
     let sysCurrentUser = localStorage.getItem('sysLoggedUser') || null;
 
     /* ==========================================================================
@@ -722,7 +723,7 @@
         let newPass = document.getElementById('setPass').value;
         if(newPass.trim() !== "") c.pass = newPass;
 
-        localStorage.setItem('sysDB_Accs_v4', JSON.stringify(dbAccs));
+        localStorage.setItem('sysDB_Accs_v5', JSON.stringify(dbAccs));
         alert("Đã lưu hồ sơ thành công! (F5 lại trang nếu muốn mục Creators cập nhật)");
         sysUpdateLoginUI();
     }
@@ -731,7 +732,7 @@
     function sendNotif(creatorId, htmlText, charName) {
         if(!dbNotifs[creatorId]) return;
         dbNotifs[creatorId].unshift({ time: new Date().toLocaleString('vi-VN'), text: htmlText, charRef: charName });
-        localStorage.setItem('sysDB_Notifs_v4', JSON.stringify(dbNotifs));
+        localStorage.setItem('sysDB_Notifs_v5', JSON.stringify(dbNotifs));
     }
 
     function renderNotifications() {
@@ -773,11 +774,11 @@
       const countSpan = document.getElementById(`count-${safeId}`);
       if (countSpan) countSpan.textContent = window.heartsData[safeId];
       const btn = event.currentTarget; btn.classList.add('liked');
-      sendNotif(charCreatorName, `Ai đó vừa thả tim trạm sạc <b>${charRealName}</b>`, charRealName);
+      sendNotif(charCreatorName, `Ai đó vừa rước <b>${charRealName}</b> về ♡ྀི`, charRealName);
     }
 
-    function getCmtsTree(safeId) { return JSON.parse(localStorage.getItem('sysTreeCmt_v4_' + safeId)) || []; }
-    function saveCmtsTree(safeId, data) { localStorage.setItem('sysTreeCmt_v4_' + safeId, JSON.stringify(data)); }
+    function getCmtsTree(safeId) { return JSON.parse(localStorage.getItem('sysTreeCmt_v5_' + safeId)) || []; }
+    function saveCmtsTree(safeId, data) { localStorage.setItem('sysTreeCmt_v5_' + safeId, JSON.stringify(data)); }
 
     window.addTreeComment = function(safeId, charCreatorName, charRealName, parentId = null) {
         let name = "Ẩn danh", avatar = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
@@ -861,7 +862,7 @@
         if(listEl) listEl.innerHTML = html || `<div style="opacity:0.6; font-size:0.85rem; font-style:italic; text-align:center; padding:10px;">Chưa có lời nhắn nào.</div>`;
     }
 
-    // RENDER HỒ SƠ CHÍNH VỚI NÚT CHÌM VÀ TEXT LINK ĐỊA CHỈ
+    // RENDER HỒ SƠ CHÍNH
     function openChar(c) {
       const safeId = getSafeId(c.name);
       const currentHearts = window.heartsData[safeId] || 0;
@@ -910,7 +911,7 @@
                 <div class="c-text-body">${c.lore}</div>
             </div>
 
-            <!-- CHUYỂN LINK XUỐNG ĐÂY THEO YÊU CẦU -->
+            <!-- CHUYỂN LINK XUỐNG ĐÂY -->
             <div>
                 <div class="c-section-title">⋏ ˊ- Địa chỉ ⸝⸝</div>
                 <div class="c-list-item">↳ <a href="#">Cẩm nang nhân vật</a></div>
