@@ -9,11 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oregano:ital@0;1&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Cinzel:wght@400;600&family=Alex+Brush&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Cinzel:wght@400;600&family=Alex+Brush&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     /* ==========================================================================
-       ✦ 1. TÔNG MÀU ĐẠI DƯƠNG VÀ FONT CHỮ ✦
+       ✦ 1. TÔNG MÀU & FONT ✦
        ========================================================================== */
     :root {
       --font-top-tag:   'Cinzel', serif;
@@ -26,7 +26,7 @@
       --font-char-text: 'Cormorant Garamond', serif;
       --font-ui:        'Montserrat', sans-serif;
 
-      /* DARK MODE */
+      /* BIỂN ĐÊM (MẶC ĐỊNH) */
       --c-lightest: #dbebf8; 
       --c-light:    #4fa5d8; 
       --c-mid:      #0754b0; 
@@ -38,7 +38,7 @@
       --bg-gradient: radial-gradient(circle at 50% 50%, rgba(7,84,176,0.3) 0%, rgba(1,3,44,0.92) 100%);
     }
 
-    /* LIGHT MODE */
+    /* BIỂN NGÀY (SÁNG) */
     body.light-mode {
       --c-lightest: #012a4a; 
       --c-light:    #0288d1; 
@@ -47,274 +47,256 @@
       --c-darkest:  #f0f8ff; 
       
       --glass-border: rgba(1, 42, 74, 0.15);
-      --ice-bg: linear-gradient(155deg, rgba(255, 255, 255, 0.9) 0%, rgba(225, 245, 254, 0.8) 50%, rgba(240, 248, 255, 0.95) 100%);
+      --ice-bg: linear-gradient(155deg, rgba(255, 255, 255, 0.85) 0%, rgba(225, 245, 254, 0.7) 50%, rgba(240, 248, 255, 0.95) 100%);
       --bg-gradient: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4) 0%, rgba(225,245,254,0.85) 100%);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
-    body, html { width: 100%; height: 100%; overflow: hidden; background-color: var(--c-darkest); color: var(--c-lightest); transition: background-color 0.5s, color 0.5s; }
+    body, html { width: 100%; height: 100%; overflow: hidden; background-color: var(--c-darkest); color: var(--c-lightest); transition: 0.5s; }
     
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(79, 165, 216, 0.4); border-radius: 10px; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(1, 3, 44, 0.2); border-radius: 8px; }
+    ::-webkit-scrollbar-thumb { background: rgba(79, 165, 216, 0.4); border-radius: 8px; }
     
-    .water-bg-layer { position: fixed; inset: -15px; background-color: var(--c-dark); background-position: center center; background-size: cover; background-repeat: no-repeat; filter: saturate(1.1) contrast(1.15); z-index: 1; animation: waterUndulate 12s ease-in-out infinite alternate; pointer-events: none; transition: all 0.5s ease; }
+    /* LỚP NỀN & HIỆU ỨNG NƯỚC */
+    .water-bg-layer {
+      position: fixed; inset: -15px; background-color: var(--c-dark);
+      background-position: center; background-size: cover; z-index: 1;
+      animation: waterUndulate 12s ease-in-out infinite alternate; transition: 0.5s;
+    }
     .light-mode .water-bg-layer { filter: saturate(1) contrast(1) brightness(1.1); opacity: 0.85; }
     @keyframes waterUndulate { 0% { transform: scale(1.02); } 100% { transform: scale(1.06) translateY(-8px); } }
     
     #fxCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 5; pointer-events: auto; }
-    .vignette-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 8; background: radial-gradient(circle at center, transparent 38%, rgba(1, 3, 44, 0.9) 100%); transition: background 0.5s; }
+    .vignette-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 8; background: radial-gradient(circle at center, transparent 38%, rgba(1, 3, 44, 0.9) 100%); transition: 0.5s; }
     .light-mode .vignette-overlay { background: radial-gradient(circle at center, transparent 38%, rgba(255, 255, 255, 0.7) 100%); }
 
     /* ==========================================================================
-       ✦ THANH MENU TỐI ƯU ✦
+       ✦ MENU TRÊN CÙNG ✦
        ========================================================================== */
-    .top-bar { position: fixed; top: 0; left: 0; width: 100%; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; z-index: 50; pointer-events: none; }
+    .top-bar { position: fixed; top: 0; left: 0; width: 100%; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; z-index: 50; pointer-events: none; }
     .top-bar > * { pointer-events: auto; }
     
+    .top-left-controls { display: flex; gap: 12px; opacity: 0; transform: translateX(-30px); pointer-events: none; transition: 0.8s; }
+    .top-left-controls.visible { opacity: 1; transform: translateX(0); pointer-events: auto; }
+
     .btn-creators-corner {
-      display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px;
+      display: inline-flex; align-items: center; gap: 10px; padding: 9px 18px;
       background: linear-gradient(135deg, rgba(79, 165, 216, 0.25) 0%, rgba(7, 84, 176, 0.65) 50%, rgba(1, 13, 85, 0.9) 100%);
-      border: 1px solid var(--glass-border); border-radius: 40px; color: #fff; font-family: var(--font-button); font-size: 1rem; cursor: pointer;
-      backdrop-filter: blur(14px); opacity: 0; transform: translateX(-30px); pointer-events: none; transition: 0.5s;
-      box-shadow: inset 0 0 18px rgba(219, 235, 248, 0.15), 0 6px 20px rgba(1, 3, 44, 0.6);
+      border: 1px solid var(--glass-border); border-radius: 40px; color: #fff; font-family: var(--font-button); font-size: 0.95rem; cursor: pointer;
+      backdrop-filter: blur(14px); box-shadow: inset 0 0 18px rgba(219, 235, 248, 0.15), 0 6px 20px rgba(1, 3, 44, 0.6); transition: 0.3s;
     }
     .light-mode .btn-creators-corner { background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(129, 212, 250, 0.6) 100%); color: var(--c-lightest); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-    .btn-creators-corner.visible { opacity: 1; transform: translateX(0); pointer-events: auto; }
-    .btn-creators-corner:hover { border-color: var(--c-lightest); transform: translateY(-2px); }
+    .btn-creators-corner:hover { border-color: var(--c-lightest); transform: translateY(-2px); box-shadow: 0 0 20px rgba(79, 165, 216, 0.6); }
     
-    .top-right-controls { display: flex; gap: 12px; margin-left: auto; }
-    .btn-theme-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; padding: 6px 14px; background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border); backdrop-filter: blur(12px); color: var(--c-lightest); font-family: var(--font-ui); font-size: 0.8rem; font-weight: 500; transition: 0.3s; }
-    .light-mode .btn-theme-toggle { background: rgba(255, 255, 255, 0.7); }
+    .top-right-controls { display: flex; gap: 15px; margin-left: auto; }
     
-    .vinyl-player-box { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 5px 12px 5px 6px; background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border); backdrop-filter: blur(12px); transition: 0.3s; }
-    .light-mode .vinyl-player-box { background: rgba(255, 255, 255, 0.7); }
-    .vinyl-disc { width: 34px; height: 34px; border-radius: 50%; background: repeating-radial-gradient(circle, #01032c 0px, #01032c 2px, #010d55 3px, #0754b0 4px); display: flex; align-items: center; justify-content: center; }
+    .btn-theme-toggle, .vinyl-player-box { 
+      display: inline-flex; align-items: center; gap: 8px; cursor: pointer; padding: 6px 14px; 
+      background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border); 
+      backdrop-filter: blur(12px); box-shadow: 0 6px 20px rgba(1, 3, 44, 0.6); transition: 0.3s; 
+      color: var(--c-lightest); font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; 
+    }
+    .light-mode .btn-theme-toggle, .light-mode .vinyl-player-box { background: rgba(255, 255, 255, 0.7); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .btn-theme-toggle:hover, .vinyl-player-box:hover { border-color: var(--c-light); transform: translateY(-2px); }
+    
+    .vinyl-disc { width: 36px; height: 36px; border-radius: 50%; background: repeating-radial-gradient(circle, #01032c 0px, #01032c 2px, #010d55 3px, #0754b0 4px); display: flex; align-items: center; justify-content: center; }
     .vinyl-center-label { width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle, #dbebf8 0%, #4fa5d8 50%, #0754b0 100%); }
     .vinyl-disc.spinning { animation: spinVinyl 3.5s linear infinite; }
     @keyframes spinVinyl { 100% { transform: rotate(360deg); } }
-    .vinyl-text { font-family: var(--font-top-tag); font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--c-lightest); }
-
-    /* MENU TRÊN ĐIỆN THOẠI (THU GỌN THÀNH ICON) */
-    @media (max-width: 768px) {
-      .top-bar { padding: 12px 15px; }
-      .btn-creators-corner { padding: 8px; border-radius: 50%; }
-      .btn-creators-corner span:last-child { display: none; } /* Ẩn chữ Creators of báo ứng */
-      .btn-creators-corner .sparkle-mini { margin: 0; font-size: 1.2rem; display: block; }
-      
-      .btn-theme-toggle span { font-size: 0; }
-      .btn-theme-toggle span::before { content: 'ʕ˖͜͡˖ʔ'; font-size: 1.1rem; }
-      .btn-theme-toggle { padding: 8px 12px; }
-      
-      .vinyl-text { display: none; }
-      .vinyl-player-box { padding: 6px; border-radius: 50%; }
-      .vinyl-disc { width: 30px; height: 30px; }
-    }
+    .vinyl-text { font-family: var(--font-top-tag); font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--c-lightest); }
 
     /* ==========================================================================
        ✦ MÀN HÌNH 1: KHỞI ĐẦU ✦
        ========================================================================== */
-    #landingScreen { position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; transition: 1s ease; pointer-events: none; }
+    #landingScreen { position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 50px; transition: 1s ease; pointer-events: none; }
     #landingScreen.hidden { opacity: 0; visibility: hidden; }
     #landingScreen > * { pointer-events: auto; }
     
-    .floating-card-wrapper { position: relative; cursor: pointer; animation: floatSmooth 6s ease-in-out infinite; perspective: 1000px; }
-    @keyframes floatSmooth { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
-    .floating-picture-frame { width: 220px; height: 300px; padding: 8px; border-radius: 12px; background: var(--ice-bg); border: 1px solid var(--glass-border); transition: 0.4s; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+    .floating-card-wrapper { position: relative; cursor: pointer; animation: floatSmooth 6s infinite; perspective: 1000px; }
+    @keyframes floatSmooth { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-14px); } }
+    .floating-picture-frame { 
+      width: 250px; height: 330px; padding: 10px; border-radius: 12px; 
+      background: linear-gradient(145deg, rgba(219,235,248,0.15) 0%, rgba(7,84,176,0.4) 50%, rgba(1,13,85,0.85) 100%); 
+      border: 1px solid var(--glass-border); transition: 0.4s; overflow: hidden; box-shadow: 0 20px 50px rgba(1,3,44,0.8); 
+    }
+    .light-mode .floating-picture-frame { background: rgba(255,255,255,0.6); }
     .floating-picture-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
-    .quote-text { font-family: var(--font-quote); font-style: italic; font-size: clamp(1.4rem, 4vw, 2.2rem); margin-top: 24px; text-shadow: 0 0 15px rgba(79, 165, 216, 0.8); text-align: center; }
-    .brand-title { font-family: var(--font-brand); font-size: 0.7rem; letter-spacing: 6px; margin: 10px 0 25px; text-align: center; }
     
-    .btn-action-enter { display: inline-flex; align-items: center; gap: 10px; padding: 12px 35px; border-radius: 40px; background: linear-gradient(135deg, rgba(79, 165, 216, 0.2) 0%, rgba(1, 13, 85, 0.8) 100%); border: 1px solid var(--glass-border); color: #fff; font-family: var(--font-button); font-size: 1.15rem; cursor: pointer; backdrop-filter: blur(16px); transition: 0.3s; }
-    .light-mode .btn-action-enter { background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(129, 212, 250, 0.8) 100%); color: var(--c-lightest); }
-    .btn-action-enter:hover { transform: scale(1.05); }
-    .tap-hint { font-family: var(--font-hint); font-size: 0.6rem; letter-spacing: 4px; margin-top: 15px; animation: pulseHint 2.5s infinite; opacity: 0.8; }
-    @keyframes pulseHint { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
+    .quote-text { font-family: var(--font-quote); font-style: italic; font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-top: 24px; text-shadow: 0 0 20px rgba(79, 165, 216, 0.7); }
+    .brand-title { font-family: var(--font-brand); font-size: 0.76rem; letter-spacing: 8px; margin: 12px 0 26px; }
+    
+    .btn-action-enter { 
+      display: inline-flex; gap: 14px; padding: 13px 40px; border-radius: 40px; 
+      background: var(--ice-bg); border: 1px solid var(--glass-border); color: #fff; 
+      font-family: var(--font-button); font-size: 1.25rem; cursor: pointer; transition: 0.3s; 
+    }
+    .btn-action-enter:hover { transform: translateY(-3px) scale(1.03); border-color: var(--c-lightest); }
+    .tap-hint { font-family: var(--font-hint); font-size: 0.65rem; letter-spacing: 5px; margin-top: 14px; animation: pulseHint 2.5s infinite; color: var(--c-light); }
 
     /* ==========================================================================
-       ✦ MÀN HÌNH 2: THƯ VIỆN & BỘ LỌC ✦
+       ✦ MÀN HÌNH 2: THƯ VIỆN NHÂN VẬT ✦
        ========================================================================== */
-    #archiveScreen { position: absolute; inset: 0; z-index: 15; padding: 80px 20px 40px; overflow-y: auto; overflow-x: hidden; pointer-events: none; opacity: 0; transform: translateY(20px); transition: 1s ease 0.2s; }
+    #archiveScreen { position: absolute; inset: 0; z-index: 15; padding: 90px 30px 50px; overflow-y: auto; overflow-x: hidden; pointer-events: none; opacity: 0; transform: translateY(30px); transition: 1s ease 0.3s; }
     #archiveScreen.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
     
-    .archive-header-box { text-align: center; margin: 0 auto 30px; padding: 35px 15px; max-width: 800px; background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px; backdrop-filter: blur(14px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-    .archive-title { font-family: var(--font-brand); font-size: clamp(1.6rem, 5vw, 2.8rem); letter-spacing: 3px; margin-bottom: 10px; text-shadow: 0 0 15px rgba(79, 165, 216, 0.6); }
-    .archive-subtitle { font-family: var(--font-ui); font-size: 0.95rem; margin-bottom: 15px; }
-    .archive-divider { font-size: 1.2rem; color: var(--c-light); margin-bottom: 15px; }
-    .archive-slogan { font-family: var(--font-quote); font-size: 1.4rem; font-style: italic; opacity: 0.9; }
+    .archive-header-box { text-align: center; margin: 0 auto 30px; padding: 25px 20px; max-width: 600px; background: linear-gradient(145deg, rgba(79,165,216,0.1) 0%, rgba(1,13,85,0.35) 100%); border: 1px solid var(--glass-border); border-radius: 14px; backdrop-filter: blur(14px); box-shadow: 0 10px 25px rgba(1,3,44,0.4); }
+    .light-mode .archive-header-box { background: rgba(255, 255, 255, 0.6); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+    .archive-title { font-family: var(--font-brand); font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: 4px; margin-bottom: 8px; text-shadow: 0 0 15px rgba(79,165,216,0.6); line-height: 1.2; }
+    .archive-subtitle { font-family: var(--font-ui); font-size: 0.95rem; margin-bottom: 12px; font-weight: 400; }
+    .archive-divider { font-size: 1.1rem; color: var(--c-light); margin-bottom: 12px; letter-spacing: 2px; }
+    .archive-slogan { font-family: var(--font-quote); font-size: 1.3rem; font-style: italic; opacity: 0.95; }
     
-    .archive-controls { max-width: 1000px; margin: 0 auto 30px; display: flex; flex-direction: column; gap: 15px; }
-    .search-input { width: 100%; padding: 12px 20px; font-family: var(--font-ui); font-size: 0.95rem; color: var(--c-lightest); background: rgba(1, 13, 85, 0.4); border: 1px solid var(--glass-border); border-radius: 30px; backdrop-filter: blur(10px); outline: none; transition: 0.3s; }
-    .light-mode .search-input { background: rgba(255, 255, 255, 0.8); }
-    
-    .filters-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-    .toggle-pill-group { display: inline-flex; background: rgba(1, 3, 44, 0.4); border: 1px solid var(--glass-border); border-radius: 30px; padding: 4px; }
-    .light-mode .toggle-pill-group { background: rgba(255,255,255,0.7); }
-    .toggle-btn { padding: 6px 18px; border-radius: 20px; border: none; background: transparent; color: inherit; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; cursor: pointer; opacity: 0.7; transition: 0.3s; }
-    .toggle-btn.active { background: var(--c-light); color: #fff; opacity: 1; font-weight: 600; }
+    .archive-controls { max-width: 1100px; margin: 0 auto 40px; display: flex; flex-direction: column; gap: 20px; font-family: var(--font-ui), sans-serif; }
+    .search-input { width: 100%; padding: 14px 24px; font-size: 1rem; color: var(--c-lightest); background: rgba(1, 13, 85, 0.4); border: 1px solid var(--glass-border); border-radius: 40px; outline: none; transition: 0.3s; }
+    .light-mode .search-input { background: rgba(255, 255, 255, 0.8); color: var(--c-dark); }
+    .filters-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    .toggle-pill-group { display: inline-flex; background: rgba(1, 3, 44, 0.4); border: 1px solid rgba(219, 235, 248, 0.15); border-radius: 40px; padding: 4px; }
+    .light-mode .toggle-pill-group { background: rgba(255,255,255,0.7); border-color: rgba(1,42,74,0.1); }
+    .toggle-btn { padding: 8px 20px; border-radius: 30px; border: none; background: transparent; color: rgba(219, 235, 248, 0.7); font-family: inherit; cursor: pointer; transition: 0.3s; }
+    .light-mode .toggle-btn { color: rgba(1,42,74,0.6); }
+    .toggle-btn.active { background: var(--c-light); color: #fff; box-shadow: 0 0 10px rgba(79,165,216,0.5); font-weight: 600; }
 
-    .tags-panel { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; }
-    .tags-header { font-family: var(--font-ui); font-size: 0.9rem; font-weight: 600; color: var(--c-light); margin-bottom: 10px; text-transform: uppercase; }
+    .tags-panel { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px 20px; backdrop-filter: blur(12px); }
     .tags-list { display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
-    .tag-btn { white-space: nowrap; padding: 5px 14px; background: rgba(1, 3, 44, 0.4); border: 1px solid var(--glass-border); border-radius: 15px; color: inherit; font-family: var(--font-ui); font-size: 0.8rem; cursor: pointer; opacity: 0.8; }
-    .light-mode .tag-btn { background: rgba(255,255,255,0.6); }
-    .tag-btn.active { border-color: var(--c-light); background: rgba(79, 165, 216, 0.2); opacity: 1; }
+    .tag-btn { white-space: nowrap; padding: 6px 14px; background: rgba(1, 3, 44, 0.4); border: 1px solid rgba(219,235,248,0.2); border-radius: 20px; color: rgba(219,235,248,0.8); cursor: pointer; font-size: 0.85rem;}
+    .light-mode .tag-btn { background: rgba(255,255,255,0.7); color: rgba(1,42,74,0.7); border-color: rgba(1,42,74,0.1); }
+    .tag-btn.active { border-color: var(--c-light); background: rgba(79,165,216,0.2); color: var(--c-lightest); }
     .light-mode .tag-btn.active { background: var(--c-light); color: #fff; }
-    .tag-btn.tag-red { border-color: rgba(255, 107, 139, 0.4); color: #ff6b8b; }
-    .tag-btn.tag-red.active { background: rgba(255, 107, 139, 0.2); color: #fff; border-color: #ff6b8b; }
-    .light-mode .tag-btn.tag-red.active { background: #ff6b8b; }
 
-    /* LƯỚI DANH SÁCH NHÂN VẬT - TỐI ƯU APP CHO ĐIỆN THOẠI */
-    .character-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 20px;}
-    
-    .char-card { 
-      background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 12px; 
-      padding: 16px; backdrop-filter: blur(12px); cursor: pointer; transition: 0.3s; 
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3); 
-      display: flex; flex-direction: column; overflow: hidden;
-    }
-    .char-card:hover { transform: translateY(-4px); border-color: var(--c-light); }
-    .char-img-box { width: 100%; height: 220px; border-radius: 8px; overflow: hidden; margin-bottom: 12px; background: rgba(0,0,0,0.2); }
+    /* Lưới nhân vật */
+    .character-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto; padding-bottom: 40px;}
+    .char-card { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; backdrop-filter: blur(12px); cursor: pointer; transition: 0.4s; overflow: hidden; }
+    .light-mode .char-card { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+    .char-card:hover { transform: translateY(-5px); border-color: var(--c-light); box-shadow: 0 0 20px rgba(79, 165, 216, 0.3); }
+    .char-img-box { width: 100%; height: 240px; border-radius: 6px; overflow: hidden; margin-bottom: 12px; background: rgba(1,3,44,0.3); }
     .char-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
     .char-card:hover .char-img-box img { transform: scale(1.05); }
-    .char-info-box { display: flex; flex-direction: column; }
-    .char-name-outer { font-family: var(--font-char-name); font-size: 1.8rem; margin-bottom: 4px; color: var(--c-lightest); line-height: 1.2; }
-.char-title-outer { font-family: var(--font-char-text); font-style: italic; font-size: 0.95rem; color: var(--c-light); margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}    .char-tags-mini { display: flex; flex-wrap: wrap; gap: 6px; }
-    .char-tags-mini span { font-family: var(--font-ui); font-size: 0.6rem; background: rgba(1, 3, 44, 0.4); padding: 3px 6px; border-radius: 8px; border: 1px solid var(--glass-border); }
-    .light-mode .char-tags-mini span { background: rgba(255,255,255,0.7); }
+    .char-name-outer { font-family: var(--font-char-name); font-size: 2rem; margin-bottom: 4px; text-shadow: 0 0 10px rgba(79,165,216,0.6); position: relative; z-index: 2;}
+    .light-mode .char-name-outer { text-shadow: none; color: var(--c-lightest); }
+    .char-title-outer { font-family: var(--font-char-text); font-style: italic; font-size: 1rem; color: var(--c-light); margin-bottom: 8px; }
+    
+    .char-tags-mini span { font-family: var(--font-ui); font-size: 0.65rem; background: rgba(1,3,44,0.5); padding: 3px 8px; border-radius: 10px; border: 1px solid rgba(219,235,248,0.25); margin-right: 4px;}
+    .light-mode .char-tags-mini span { background: rgba(255,255,255,0.8); color: var(--c-dark); }
 
-    /* ÉP KIỂU LIST VIEW DỌC TRÊN ĐIỆN THOẠI (NHƯ ẢNH MẪU 4) */
-    @media (max-width: 600px) {
-      .character-grid { grid-template-columns: 1fr; gap: 12px; }
-      .char-card { flex-direction: row; gap: 15px; padding: 12px; align-items: center; }
-      .char-img-box { width: 85px; height: 110px; margin-bottom: 0; flex-shrink: 0; }
-      .char-info-box { flex-grow: 1; overflow: hidden; }
-      .char-name-outer { font-size: 1.5rem; }
-      .char-title-outer { font-size: 0.85rem; margin-bottom: 6px; }
-    }
-
-    /* FOOTER */
-    .archive-footer { margin-top: 40px; text-align: center; display: flex; flex-direction: column; gap: 8px; opacity: 0.8; }
-    .footer-brand { font-family: var(--font-brand); font-size: clamp(1rem, 3vw, 1.4rem); letter-spacing: 8px; margin-left: 8px; }
-    .footer-msg { font-family: var(--font-quote); font-style: italic; font-size: 1rem; color: var(--c-light); }
+    /* KẾT THÚC TRANG */
+    .archive-footer { margin-top: 40px; text-align: center; padding-bottom: 30px; display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 10; }
+    .footer-brand { font-family: var(--font-brand); font-size: clamp(1rem, 3vw, 1.5rem); letter-spacing: 12px; text-shadow: 0 0 10px rgba(79, 165, 216, 0.6); margin-left: 12px; }
+    .footer-msg { font-family: var(--font-quote); font-style: italic; font-size: 1.1rem; color: var(--c-light); }
+    .footer-divider { font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 3px; color: var(--c-light); opacity: 0.7; }
+    .light-mode .footer-brand, .light-mode .footer-msg, .light-mode .footer-divider { color: var(--c-dark); text-shadow: none; }
 
     /* ==========================================================================
-       ✦ GIAO DIỆN MODAL (CREATORS & CHARACTER) ✦
+       ✦ CÁC MÀN HÌNH MODAL CHUNG (POPUP) ✦
        ========================================================================== */
-    .creators-overlay, .char-modal {
-      position: fixed; inset: 0; z-index: 100; background: rgba(1, 3, 44, 0.85); backdrop-filter: blur(15px);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 15px; opacity: 0; visibility: hidden; transition: 0.3s;
-    }
-    .light-mode .creators-overlay, .light-mode .char-modal { background: rgba(240, 248, 255, 0.85); }
-    .creators-overlay.active, .char-modal.active { opacity: 1; visibility: visible; }
+    .custom-overlay { position: fixed; inset: 0; z-index: 100; background: radial-gradient(circle at center, rgba(1,13,85,0.7) 0%, rgba(1,3,44,0.95) 100%); backdrop-filter: blur(15px); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: 0.4s; }
+    .light-mode .custom-overlay { background: radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, rgba(225,245,254,0.95) 100%); }
+    .custom-overlay.active { opacity: 1; visibility: visible; }
+    
+    .close-btn { position: absolute; width: 36px; height: 36px; border-radius: 50%; background: rgba(1,13,85,0.6); border: 1px solid var(--glass-border); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: 0.3s; z-index: 110; }
+    .light-mode .close-btn { background: #fff; color: var(--c-dark); }
+    .close-btn:hover { background: #ff6b8b; border-color: #ff6b8b; transform: rotate(90deg); }
 
-    .close-btn {
-      position: absolute; top: 15px; right: 15px; width: 34px; height: 34px; border-radius: 50%;
-      background: rgba(1, 13, 85, 0.6); border: 1px solid var(--glass-border); color: #fff;
-      display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; z-index: 110;
-    }
-    .light-mode .close-btn { background: rgba(255,255,255,0.9); color: var(--c-dark); }
-    .close-btn:hover { background: #ff6b8b; border-color: #ff6b8b; }
-
-    /* Creators Modal */
-    .creators-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; max-height: 80vh; overflow-y: auto; padding: 10px; }
-    .creator-card { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; text-align: center; }
-    .creator-banner { width: 100%; aspect-ratio: 1; border-radius: 50%; width: 120px; margin: 0 auto 15px; border: 2px solid var(--glass-border); overflow: hidden; }
+    /* MODAL DANH SÁCH CREATOR */
+    .creators-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1200px; width: 100%; max-height: 75vh; overflow-y: auto; padding: 10px; }
+    .creator-card { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; text-align: center; transition: 0.4s; }
+    .creator-banner { width: 100%; aspect-ratio: 1; border-radius: 10px; overflow: hidden; margin-bottom: 15px; }
     .creator-banner img { width: 100%; height: 100%; object-fit: cover; }
-    .c-name { font-family: var(--font-top-tag); font-size: 1.4rem; font-weight: 600; margin-bottom: 4px; }
-    .c-sign { font-family: var(--font-ui); font-size: 0.7rem; color: var(--c-light); margin-bottom: 10px; }
-    .c-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.1rem; margin-bottom: 10px; opacity: 0.9;}
-    .c-bio { font-family: var(--font-char-text); font-size: 0.95rem; margin-bottom: 15px; opacity: 0.8; }
-    .creator-actions { display: flex; gap: 8px; justify-content: center; }
-    .carrd-btn { padding: 6px 12px; border-radius: 20px; border: 1px solid var(--glass-border); font-family: var(--font-ui); font-size: 0.7rem; color: inherit; text-decoration: none; }
-    .carrd-btn:hover { background: var(--c-light); color: #fff; }
+    
+    /* MODAL ĐĂNG NHẬP */
+    .login-box { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 30px; width: 90%; max-width: 400px; text-align: center; }
+    .login-acc-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+    .login-acc-btn { display: flex; align-items: center; gap: 15px; padding: 10px; background: rgba(1,3,44,0.5); border: 1px solid var(--glass-border); border-radius: 8px; cursor: pointer; transition: 0.3s; color: var(--c-lightest); font-family: var(--font-ui); }
+    .login-acc-btn:hover { background: rgba(79,165,216,0.3); border-color: var(--c-light); }
+    .login-acc-btn img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--c-light); }
+    
+    .pass-input { width: 100%; padding: 12px; margin: 20px 0; border-radius: 8px; background: rgba(1,3,44,0.6); border: 1px solid var(--c-light); color: #fff; font-family: var(--font-ui); text-align: center; letter-spacing: 5px;}
+    .light-mode .pass-input { background: #fff; color: var(--c-dark); }
 
-    /* HỒ SƠ CHI TIẾT NHÂN VẬT - THIẾT KẾ CHUẨN APP (NHỎ GỌN, KHÔNG BỊ ĐÈ) */
-    .char-slab-new {
-      background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px;
-      width: 100%; max-width: 650px; height: 90vh; max-height: 800px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.4); backdrop-filter: blur(20px);
-      display: flex; flex-direction: column; position: relative; overflow: hidden;
-    }
+    /* ==========================================================================
+       ✦ GIAO DIỆN PHÒNG LÀM VIỆC CREATOR (DASHBOARD) ✦
+       ========================================================================== */
+    #creatorDashboard { position: absolute; inset: 0; z-index: 60; background: var(--c-darkest); display: flex; flex-direction: column; opacity: 0; visibility: hidden; transition: 0.5s; padding-top: 80px;}
+    .light-mode #creatorDashboard { background: var(--c-darkest); /* Cố tình giữ dark cho hầm hố */ }
+    #creatorDashboard.visible { opacity: 1; visibility: visible; }
     
-    /* Lớp phủ gradient đen/trắng nhẹ để dễ đọc chữ đè lên ảnh nền */
-    .char-slab-inner-bg {
-      position: absolute; inset: 0; z-index: 0;
-      background: linear-gradient(180deg, rgba(1,3,44,0.7) 0%, rgba(1,3,44,0.95) 40%);
-    }
-    .light-mode .char-slab-inner-bg { background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(240,248,255,0.95) 40%); }
+    .dash-header { padding: 20px 40px; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;}
+    .dash-body { display: grid; grid-template-columns: 300px 1fr; gap: 30px; padding: 40px; height: 100%; overflow: hidden;}
+    .dash-sidebar { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 15px;}
+    .dash-main { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 30px; overflow-y: auto;}
+    .dash-avatar { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 10px; border: 3px solid var(--c-light); object-fit: cover;}
+    
+    .noti-item { background: rgba(1,3,44,0.6); padding: 15px; border-left: 3px solid var(--c-light); margin-bottom: 10px; border-radius: 6px; font-family: var(--font-ui); font-size: 0.9rem;}
+    .noti-item strong { color: var(--c-light); }
 
-    .c-content-wrapper { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; padding: 20px; }
-
-    /* Phần đầu: Ảnh + Tên */
-    .c-top-profile { display: flex; gap: 15px; margin-bottom: 20px; align-items: stretch; }
-    .c-avatar-box { width: 110px; flex-shrink: 0; border-radius: 10px; border: 1px solid var(--glass-border); overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-    .c-avatar-box img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 3/4; }
+    /* ==========================================================================
+       ✦ MODAL CHI TIẾT NHÂN VẬT & BÌNH LUẬN ✦
+       ========================================================================== */
+    .char-slab-new { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 20px; width: 85vw; max-width: 1000px; height: 85vh; padding: 30px; display: grid; grid-template-columns: 1fr 2px 1.2fr; gap: 30px; position: relative; }
+    .c-col-left { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;}
+    .c-main-name { font-family: var(--font-char-name); font-size: 3rem; color: var(--c-lightest); text-shadow: 0 0 15px rgba(79, 165, 216, 0.8); line-height: 1.2; font-weight: 600;}
+    .c-creator-name { font-family: var(--font-char-text); font-size: 1.15rem; opacity: 0.9; margin: 10px 0;}
     
-    .c-profile-info { display: flex; flex-direction: column; justify-content: center; text-align: left; }
-    .c-creator-name { font-family: var(--font-ui); font-size: 0.75rem; color: var(--c-light); font-weight: 600; margin-bottom: 2px; text-transform: uppercase; }
-    .c-main-name { font-family: var(--font-char-name); font-size: 2.2rem; color: var(--c-lightest); line-height: 1.1; margin-bottom: 5px; }
+    .c-img-wrap { width: 100%; aspect-ratio: 3/4; border-radius: 10px; overflow: hidden; border: 1px solid var(--glass-border); margin: 10px 0; }
+    .c-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
     
-    .c-action-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-    .heart-btn { background: rgba(1, 3, 44, 0.5); border: 1px solid var(--glass-border); color: var(--c-lightest); padding: 5px 12px; border-radius: 15px; font-family: var(--font-ui); font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
-    .heart-btn.liked { color: #ff6b8b; border-color: #ff6b8b; }
+    .c-col-right { overflow-y: auto; padding-right: 10px; font-family: var(--font-char-text); font-size: 1.1rem; line-height: 1.5; }
+    .c-right-header { display: flex; justify-content: flex-end; margin-bottom: 10px;}
+    .heart-btn { background: rgba(1, 3, 44, 0.5); border: 1px solid rgba(219, 235, 248, 0.2); color: var(--c-lightest); padding: 7px 16px; border-radius: 20px; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: 0.3s; }
+    .heart-btn:hover { background: rgba(255, 107, 139, 0.15); border-color: #ff6b8b; color: #ff6b8b; }
+    .heart-btn.liked { border-color: #ff6b8b; color: #ff6b8b; background: rgba(255, 107, 139, 0.1); cursor: not-allowed;}
     
-    /* Phần nội dung cuộn bên dưới */
-    .c-scroll-content { flex-grow: 1; overflow-y: auto; padding-right: 5px; display: flex; flex-direction: column; gap: 20px; }
-    .c-scroll-content::-webkit-scrollbar { width: 3px; }
+    .c-section-title { font-size: 1.2rem; color: var(--c-light); font-weight: 600; margin: 15px 0 5px; text-transform: uppercase;}
+    .c-warning-content { border-left: 3px solid #ff6b8b; padding-left: 14px; color: #ff6b8b; background: linear-gradient(90deg, rgba(255, 107, 139, 0.15) 0%, transparent 100%); padding: 6px 14px;}
     
-    .c-slogan { font-family: var(--font-quote); font-style: italic; font-size: 1.1rem; color: var(--c-lightest); opacity: 0.9; border-left: 2px solid var(--c-light); padding-left: 10px; }
-    
-    .c-section-title { font-family: var(--font-char-text); font-size: 1.1rem; color: var(--c-light); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; }
-    .c-warning-content { border-left: 2px solid #ff6b8b; padding-left: 10px; color: #ff6b8b; font-size: 0.95rem; font-style: italic; }
-    
-    .c-tags-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
-    .c-tag-item { font-family: var(--font-ui); font-size: 0.75rem; background: rgba(1, 3, 44, 0.4); padding: 4px 10px; border-radius: 15px; border: 1px solid var(--glass-border); }
-    
-    .c-text-body { font-family: var(--font-char-text); font-size: 1.05rem; line-height: 1.5; color: var(--c-lightest); opacity: 0.9; white-space: pre-wrap; }
-    
-    .c-list-item { font-family: var(--font-ui); font-size: 0.9rem; margin-top: 5px; }
-    .c-list-item a { color: var(--c-lightest); text-decoration: none; border-bottom: 1px dashed var(--glass-border); padding-bottom: 2px; }
-    
-    /* COMMENT */
-    .cmt-container { background: rgba(1, 3, 44, 0.2); border: 1px solid var(--glass-border); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+    /* Khu vực bình luận */
+    .cmt-container { background: rgba(1,3,44,0.3); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; margin-top: 10px; }
     .cmt-list { max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-    .cmt-item { background: rgba(219, 235, 248, 0.05); border-left: 2px solid var(--c-light); padding: 8px 10px; border-radius: 4px; font-family: var(--font-ui); }
+    .cmt-item { background: rgba(219,235,248,0.05); padding: 10px; border-radius: 6px; font-family: var(--font-ui); display: flex; gap: 10px; }
+    .cmt-avatar { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 1px solid var(--c-light); flex-shrink: 0;}
+    .cmt-body { flex-grow: 1; }
     .cmt-head { display: flex; justify-content: space-between; margin-bottom: 4px; }
-    .cmt-name { font-weight: 600; font-size: 0.8rem; }
-    .cmt-date { font-size: 0.65rem; opacity: 0.7; }
-    .cmt-text { font-size: 0.85rem; line-height: 1.3; }
-    
-    .cmt-input, .cmt-textarea { width: 100%; background: rgba(1, 13, 85, 0.3); border: 1px solid var(--glass-border); border-radius: 6px; padding: 8px 12px; color: inherit; font-family: var(--font-ui); font-size: 0.85rem; margin-bottom: 8px; }
-    .btn-submit-cmt { padding: 6px 15px; background: transparent; border: 1px solid var(--c-light); border-radius: 15px; color: inherit; font-family: var(--font-ui); font-size: 0.8rem; cursor: pointer; float: right; }
+    .cmt-name { font-weight: 600; font-size: 0.85rem; }
+    .cmt-name.is-creator { color: #ff6b8b; text-shadow: 0 0 5px rgba(255,107,139,0.5); }
+    .cmt-date { font-size: 0.7rem; opacity: 0.7; }
+    .cmt-text { font-size: 0.9rem; opacity: 0.9; }
 
-    @media (min-width: 768px) {
-      /* Mở rộng xíu trên màn máy tính cho đẹp */
-      .char-slab-new { max-width: 750px; padding: 30px; }
-      .c-avatar-box { width: 160px; }
-      .c-main-name { font-size: 2.8rem; }
-      .c-slogan { font-size: 1.2rem; }
-      .c-text-body { font-size: 1.15rem; }
+    .cmt-form { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+    .cmt-input, .cmt-textarea { width: 100%; background: rgba(1, 13, 85, 0.5); border: 1px solid rgba(219, 235, 248, 0.2); border-radius: 8px; padding: 10px; color: #fff; font-family: var(--font-ui); font-size: 0.9rem; outline: none; }
+    .btn-submit-cmt { align-self: flex-end; padding: 8px 20px; background: rgba(79, 165, 216, 0.2); border: 1px solid var(--c-light); border-radius: 20px; color: var(--c-lightest); cursor: pointer; }
+
+    /* REPONSIVE CHO ĐIỆN THOẠI */
+    @media (max-width: 900px) {
+      .top-left-controls { flex-direction: column; align-items: flex-start; gap: 5px; }
+      .btn-creators-corner { padding: 6px 12px; font-size: 0.85rem; }
+      .creators-grid { grid-template-columns: 1fr; }
+      .char-slab-new { grid-template-columns: 1fr; overflow-y: auto; padding: 20px; }
+      .c-vert-line { width: 100%; height: 2px; margin: 10px 0; background: linear-gradient(to right, transparent, rgba(219, 235, 248, 0.2), transparent); }
+      .dash-body { grid-template-columns: 1fr; overflow-y: auto; padding: 20px; }
+      .archive-header-box { max-width: 90%; padding: 15px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- NỀN -->
   <div class="water-bg-layer" id="waterBg"></div>
   <canvas id="fxCanvas"></canvas>
   <div class="vignette-overlay"></div>
 
-  <!-- MENU -->
+  <!-- MENU CHÍNH -->
   <header class="top-bar">
-    <button class="btn-creators-corner" id="btnOpenCreators">
-      <span class="sparkle-mini" style="color:var(--c-light)"> 𓆩ꨄ︎𓆪 </span><span> Creators of Báo ứng </span>
-    </button>
+    <div class="top-left-controls" id="topLeftMenu">
+      <button class="btn-creators-corner" id="btnOpenCreators">
+        <span style="color:var(--c-light)"> 𓆩ꨄ︎𓆪 ༝༚ </span><span> Creators of Báo ứng </span>
+      </button>
+      <button class="btn-creators-corner" id="btnShowLogin">
+        <span style="color:var(--c-light)"> ˚₊‧꒰ა </span><span> Login creator ໒꒱ ‧₊˚ </span>
+      </button>
+    </div>
     
     <div class="top-right-controls">
-      <button class="btn-theme-toggle" id="btnThemeToggle" title="Bật/Tắt Giao Diện Sáng Tối">
-        <span> ʕ˖͜͡˖ʔ Sáng/Tối </span>
-      </button>
+      <button class="btn-theme-toggle" id="btnThemeToggle"><span> ʕ˖͜͡˖ʔ Sáng/Tối </span></button>
       <div class="vinyl-player-box" id="vinylPlayer">
         <div class="vinyl-disc" id="vinylDisc"><div class="vinyl-center-label"></div></div>
         <span class="vinyl-text" id="vinylText"> Radio </span>
@@ -322,7 +304,7 @@
     </div>
   </header>
 
-  <!-- MÀN HÌNH 1: KHỞI ĐẦU -->
+  <!-- MÀN KHỞI ĐẦU -->
   <main id="landingScreen">
     <div class="floating-card-wrapper" id="cardWrapper">
       <div class="floating-picture-frame"><img src="" id="centerImg" alt=""></div>
@@ -330,12 +312,12 @@
     <h1 class="quote-text">“What is grief, if not love persevering?”</h1>
     <div class="brand-title"> B Á O   Ứ N G   Đ Ờ I   N H A U </div>
     <button class="btn-action-enter" id="btnEnter">
-      <span style="color: var(--c-light)"> 𓆩ꨄ︎𓆪 </span><span> Xem báo ứng </span>
+      <span style="color: var(--c-light)"> 𓆩ꨄ︎𓆪 ༝༚ </span><span> Xem báo ứng </span>
     </button>
     <div class="tap-hint"> 𓆝 𓆟 𓆞 C H Ạ M   Đ Ể   M Ở 𓆝 𓆟 𓆞 </div>
   </main>
 
-  <!-- MÀN HÌNH 2: THƯ VIỆN -->
+  <!-- MÀN THƯ VIỆN NHÂN VẬT -->
   <section id="archiveScreen">
     <div class="archive-header-box">
       <h2 class="archive-title">SỔ LƯU TRỮ NHÂN QUẢ</h2>
@@ -345,9 +327,7 @@
     </div>
 
     <div class="archive-controls">
-      <div class="search-wrapper">
-        <input type="text" id="searchInput" class="search-input" placeholder="Tìm trạm sạc năng lượng ฅ(•- •マ">
-      </div>
+      <input type="text" id="searchInput" class="search-input" placeholder="Tìm trạm sạc năng lượng ฅ(•- •マ">
       <div class="filters-row">
         <div class="toggle-pill-group" id="typeFilter">
           <button class="toggle-btn active" data-val="All"> All </button>
@@ -357,13 +337,15 @@
         <div class="toggle-pill-group" id="creatorFilter"></div>
       </div>
       <div class="tags-panel">
-        <div class="tags-header"><span style="color:var(--c-light)"> ✎ᝰ. </span> Order quầy ₍⑅ᐢ..ᐢ₎ </div>
+        <div style="font-weight:600; color:var(--c-light); margin-bottom:10px;"> ✎ᝰ. Order quầy ₍⑅ᐢ..ᐢ₎ </div>
         <div class="tags-list" id="tagsBox"></div>
       </div>
     </div>
 
+    <!-- Nơi render thẻ nhân vật -->
     <div class="character-grid" id="charGrid"></div>
 
+    <!-- CHỮ KẾT THÚC CỦA TRANG WEB -->
     <div class="archive-footer">
       <div class="footer-brand">BÁO ỨNG ĐỜI NHAU</div>
       <div class="footer-msg">Ôm ôm ngoan yêu tới với chúng tớ 𝜗𝜚</div>
@@ -371,196 +353,324 @@
     </div>
   </section>
 
-  <!-- MODAL 1: CREATORS -->
-  <div class="creators-overlay" id="creatorsOverlay" onclick="if(event.target === this) this.classList.remove('active')">
-    <div style="background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 20px; max-width: 900px; width: 95vw; max-height: 85vh; position: relative; display: flex; flex-direction: column;">
-        <button class="close-btn" id="btnCloseCreators">&times;</button>
-        <div style="text-align: center; margin-bottom: 20px; flex-shrink: 0;">
-          <div style="font-family: var(--font-top-tag); color: var(--c-light); letter-spacing: 5px; font-size: 0.7rem;"> ᰔᩚ BÁO ỨNG ĐỜI NHAU ᰔᩚ </div>
-          <h2 style="font-family: var(--font-brand); color: var(--c-lightest); font-size: 1.8rem; letter-spacing: 2px; margin-top: 5px;"> Creators </h2>
+  <!-- =========================================================
+       PHÒNG LÀM VIỆC CỦA CREATOR (DASHBOARD - ẨN THEO MẶC ĐỊNH) 
+       ========================================================= -->
+  <section id="creatorDashboard">
+    <div class="dash-header">
+      <h2 style="font-family: var(--font-brand); letter-spacing:3px;">PHÒNG LÀM VIỆC CREATOR</h2>
+      <button class="btn-theme-toggle" onclick="logoutCreator()" style="border-color:#ff6b8b; color:#ff6b8b;">Đăng xuất</button>
+    </div>
+    <div class="dash-body">
+      <div class="dash-sidebar">
+        <img src="" id="dashAvatar" class="dash-avatar">
+        <h3 id="dashName" style="text-align:center; font-family:var(--font-char-name); font-size:2rem;"></h3>
+        <p style="text-align:center; font-family:var(--font-ui); font-size:0.85rem; opacity:0.7;">Nhà sáng tạo nội dung</p>
+        <hr style="border-color:var(--glass-border); margin: 10px 0;">
+        <div style="font-family:var(--font-ui); font-size:0.9rem;">
+          <p>❤️ Tổng lượt tim: <strong id="dashTotalHearts" style="color:#ff6b8b">0</strong></p>
+          <p>💬 Tổng bình luận: <strong id="dashTotalCmts" style="color:var(--c-light)">0</strong></p>
         </div>
-        <div class="creators-grid" id="creatorsGrid"></div>
+      </div>
+      <div class="dash-main">
+        <h3 style="font-family:var(--font-char-text); font-size:1.5rem; margin-bottom:20px; color:var(--c-light);">🔔 Thông báo mới nhất từ các Nhân vật của bạn</h3>
+        <div id="dashNotiList" style="display:flex; flex-direction:column; gap:10px;">
+           <!-- Sẽ load thông báo vào đây -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL: DANH SÁCH CREATORS -->
+  <div class="custom-overlay" id="creatorsOverlay">
+    <button class="close-btn" id="btnCloseCreators" style="top:20px; right:20px;">&times;</button>
+    <div style="text-align:center; margin-bottom:20px;">
+      <h2 style="font-family:var(--font-brand); font-size:2.2rem;"> ᝰ.ᐟ Creators ᯓᡣ𐭩 </h2>
+    </div>
+    <div class="creators-grid" id="creatorsGrid"></div>
+  </div>
+
+  <!-- MODAL: CHỌN TÀI KHOẢN ĐỂ LOGIN -->
+  <div class="custom-overlay" id="loginSelectOverlay">
+    <button class="close-btn" onclick="document.getElementById('loginSelectOverlay').classList.remove('active')" style="top:20px; right:20px;">&times;</button>
+    <div class="login-box">
+      <h2 style="font-family:var(--font-brand);">Chọn Tài Khoản</h2>
+      <p style="font-family:var(--font-ui); font-size:0.85rem; opacity:0.7; margin-top:5px;">Chỉ dành cho nhà sáng tạo</p>
+      <div class="login-acc-list" id="loginAccList"></div>
     </div>
   </div>
 
-  <!-- MODAL 2: HỒ SƠ CHI TIẾT NHÂN VẬT CHUẨN APP -->
-  <div class="char-modal" id="charModal" onclick="if(event.target === this) closeCharModal()">
-    <div class="char-slab-new" id="modalSlabContent">
-      <!-- Sẽ được fill bằng JS -->
+  <!-- MODAL: NHẬP PASSWORD LOGIN -->
+  <div class="custom-overlay" id="loginPassOverlay">
+    <button class="close-btn" onclick="document.getElementById('loginPassOverlay').classList.remove('active')" style="top:20px; right:20px;">&times;</button>
+    <div class="login-box">
+      <img src="" id="loginAttemptAvatar" style="width:70px; height:70px; border-radius:50%; border:2px solid var(--c-light); margin-bottom:10px;">
+      <h3 style="font-family:var(--font-char-name); font-size:1.8rem;" id="loginAttemptName"></h3>
+      <p style="font-family:var(--font-ui); font-size:0.8rem; color:#ff6b8b; margin-top:10px;">Đăng nhập bằng mã PIN (Mặc định: 1234)</p>
+      <input type="password" id="loginPassInput" class="pass-input" placeholder="••••">
+      <button class="btn-theme-toggle" style="width:100%; justify-content:center; background:var(--c-light); border:none;" onclick="attemptLogin()">Đăng Nhập</button>
     </div>
   </div>
 
+  <!-- MODAL: HỒ SƠ CHI TIẾT NHÂN VẬT -->
+  <div class="custom-overlay" id="charModal" onclick="if(event.target === this) this.classList.remove('active')">
+    <div class="char-slab-new" id="modalSlabContent"></div>
+  </div>
+
+
+  <!-- ==========================================================================
+       ✦ TÍCH HỢP HỆ THỐNG FIREBASE REALTIME CỦA BẠN VÀO ĐÂY ✦
+       ========================================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+    import { getFirestore, doc, setDoc, increment, arrayUnion, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4FWI8zc2ZpclY0bDTiwZg8Krd5wsArHA",
+      authDomain: "baoungdoinhau.firebaseapp.com",
+      projectId: "baoungdoinhau",
+      storageBucket: "baoungdoinhau.firebasestorage.app",
+      messagingSenderId: "950637415083",
+      appId: "1:950637415083:web:f1eb11fe824cd1d33f45ee"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Lưu tạm Data vào biến này để các hàm khác xài nhanh
+    window.dbCache = {}; 
+
+    // Lắng nghe thay đổi dữ liệu từ mạng 24/7
+    onSnapshot(collection(db, "baoung_data"), (snapshot) => {
+       snapshot.forEach(docSnap => {
+          window.dbCache[docSnap.id] = docSnap.data();
+       });
+       
+       // Tự cập nhật Bảng Creator nếu đang mở
+       if(document.getElementById('creatorDashboard').classList.contains('visible')) {
+           window.refreshDashboardUI();
+       }
+       // Tự cập nhật Comment và Tim nếu đang mở xem nhân vật
+       if(window.currentOpenCharId) {
+           window.loadRealtimeComments(window.currentOpenCharId);
+       }
+    });
+
+    // Hàm gọi ném dữ liệu lên Firebase
+    window.dbAddHeart = async function(charId) {
+       await setDoc(doc(db, "baoung_data", charId), { hearts: increment(1) }, { merge: true });
+    };
+
+    window.dbAddComment = async function(charId, commentObj) {
+       await setDoc(doc(db, "baoung_data", charId), { comments: arrayUnion(commentObj) }, { merge: true });
+    };
+  </script>
+
+
+  <!-- ==========================================================================
+       ✦ TOÀN BỘ LOGIC HOẠT ĐỘNG CỦA WEB (CHẠY NGẦM) ✦
+       ========================================================================== -->
   <script>
-    /* ==========================================================================
-       ✦ TẤT CẢ DỮ LIỆU CỦA TRANG WEB ✦
-       ========================================================================== */
+    // Dữ liệu User tạm thời
     window.sessionLikes = new Set(); 
-    window.heartsData = JSON.parse(localStorage.getItem('baoUngHearts')) || {};
+    window.loggedInCreator = localStorage.getItem('baoUngLoggedIn') || null;
 
+    /* NƠI LƯU TRỮ TOÀN BỘ CẤU HÌNH VÀ NHÂN VẬT CỦA BẠN */
     const MY_CONFIG = {
-      backgroundImageUrl: 'https://media.discordapp.net/attachments/1551974401703153826/1570614382659117206/ba1183ab02a36413722df50621909ae1.png?ex=6af7bc21&is=6af66aa1&hm=fff003d68c13a1ed0853931c9daa31284de2d251be593f31aaaab98ecbce10c8&=&format=webp&quality=lossless',
-      centerPictureUrl: 'https://media.discordapp.net/attachments/1551974401703153826/1570616505098444901/IMG_4574.jpg?ex=6af7be1b&is=6af66c9b&hm=a2f9d6f841732419fdc0707e19d6ac0387deda09aafb70187c29c5ddaa8c2b7c&=&format=webp',
-      musicMp3Url: 'https://open.spotify.com/playlist/5jZ5if9qoRWvhSYWm4SOr0?si=e4pxqy-CTc6luLS135FYYw',
-      roseImageUrl: 'https://media.discordapp.net/attachments/1255689844584087583/1570539154306109481/OIP-removebg-preview.png?ex=6af77611&is=6af62491&hm=93a0cd8dfec78e362368d71c1078f78936177d22d99a811a99f819757f8e88a3&=&format=webp&quality=lossless', 
+      backgroundImageUrl: 'https://media.discordapp.net/attachments/1551974401703153826/1570614382659117206/ba1183ab02a36413722df50621909ae1.png',
+      centerPictureUrl: 'https://media.discordapp.net/attachments/1551974401703153826/1570616505098444901/IMG_4574.jpg',
+      musicMp3Url: '', 
 
       creators: [
         {
           id: "Rz",
-          bannerImg: 'https://media.discordapp.net/attachments/1569989641325650012/1570580752263946280/TA-2026-11-12-23-24-53-artist_ma-819578102-0.png?ex=6af79ccf&is=6af64b4f&hm=869766a3b32594afbbd6ff2df0f5d84a8cd27997fc8ecc7154b7092fdb2b1e0d&=&format=webp&quality=lossless&width=341&height=512',
+          bannerImg: 'https://media.discordapp.net/attachments/1569989641325650012/1570580752263946280/TA-2026-11-12-23-24-53-artist_ma-819578102-0.png',
           name: '⮪✣ Lavallee de Dahli ✣⮫', sign: 'RZ ୨ৎ LIBRA',
           quote: '“Người tạo tên, tên chỉ người”',
-          bio: 'Một ngày ngọt ngào, cảm ơn vì đã tới.<br><br>Mong rằng người đến trao cho tôi sự tôn trọng. Lời tạm biệt sẽ được gửi đến nếu tôi thấy bị kéo vào drama. Rz yêu hoà bình.<br><br>Nếu mọi người thích bot nào, đừng ngại thể hiện tình cảm bằng tim nhé.',
-          carrdText: 'Gửi thông tin౨ৎ', carrdUrl: 'https://carrd.co',
-          creText: 'Nguồn ảnh', creUrl: 'https://pinterest.com'
+          bio: 'Một ngày ngọt ngào, cảm ơn vì đã tới.<br><br>Rz yêu hoà bình.<br><br>Nếu mọi người thích bot nào, đừng ngại thể hiện tình cảm bằng tim nhé.'
         },
         {
-          id: "Thương Lan",
-          bannerImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
-          name: 'Thương Lan Quân', sign: '✦ Scorpio • Thiên Yết',
+          id: "Thương Lan Quân",
+          bannerImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=80',
+          name: 'Thương Lan Quân', sign: '✦ Scorpio',
           quote: '“Khối băng ngàn năm cũng có ngày tan vì một lời thề.”',
-          bio: 'Chấp bút những khúc ca bi tráng và những cuộc tương phùng báo ứng, khắc sâu dấu vết của thời gian lên từng tạo tác.',
-          carrdText: 'CARRD', carrdUrl: 'https://carrd.co',
-          creText: 'Nguồn ảnh', creUrl: 'https://pinterest.com'
+          bio: 'Chấp bút những khúc ca bi tráng và những cuộc tương phùng báo ứng.'
         },
         {
-          id: "Hải Đăng",
-          bannerImg: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80',
-          name: 'Hải Đăng Sư', sign: '✦ Cancer • Cự Giải',
-          quote: '“Ngọn đèn trong đêm bão chưa từng vì ai mà tắt lịm.”',
-          bio: 'Người trông coi những trang hồ sơ lưu trữ cổ xưa, gìn giữ ánh sáng cuối cùng nơi hải đăng trước khi triều dâng.',
-          carrdText: 'CARRD', carrdUrl: 'https://carrd.co',
-          creText: 'Nguồn ảnh', creUrl: 'https://pinterest.com'
+          id: "Hải Đăng Sư",
+          bannerImg: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80',
+          name: 'Hải Đăng Sư', sign: '✦ Cancer',
+          quote: '“Ngọn đèn trong đêm bão chưa từng tắt lịm.”',
+          bio: 'Người trông coi những trang hồ sơ lưu trữ cổ xưa.'
         }
       ],
-
-      allTags: [
-        "#All-in-One", "#R18", "#R21", "#Healing", "#Ngược", "#Cổ Trang", "#BL", "#GL", "#BG",
-        "#Đa Thể Loại", "#Fantasy", "#TXVT", "#NP", "#Non-Romance", "#Horror", "#Magic", "#Thú Nhân",
-        "#Warning", "#Manhwa", "#EABO", "#Slowburn", "#Char Lẻ", "#Hài Hước", "#Ngọt",
-        "#Slice Of Life", "#Xuyên Không", "#Dark Romance", "#Size Gap", "#Nhảm Nhí", "#Harem"
-      ],
-
+      
+      allTags: ["#Cổ Trang", "#Ngược", "#Fantasy", "#R18", "#Open World", "#Healing"],
+      
       characters: [
         {
-          name: "Thương Lan",
-          title: "Lời Thề Băng Giá của Độc Túc Ngư Cơ, mong ngài đừng quên.",
-          type: "Character", 
-          creator: "Thương Lan", 
-          tags: ["#Cổ Trang", "#Ngược", "#Fantasy"],
-          warning: "Chứa yếu tố giam cầm và bạo lực lạnh.", 
-          lore: "Từng là người bảo hộ vùng biển phía Bắc trước khi bị bán đứng bởi chính thuyền nhân nàng từng cứu vớt. Hiện kiếp tương phùng chỉ để đòi lại mảnh hồn rách nát.",
-          img: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=500&q=80",
-          cardBg: "https://media.discordapp.net/attachments/1255689844584087583/1570774771803885658/4c5f5d49e9220157f385457f93d36d72.png?ex=6af85181&is=6af70001&hm=631b653c63f6fed1edb37913f84c9a14b1091de6092a7d2df9ce482a1e261b50&format=webp&quality=lossless&width=615&height=1024", 
-          imgSource: "https://pinterest.com", 
-          ggaiLink: "https://ggai.studio",    
+          name: "Thương Lan", title: "Lời Thề Băng Giá.", type: "Character", creator: "Thương Lan Quân", 
+          tags: ["#Cổ Trang", "#Ngược", "#Fantasy"], warning: "Chứa yếu tố giam cầm.", 
+          lore: "Từng là người bảo hộ vùng biển phía Bắc...", img: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=400&q=80",
+          cardBg: "https://media.discordapp.net/attachments/1255689844584087583/1570774771803885658/4c5f5d49e9220157f385457f93d36d72.png", ggaiLink: "#"
         },
         {
-          name: "Vương Quốc Gầm Sóng",
-          title: "Khám Phá Bí Ẩn Trấn Hải.",
-          type: "Open World",
-          creator: "Hải Đăng",
-          tags: ["#Open World", "#Magic", "#Fantasy"],
-          lore: "Một thế giới mở rộng lớn nơi người chơi có thể tự do khám phá và thay đổi số phận của các nhân vật. Nơi bắt đầu và kết thúc của vạn kiếp luân hồi.",
-          img: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=500&q=80",
-          cardBg: "", 
-          imgSource: "https://pinterest.com",
-          ggaiLink: "https://ggai.studio",
+          name: "Vương Quốc Gầm Sóng", title: "Khám Phá Bí Ẩn.", type: "Open World", creator: "Hải Đăng Sư", 
+          tags: ["#Open World", "#Fantasy"], lore: "Một thế giới mở rộng lớn...", img: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=400&q=80",
+          cardBg: "", ggaiLink: "#"
         },
         {
-          name: "Trầm Ngư",
-          title: "Thần Nữ San Hô Dưới Đáy Biển Sâu.",
-          type: "Character",
-          creator: "Rz",
-          tags: ["#Fantasy", "#R18", "#Đa Thể Loại", "#Healing"],
-          warning: "Yếu tố R18 mạnh, cân nhắc trước khi tương tác.",
-          lore: "Giọng hát của Trầm Ngư có thể xoa dịu vết thương tiền kiếp nhưng cũng có thể đánh đắm bất kỳ kẻ tò mò nào. Nàng gom nhặt xương tàn của những kẻ vong mệnh, dệt thành lưới tơ duyên.",
-          img: "https://images.unsplash.com/photo-1493558103817-58b2924bce98?auto=format&fit=crop&w=500&q=80",
-          cardBg: "https://images.unsplash.com/photo-1610486847048-c89b2742911b?auto=format&fit=crop&w=800&q=80", 
-          imgSource: "https://pinterest.com",
-          ggaiLink: "https://ggai.studio",
+          name: "Trầm Ngư", title: "Thần Nữ San Hô.", type: "Character", creator: "Rz", 
+          tags: ["#Fantasy", "#R18", "#Healing"], warning: "Yếu tố R18 mạnh.", lore: "Giọng hát của Trầm Ngư có thể xoa dịu vết thương...", 
+          img: "https://images.unsplash.com/photo-1493558103817-58b2924bce98?auto=format&fit=crop&w=400&q=80", cardBg: "", ggaiLink: "#"
         }
       ]
     };
 
-    /* HỆ THỐNG GIAO DIỆN SÁNG/TỐI */
-    const btnThemeToggle = document.getElementById('btnThemeToggle');
-    const waterBg = document.getElementById('waterBg');
-
-    function applyBackground() {
-        const gradient = getComputedStyle(document.body).getPropertyValue('--bg-gradient').trim();
-        waterBg.style.backgroundImage = `${gradient}, url('${MY_CONFIG.backgroundImageUrl}')`;
-    }
-
-    if (localStorage.getItem('baoUngTheme') === 'light') document.body.classList.add('light-mode');
-    applyBackground();
+    /* KHỞI TẠO NỀN SÁNG/TỐI (THEME) */
+    document.getElementById('waterBg').style.backgroundImage = `radial-gradient(circle at 50% 50%, rgba(7,84,176,0.3) 0%, rgba(1,3,44,0.92) 100%), url('${MY_CONFIG.backgroundImageUrl}')`;
     document.getElementById('centerImg').src = MY_CONFIG.centerPictureUrl;
 
-    btnThemeToggle.addEventListener('click', () => {
+    document.getElementById('btnThemeToggle').addEventListener('click', () => {
         document.body.classList.toggle('light-mode');
         localStorage.setItem('baoUngTheme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
-        applyBackground();
+        const grad = getComputedStyle(document.body).getPropertyValue('--bg-gradient').trim();
+        document.getElementById('waterBg').style.backgroundImage = `${grad}, url('${MY_CONFIG.backgroundImageUrl}')`;
     });
+    if (localStorage.getItem('baoUngTheme') === 'light') document.getElementById('btnThemeToggle').click();
 
-    const cardWrapper = document.getElementById('cardWrapper');
-    window.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth) * 2 - 1, y = (e.clientY / window.innerHeight) * 2 - 1;
-      cardWrapper.style.transform = `perspective(1000px) rotateY(${x * 9}deg) rotateX(${-y * 9}deg)`;
-    });
-
-    /* XỬ LÝ CHUYỂN TRANG */
-    const landingScreen = document.getElementById('landingScreen');
-    const archiveScreen = document.getElementById('archiveScreen');
-    const btnOpenCreators = document.getElementById('btnOpenCreators');
-
+    /* BẤM NÚT XEM BÁO ỨNG (VÀO BÊN TRONG THƯ VIỆN) */
     document.getElementById('btnEnter').addEventListener('click', (e) => {
       e.stopPropagation();
-      makeRipple(e.target.getBoundingClientRect().left + e.target.offsetWidth/2, e.target.getBoundingClientRect().top + e.target.offsetHeight/2);
-      landingScreen.classList.add('hidden');
-      archiveScreen.classList.add('visible');
-      btnOpenCreators.classList.add('visible');
+      const rect = e.target.getBoundingClientRect();
+      makeRipple(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      
+      document.getElementById('landingScreen').classList.add('hidden');
+      document.getElementById('archiveScreen').classList.add('visible');
+      document.getElementById('topLeftMenu').classList.add('visible');
+      
+      // Nếu là Creator đã login từ trước thì ném thẳng vào Dashboard luôn
+      if(window.loggedInCreator) showDashboard();
     });
 
-    /* CREATORS OVERLAY */
-    const creatorsGrid = document.getElementById('creatorsGrid');
+    /* IN RA DANH SÁCH CREATORS VÀ CHỌN TÀI KHOẢN ĐỂ LOGIN */
     const creatorFilterGroup = document.getElementById('creatorFilter');
+    const creatorsGrid = document.getElementById('creatorsGrid');
+    const loginAccList = document.getElementById('loginAccList');
+    
     creatorFilterGroup.innerHTML = `<button class="toggle-btn active" data-val="All"> Full báo ứng </button>`;
-
+    
     MY_CONFIG.creators.forEach(c => {
+      creatorFilterGroup.innerHTML += `<button class="toggle-btn" data-val="${c.id}">${c.id}</button>`;
       creatorsGrid.innerHTML += `
         <div class="creator-card">
           <div class="creator-banner"><img src="${c.bannerImg}"></div>
-          <h3 class="c-name">${c.name}</h3>
-          <div class="c-sign">${c.sign}</div>
-          <div class="c-quote">${c.quote}</div>
-          <p class="c-bio">${c.bio}</p>
-          <div class="creator-actions">
-            <a href="${c.carrdUrl}" target="_blank" class="carrd-btn">${c.carrdText}</a>
-            <a href="${c.creUrl}" target="_blank" class="carrd-btn">${c.creText}</a>
-          </div>
+          <h3 class="c-name">${c.name}</h3><div class="c-sign">${c.sign}</div>
+          <div class="c-quote">${c.quote}</div><p class="c-bio">${c.bio}</p>
         </div>
       `;
-      creatorFilterGroup.innerHTML += `<button class="toggle-btn" data-val="${c.id}">${c.id}</button>`;
+      loginAccList.innerHTML += `
+        <div class="login-acc-btn" onclick="selectLoginAcc('${c.id}', '${c.bannerImg}', '${c.name}')">
+           <img src="${c.bannerImg}"> <span>${c.name}</span>
+        </div>
+      `;
     });
 
-    const overlayC = document.getElementById('creatorsOverlay');
-    btnOpenCreators.addEventListener('click', () => overlayC.classList.add('active'));
-    document.getElementById('btnCloseCreators').addEventListener('click', () => overlayC.classList.remove('active'));
+    document.getElementById('btnOpenCreators').addEventListener('click', () => document.getElementById('creatorsOverlay').classList.add('active'));
+    
+    document.getElementById('btnShowLogin').addEventListener('click', () => {
+      if(window.loggedInCreator) showDashboard(); // Nếu đã login thì mở phòng làm việc
+      else document.getElementById('loginSelectOverlay').classList.add('active'); // Nếu chưa thì mở bảng chọn nick
+    });
 
-    /* BỘ LỌC TÌM KIẾM & TAGS */
+    /* LOGIC LOGIN VÀO PHÒNG LÀM VIỆC CREATOR */
+    let tempLoginId = "";
+    window.selectLoginAcc = function(id, img, name) {
+      tempLoginId = id;
+      document.getElementById('loginAttemptAvatar').src = img;
+      document.getElementById('loginAttemptName').textContent = name;
+      document.getElementById('loginSelectOverlay').classList.remove('active');
+      document.getElementById('loginPassOverlay').classList.add('active');
+    }
+    
+    window.attemptLogin = function() {
+      const pass = document.getElementById('loginPassInput').value;
+      // KIỂM TRA MẬT KHẨU Ở ĐÂY (HIỆN TẠI ĐANG ĐỂ CHUNG LÀ 1234)
+      if(pass === '1234') { 
+        window.loggedInCreator = tempLoginId;
+        localStorage.setItem('baoUngLoggedIn', tempLoginId);
+        document.getElementById('loginPassOverlay').classList.remove('active');
+        document.getElementById('loginPassInput').value = '';
+        showDashboard();
+      } else {
+        alert("Sai mã PIN!");
+      }
+    }
+
+    window.logoutCreator = function() {
+      window.loggedInCreator = null;
+      localStorage.removeItem('baoUngLoggedIn');
+      document.getElementById('creatorDashboard').classList.remove('visible');
+      document.getElementById('archiveScreen').classList.add('visible');
+    }
+
+    // Tự động load và tính toán thông báo cho Creator (Firebase)
+    window.refreshDashboardUI = function() {
+      if(!window.loggedInCreator) return;
+      const cData = MY_CONFIG.creators.find(c => c.id === window.loggedInCreator);
+      document.getElementById('dashAvatar').src = cData.bannerImg;
+      document.getElementById('dashName').textContent = cData.name;
+
+      let myChars = MY_CONFIG.characters.filter(ch => ch.creator === window.loggedInCreator);
+      let tHearts = 0; let tCmts = 0; let notiHtml = '';
+
+      myChars.forEach(ch => {
+        let sId = ch.name.replace(/[^a-zA-Z0-9]/g, '_');
+        
+        // Lấy data Firebase từ bộ nhớ đệm
+        let fireData = window.dbCache[sId] || { hearts: 0, comments: [] };
+        
+        tHearts += fireData.hearts || 0;
+        tCmts += (fireData.comments ? fireData.comments.length : 0);
+        
+        // Cắt 4 comment mới nhất của mỗi nv để cho vào bảng tin
+        let recentCmts = (fireData.comments || []).slice(-4).reverse();
+        recentCmts.forEach(cmt => {
+          let isMention = cmt.text.includes('@');
+          notiHtml += `
+            <div class="noti-item" style="border-color:${isMention ? '#ff6b8b' : 'var(--c-light)'}">
+              ${isMention ? '🔔 <strong>Có người nhắc bạn!</strong><br>' : '💬'} 
+              <strong>${cmt.name}</strong> đã để lại lời nhắn ở hồ sơ <em>${ch.name}</em>: "${cmt.text}"
+            </div>
+          `;
+        });
+      });
+
+      document.getElementById('dashTotalHearts').textContent = tHearts;
+      document.getElementById('dashTotalCmts').textContent = tCmts;
+      document.getElementById('dashNotiList').innerHTML = notiHtml || '<p style="color:gray; font-style:italic;">Chưa có thông báo nào.</p>';
+    }
+
+    function showDashboard() {
+      document.getElementById('archiveScreen').classList.remove('visible');
+      document.getElementById('landingScreen').classList.add('hidden');
+      document.getElementById('creatorDashboard').classList.add('visible');
+      window.refreshDashboardUI();
+    }
+
+    /* BỘ LỌC TÌM KIẾM THEO THỂ LOẠI (TAGS) */
     let currentSearch = "", currentType = "All", currentCreator = "All", selectedTags = new Set();
     const tagsBox = document.getElementById('tagsBox');
-    
     MY_CONFIG.allTags.forEach(tag => {
-      const isRed = (tag === '#R18' || tag === '#R21' || tag === '#Warning');
-      const btn = document.createElement('button');
-      btn.className = `tag-btn ${isRed ? 'tag-red' : ''}`; btn.textContent = tag;
-      btn.onclick = () => {
-        if(selectedTags.has(tag)) selectedTags.delete(tag); else selectedTags.add(tag);
-        btn.classList.toggle('active'); renderCharacters();
-      };
-      tagsBox.appendChild(btn);
+      let isRed = (tag === '#R18' || tag === '#Warning');
+      tagsBox.innerHTML += `<button class="tag-btn ${isRed?'tag-red':''}" onclick="toggleTag('${tag}', this)">${tag}</button>`;
     });
 
+    window.toggleTag = function(tag, btn) {
+      selectedTags.has(tag) ? selectedTags.delete(tag) : selectedTags.add(tag);
+      btn.classList.toggle('active'); renderCharacters();
+    }
+    
     document.getElementById('searchInput').addEventListener('input', (e) => { currentSearch = e.target.value.toLowerCase(); renderCharacters(); });
     
     function setupFilter(groupId, varName) {
@@ -576,212 +686,175 @@
     }
     setupFilter('typeFilter', 'type'); setupFilter('creatorFilter', 'creator');
 
-    window.addHeart = function(charId, event) {
-      event.stopPropagation();
-      if (window.sessionLikes.has(charId)) return;
-      window.sessionLikes.add(charId);
-      if (!window.heartsData[charId]) window.heartsData[charId] = 0;
-      window.heartsData[charId]++;
-      localStorage.setItem('baoUngHearts', JSON.stringify(window.heartsData));
-      
-      const countSpan = document.getElementById(`count-${charId}`);
-      if (countSpan) countSpan.textContent = window.heartsData[charId];
-      const btn = event.currentTarget; btn.classList.add('liked', 'disabled');
-      const icon = btn.querySelector('.heart-icon'); icon.textContent = '❤️';
-      icon.style.transform = 'scale(1.4)'; setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
-    }
-
-    /* GHI NHẬN VÀ HIỂN THỊ COMMENT */
-    window.loadComments = function(charId) {
-        let cmts = JSON.parse(localStorage.getItem('baoUngCmts_' + charId)) || [];
-        const countSpan = document.getElementById('cmtCount-' + charId);
-        if(countSpan) countSpan.textContent = cmts.length;
-        
-        let html = '';
-        cmts.forEach(c => {
-            html += `<div class="cmt-item"><div class="cmt-head"><span class="cmt-name">${c.name}</span><span class="cmt-date">${c.date}</span></div><div class="cmt-text">${c.text}</div></div>`;
-        });
-        const listDiv = document.getElementById('cmtList-' + charId);
-        if(listDiv) {
-            listDiv.innerHTML = html || `<div style="opacity:0.6; font-size:0.9rem; font-style:italic; text-align:center; padding:10px;">Chưa có lời nhắn nào, ngoan yêu hãy là người đầu tiên nhé ᰔᩚ</div>`;
-            listDiv.scrollTop = listDiv.scrollHeight; 
-        }
-    }
-
-    window.addComment = function(charId) {
-        let nameInput = document.getElementById('cmtName-' + charId).value.trim();
-        let textInput = document.getElementById('cmtText-' + charId).value.trim();
-        if(!textInput) { alert("Ngoan yêu quên nhập lời nhắn rồi nè ૮ ˶ᵔ ᵕ ᵔ˶ ა"); return; }
-        
-        let name = nameInput ? nameInput : "Ẩn danh";
-        let date = new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'});
-        
-        let cmts = JSON.parse(localStorage.getItem('baoUngCmts_' + charId)) || [];
-        cmts.push({ name: name, text: textInput, date: date });
-        localStorage.setItem('baoUngCmts_' + charId, JSON.stringify(cmts));
-        
-        document.getElementById('cmtName-' + charId).value = ''; document.getElementById('cmtText-' + charId).value = '';
-        loadComments(charId);
-    }
-
-    /* RENDER LƯỚI NHÂN VẬT */
-    const charGrid = document.getElementById('charGrid');
-    const charModal = document.getElementById('charModal');
-    const modalSlabContent = document.getElementById('modalSlabContent');
-
-    window.closeCharModal = function() { charModal.classList.remove('active'); };
-
     function renderCharacters() {
+      const charGrid = document.getElementById('charGrid');
       charGrid.innerHTML = '';
-      const filtered = MY_CONFIG.characters.filter(char => {
-        const matchSearch = char.name.toLowerCase().includes(currentSearch) || char.title.toLowerCase().includes(currentSearch);
-        const matchType = currentType === "All" || char.type === currentType;
-        const matchCreator = currentCreator === "All" || char.creator === currentCreator;
-        let matchTags = true;
-        if (selectedTags.size > 0) {
-          const charTagsSet = new Set(char.tags || []);
-          for (let tag of selectedTags) if (!charTagsSet.has(tag)) { matchTags = false; break; }
-        }
-        return matchSearch && matchType && matchCreator && matchTags;
+      let filtered = MY_CONFIG.characters.filter(char => {
+        let mSearch = char.name.toLowerCase().includes(currentSearch) || char.title.toLowerCase().includes(currentSearch);
+        let mType = currentType === "All" || char.type === currentType;
+        let mCreator = currentCreator === "All" || char.creator === currentCreator;
+        let mTags = true;
+        if(selectedTags.size>0) { let cs = new Set(char.tags||[]); for(let t of selectedTags) if(!cs.has(t)){mTags=false;break;} }
+        return mSearch && mType && mCreator && mTags;
       });
 
       filtered.forEach((char) => {
-        const card = document.createElement('div');
-        card.className = 'char-card show-anim';
-        
-        if (char.cardBg && char.cardBg.trim() !== "") {
-            card.style.backgroundImage = `linear-gradient(155deg, rgba(1, 3, 44, 0.4) 0%, rgba(1, 3, 44, 0.8) 100%), url('${char.cardBg}')`;
-            card.style.backgroundSize = 'cover'; card.style.backgroundPosition = 'center';
+        const card = document.createElement('div'); card.className = 'char-card show-anim';
+        let bg = char.cardBg || char.img || "";
+        if(bg) {
+          const grad = document.body.classList.contains('light-mode') 
+             ? `linear-gradient(155deg, rgba(255,255,255,0.7) 0%, rgba(225,245,254,0.9) 100%)` 
+             : `linear-gradient(155deg, rgba(7,84,176,0.4) 0%, rgba(1,3,44,0.8) 100%)`;
+          card.style.background = `${grad}, url('${bg}') center/cover`;
         }
-
-        let tagsHtml = (char.tags || []).slice(0,3).map(t => `<span>${t}</span>`).join('');
-
+        
         card.innerHTML = `
-          <div class="char-img-box">
-            ${char.img ? `<img src="${char.img}">` : `<div style="display:flex;height:100%;align-items:center;justify-content:center;color:var(--c-light);font-size:0.8rem;">[ BĂNG PHONG ẤN ]</div>`}
-          </div>
-          <div class="char-info-box">
-            <h3 class="char-name-outer">${char.name}</h3>
-            <div class="char-title-outer">“${char.title}”</div>
-            <div class="char-tags-mini">${tagsHtml}</div>
-          </div>
+          <div class="char-img-box">${char.img ? `<img src="${char.img}">` : `<div style="text-align:center; padding-top:100px; color:var(--c-light)">[ TRỐNG ]</div>`}</div>
+          <h3 class="char-name-outer">${char.name}</h3><div class="char-title-outer">“${char.title}”</div>
+          <div class="char-tags-mini">${(char.tags||[]).slice(0,3).map(t=>`<span>${t}</span>`).join('')}</div>
         `;
-        card.onclick = () => openChar(char);
+        card.onclick = () => window.openChar(char);
         charGrid.appendChild(card);
       });
-      
-      if(filtered.length === 0) charGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--c-light); font-family: var(--font-ui); font-size: 1.1rem">Không tìm thấy trạm sạc nào phù hợp ฅ(•- •マ...</div>`;
     }
     renderCharacters();
 
-    /* HÀM MỞ MODAL NHÂN VẬT CHUẨN APP (GỌN GÀNG, KHÔNG ĐÈ NHAU) */
-    function openChar(c) {
+    /* MỞ BẢNG HỒ SƠ CHI TIẾT NHÂN VẬT & COMMENT FIREBASE */
+    window.currentOpenCharId = null; // Ghi nhớ nhân vật đang mở để Live Cập nhật
+
+    window.openChar = function(c) {
       const safeId = c.name.replace(/[^a-zA-Z0-9]/g, '_');
-      const currentHearts = window.heartsData[safeId] || 0;
-      const isSessionLiked = window.sessionLikes.has(safeId);
-
-      let bgUrl = c.cardBg && c.cardBg.trim() !== "" ? c.cardBg : (c.img ? c.img : "");
-      if (bgUrl) {
-          modalSlabContent.style.backgroundImage = `url('${bgUrl}')`;
-          modalSlabContent.style.backgroundSize = 'cover';
-          modalSlabContent.style.backgroundPosition = 'center';
-      } else {
-          modalSlabContent.style.background = `var(--ice-bg)`;
-      }
-
-      let warningHtml = "";
-      if (c.warning && c.warning.trim() !== "") {
-        warningHtml = `
-          <div>
-            <div class="c-section-title" style="color: #ff6b8b;">゛WARNING ˎˊ˗ 🚨</div>
-            <div class="c-warning-content">↳ «${c.warning}»</div>
-          </div>
-        `;
-      }
+      window.currentOpenCharId = safeId; 
+      
+      const isLight = document.body.classList.contains('light-mode');
+      let bg = c.cardBg || c.img || "";
+      let grad = isLight ? 'rgba(255,255,255,0.85), rgba(225,245,254,0.95)' : 'rgba(7,84,176,0.8), rgba(1,3,44,0.95)';
+      
+      const modalCont = document.getElementById('modalSlabContent');
+      if(bg) modalCont.style.background = `linear-gradient(155deg, ${grad}), url('${bg}') center/cover`;
+      else modalCont.style.background = 'var(--ice-bg)';
 
       let tagsHtml = (c.tags || []).map(t => {
-        let isRed = (t==='#R18' || t==='#R21' || t==='#Warning');
-        return `<span class="c-tag-item" style="border-color:${isRed?'rgba(255,107,139,0.5)':'rgba(219,235,248,0.2)'}; color:${isRed?'#ff6b8b':'inherit'};">${t}</span>`;
+        let isRed = (t==='#R18' || t==='#Warning');
+        let bdCol = isLight ? (isRed?'rgba(255,107,139,0.5)':'rgba(1,42,74,0.15)') : (isRed?'rgba(255,107,139,0.4)':'rgba(219,235,248,0.2)');
+        return `<span class="c-tag-item" style="border-color:${bdCol}; color:${isRed?'#ff6b8b':'var(--c-lightest)'};">${t}</span>`;
       }).join('');
-      
-      let sourceBtnHtml = c.imgSource ? `<a href="${c.imgSource}" target="_blank">Nguồn ảnh</a>` : '';
 
-      modalSlabContent.innerHTML = `
-        <div class="char-slab-inner-bg"></div>
-        <button class="close-btn" onclick="closeCharModal()">&times;</button>
-        
-        <div class="c-content-wrapper">
-            <!-- HEADER APP -->
-            <div class="c-top-profile">
-                <div class="c-avatar-box">
-                    ${c.img ? `<img src="${c.img}">` : `<div style="display:flex;height:100%;align-items:center;justify-content:center;">Trống</div>`}
-                </div>
-                <div class="c-profile-info">
-                    <div class="c-creator-name">𐚁. ${c.creator}</div>
-                    <h2 class="c-main-name">${c.name}</h2>
-                    <div class="c-action-row">
-                        <button class="heart-btn ${isSessionLiked ? 'liked disabled' : ''}" onclick="addHeart('${safeId}', event)">
-                            <span class="heart-icon">${isSessionLiked ? '❤️' : '🤍'}</span> 
-                            <span id="count-${safeId}">${currentHearts}</span>
-                        </button>
-                        ${sourceBtnHtml}
-                    </div>
-                </div>
-            </div>
+      // Nút thả tim
+      let btnHeartHtml = window.sessionLikes.has(safeId) 
+        ? `<button class="heart-btn liked disabled">❤️ <span id="count-${safeId}">...</span></button>` 
+        : `<button class="heart-btn" onclick="addLocalHeart('${safeId}', event)">🤍 <span id="count-${safeId}">...</span></button>`;
 
-            <!-- NỘI DUNG CUỘN DỌC GỌN GÀNG -->
-            <div class="c-scroll-content">
-                <div class="c-slogan">“${c.title}”</div>
+      modalCont.innerHTML = `
+        <button class="close-btn" onclick="window.currentOpenCharId = null; document.getElementById('charModal').classList.remove('active')" style="top:15px; right:15px; z-index:10;">&times;</button>
+        <div class="c-col-left">
+          <h2 class="c-main-name" style="margin-bottom:10px;">${c.name}</h2>
+          <div class="c-creator-name">𐚁. ${c.creator}</div>
+          <div class="c-img-wrap">${c.img ? `<img src="${c.img}">` : ``}</div>
+          <div class="c-slogan">“${c.title}”</div>
+        </div>
+        <div class="c-vert-line"></div>
+        <div class="c-col-right">
+          <div class="c-right-header"> ${btnHeartHtml} </div>
+          ${c.warning ? `<div class="c-warning-content">🚨 ${c.warning}</div>` : ''}
+          <div><div class="c-section-title">⋮ ⌗ ┆ Hashtags</div><div class="c-tags-wrap">${tagsHtml}</div></div>
+          <div><div class="c-section-title">≽ Sơ lược</div><div style="white-space:pre-wrap;">${c.lore}</div></div>
+          <div>
+            <div class="c-section-title">⋏ Địa chỉ</div>
+            ${c.ggaiLink ? `<div class="c-list-item">↳ <a href="${c.ggaiLink}" target="_blank">Book hàng ➻❥</a></div>` : ''}
+          </div>
+          <div>
+             <div class="c-section-title">◫ Góc giao lưu</div>
+             <div class="cmt-container">
+                <div style="font-size:1.05rem;font-weight:600;">Sổ lưu trữ nhân duyên (<span id="cmtCount-${safeId}">0</span>) ❀</div>
+                <div class="cmt-list" id="cmtList-${safeId}">Đang kết nối vệ tinh...</div>
                 
-                ${warningHtml}
-
-                <div>
-                    <div class="c-section-title">⋮ ⌗ ┆ (Hashtags)</div>
-                    <div class="c-tags-wrap">${tagsHtml}</div>
+                <div style="font-size:1.05rem;font-weight:600;margin-top:10px;">Kí sổ nhân duyên ❀</div>
+                <div class="cmt-form">
+                   <input type="text" id="cmtName-${safeId}" class="cmt-input" placeholder="Điền tên của ngoan yêu 𓆩❤︎𓆪">
+                   <textarea id="cmtText-${safeId}" class="cmt-textarea" rows="2" placeholder="Lời nhắn của ngoan yêu 𓆩❤︎𓆪"></textarea>
+                   <button class="btn-submit-cmt" onclick="addLocalComment('${safeId}')"> Gửi gắm ᯓᡣ𐭩 </button>
                 </div>
-
-                <div>
-                    <div class="c-section-title">≽ ⌢ Sơ lược về nhân vật ⸝⸝</div>
-                    <div class="c-text-body">${c.lore}</div>
-                </div>
-
-                <div>
-                    <div class="c-section-title">⋏ ˊ- Địa chỉ ⸝⸝</div>
-                    <div class="c-list-item">↳ <a href="#">Đọc kĩ hướng dẫn trước khi sử dụng</a></div>
-                    ${c.ggaiLink ? `<div class="c-list-item">↳ <a href="${c.ggaiLink}" target="_blank">Book hàng ➻❥</a></div>` : ''}
-                </div>
-                
-                <div>
-                    <div class="c-section-title">◫ Góc giao lưu ⸝⸝</div>
-                    <div style="font-family: var(--font-ui); font-size: 0.8rem; opacity: 0.7; margin: 5px 0 10px; font-style: italic;">"Nếu ngoan xinh yêu tìm được link gốc của ảnh chính xác hơn link chúng tớ tìm, vui lòng comment để chúng tớ bổ sung. Iu thương ♡ ︎"</div>
-                    
-                    <div class="cmt-container">
-                        <div class="c-section-title" style="font-size: 0.9rem;">Sổ lưu trữ nhân duyên (<span id="cmtCount-${safeId}">0</span>)</div>
-                        <div class="cmt-list" id="cmtList-${safeId}"></div>
-                        <div class="c-section-title" style="font-size: 0.9rem; margin-top:10px;">Kí sổ nhân duyên</div>
-                        <input type="text" id="cmtName-${safeId}" class="cmt-input" placeholder="Điền tên (không bắt buộc)">
-                        <textarea id="cmtText-${safeId}" class="cmt-textarea" rows="2" placeholder="Lời nhắn của ngoan yêu 𓆩❤︎𓆪"></textarea>
-                        <div>
-                            <button class="btn-submit-cmt" onclick="addComment('${safeId}')"> Gửi ᯓᡣ𐭩 </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+             </div>
+          </div>
         </div>
       `;
-
-      charModal.classList.add('active');
-      loadComments(safeId);
+      document.getElementById('charModal').classList.add('active');
+      window.loadRealtimeComments(safeId); // Gọi lấy data từ biến tạm Firebase
     }
 
-    /* ĐĨA NHẠC & SÓNG BIỂN */
+    // NẠP VÀ RENDER COMMENT (Được Firebase OnSnapshot gọi tự động)
+    window.loadRealtimeComments = function(charId) {
+        let fireData = window.dbCache[charId] || { hearts: 0, comments: [] };
+        
+        let countSpan = document.getElementById('count-' + charId);
+        if(countSpan) countSpan.textContent = fireData.hearts || 0;
+
+        let cmtCount = document.getElementById('cmtCount-' + charId);
+        if(cmtCount) cmtCount.textContent = fireData.comments ? fireData.comments.length : 0;
+        
+        let html = '';
+        if(fireData.comments) {
+          fireData.comments.forEach(c => {
+              let isCre = c.isCreator ? 'is-creator' : '';
+              let avatarHtml = c.avatar ? `<img src="${c.avatar}" class="cmt-avatar">` : `<div class="cmt-avatar" style="background:var(--c-light); display:flex; align-items:center; justify-content:center; font-size:12px;">?</div>`;
+              html += `
+                <div class="cmt-item">
+                  ${avatarHtml}
+                  <div class="cmt-body">
+                    <div class="cmt-head"><span class="cmt-name ${isCre}">${c.name} ${c.isCreator ? '✓' : ''}</span><span class="cmt-date">${c.date}</span></div>
+                    <div class="cmt-text">${c.text}</div>
+                  </div>
+                </div>
+              `;
+          });
+        }
+        
+        const listDiv = document.getElementById('cmtList-' + charId);
+        if(listDiv) {
+          listDiv.innerHTML = html || `<div style="text-align:center; padding:10px; opacity:0.6;">Chưa có lời nhắn nào, ngoan yêu hãy là người đầu tiên nhé ᰔᩚ</div>`;
+          listDiv.scrollTop = listDiv.scrollHeight; 
+        }
+    }
+
+    /* ĐẨY TIM LÊN FIREBASE */
+    window.addLocalHeart = function(charId, e) {
+      if (window.sessionLikes.has(charId)) return;
+      window.sessionLikes.add(charId);
+      e.currentTarget.classList.add('liked', 'disabled');
+      if(window.dbAddHeart) window.dbAddHeart(charId); // Đẩy lên Cloud
+    }
+
+    /* ĐẨY BÌNH LUẬN LÊN FIREBASE */
+    window.addLocalComment = function(charId) {
+        let textInput = document.getElementById('cmtText-' + charId).value.trim();
+        if(!textInput) { alert("Ngoan yêu quên nhập lời nhắn kìa ૮ ˶ᵔ ᵕ ᵔ˶ ა"); return;}
+        
+        let name = document.getElementById('cmtName-' + charId).value.trim() || "Ẩn danh";
+        let avatar = ""; let isCreator = false;
+        
+        // Nếu Creator đang xài acc của họ thì ép lấy ảnh avt và tick xanh luôn
+        if(window.loggedInCreator) {
+           let cData = MY_CONFIG.creators.find(c => c.id === window.loggedInCreator);
+           if(cData) { name = cData.name; avatar = cData.bannerImg; isCreator = true; }
+        }
+
+        let newCmt = { name, text: textInput, date: new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'}), avatar, isCreator };
+        
+        document.getElementById('cmtName-' + charId).value = ''; 
+        document.getElementById('cmtText-' + charId).value = '';
+
+        if(window.dbAddComment) window.dbAddComment(charId, newCmt); // Đẩy lên Cloud
+    }
+
+    /* TRÌNH PHÁT NHẠC Ở GÓC VÀ HIỆU ỨNG NƯỚC CANVAS */
     const vinylDisc = document.getElementById('vinylDisc'), vinylText = document.getElementById('vinylText');
     let aCtx = null, oGain = null, isP = false, cAud = null;
     if (MY_CONFIG.musicMp3Url.trim() !== '') { cAud = new Audio(MY_CONFIG.musicMp3Url); cAud.loop = true; }
 
     document.getElementById('vinylPlayer').addEventListener('click', () => {
       isP = !isP; vinylDisc.classList.toggle('spinning', isP);
-      vinylText.textContent = isP ? "Đang Phát" : "Radio"; 
+      vinylText.textContent = isP ? "Đang Phát" : "Tạm Dừng"; vinylText.style.color = isP ? "var(--c-light)" : "var(--c-lightest)";
       if (isP) { if (cAud) cAud.play().catch(() => playOcean()); else playOcean(); } 
       else { if (cAud) cAud.pause(); else if (oGain) oGain.gain.linearRampToValueAtTime(0, aCtx.currentTime + 1); }
     });
@@ -800,7 +873,6 @@
       oGain.gain.linearRampToValueAtTime(0.4, aCtx.currentTime + 1.5);
     }
 
-    /* HIỆU ỨNG SÓNG & HOA RƠI */
     const canvas = document.getElementById('fxCanvas'), ctx = canvas.getContext('2d');
     let w = canvas.width = window.innerWidth, h = canvas.height = window.innerHeight;
     window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
@@ -808,9 +880,6 @@
     const ripples = [];
     function makeRipple(x, y) { ripples.push({ x, y, r: 4, maxR: Math.min(w, h) * 0.35 + 40, alpha: 0.9, speed: 2.8 }); setTimeout(() => ripples.push({ x, y, r: 2, maxR: Math.min(w, h) * 0.25, alpha: 0.6, speed: 2.2 }), 150); }
     window.addEventListener('pointerdown', (e) => makeRipple(e.clientX, e.clientY));
-
-    let cImg = null;
-    if(MY_CONFIG.roseImageUrl) { cImg = new Image(); cImg.crossOrigin = 'anonymous'; cImg.src = MY_CONFIG.roseImageUrl; }
 
     const rCanv = document.createElement('canvas'); rCanv.width = rCanv.height = 260; const rc = rCanv.getContext('2d');
     (function drawSoftBloom() {
@@ -841,7 +910,7 @@
         if(f.y > h+50) { if(Math.random()>.5) makeRipple(f.x, h-25); f.y = -65; f.x = Math.random()*w; }
         ctx.save(); ctx.translate(f.x, f.y); const tx = Math.cos(f.f)*0.25+0.85, ty = Math.sin(f.f*.75)*0.2+0.88;
         ctx.rotate(f.a); ctx.scale(tx, ty); ctx.globalAlpha = f.op;
-        if(cImg && cImg.complete) ctx.drawImage(cImg, -f.s, -f.s, f.s*2, f.s*2); else ctx.drawImage(rCanv, -f.s, -f.s, f.s*2, f.s*2);
+        ctx.drawImage(rCanv, -f.s, -f.s, f.s*2, f.s*2);
         ctx.restore();
       });
       requestAnimationFrame(anim);
