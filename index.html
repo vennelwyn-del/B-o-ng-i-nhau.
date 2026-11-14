@@ -57,12 +57,12 @@
     .light-mode .vignette-overlay { background: radial-gradient(circle at center, transparent 38%, rgba(255, 255, 255, 0.7) 100%); }
 
     /* ==========================================================================
-       ✦ MENU BAR ✦
+       ✦ MENU BAR (Tối ưu nút Login giống ảnh mẫu) ✦
        ========================================================================== */
     .top-bar { position: fixed; top: 0; left: 0; width: 100%; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; z-index: 50; pointer-events: none; }
     .top-bar > * { pointer-events: auto; }
 
-    .top-left-controls { display: flex; gap: 10px; opacity: 0; transform: translateX(-30px); transition: 0.5s; pointer-events: none; }
+    .top-left-controls { display: flex; gap: 10px; opacity: 0; transform: translateX(-30px); transition: 0.5s; pointer-events: none; align-items: center;}
     .top-left-controls.visible { opacity: 1; transform: translateX(0); pointer-events: auto; }
     
     .btn-sys {
@@ -73,7 +73,17 @@
     }
     .light-mode .btn-sys { background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(129, 212, 250, 0.6) 100%); color: var(--c-lightest); }
     .btn-sys:hover { border-color: var(--c-lightest); transform: translateY(-2px); }
-    #authMiniAvatar { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--c-lightest); object-fit: cover; display: none; }
+
+    /* Thiết kế nút Login riêng biệt */
+    .btn-login-sys {
+        display: inline-flex; align-items: center; gap: 8px; padding: 5px 15px 5px 5px;
+        background: rgba(1, 13, 85, 0.8); border: 1px solid rgba(219, 235, 248, 0.3);
+        border-radius: 30px; color: var(--c-lightest); font-family: var(--font-ui); font-size: 0.9rem;
+        cursor: pointer; backdrop-filter: blur(10px); transition: 0.3s;
+    }
+    .btn-login-sys:hover { background: rgba(79, 165, 216, 0.4); }
+    #authMiniAvatar { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; display: none; }
+    .login-icon-default { font-size: 1.2rem; padding: 0 4px;}
 
     .top-right-controls { display: flex; gap: 12px; margin-left: auto; }
     .btn-theme-toggle { padding: 6px 14px; background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border); color: var(--c-lightest); cursor: pointer; backdrop-filter: blur(12px); }
@@ -86,9 +96,10 @@
 
     @media (max-width: 768px) {
       .top-bar { padding: 12px 15px; }
-      .btn-sys span:last-child { display: none; } 
+      .btn-sys span:last-child, #authBtnText { display: none; } 
       .btn-sys .sparkle-mini { margin: 0; font-size: 1.2rem; display: block; }
       .btn-sys { padding: 8px; border-radius: 50%; }
+      .btn-login-sys { padding: 6px; border-radius: 50%; }
       .btn-theme-toggle span { font-size: 0; }
       .btn-theme-toggle::before { content: 'ʕ˖͜͡˖ʔ'; font-size: 1.1rem; }
       .btn-theme-toggle { padding: 8px 12px; }
@@ -110,6 +121,20 @@
     .quote-text { font-family: var(--font-quote); font-style: italic; font-size: clamp(1.4rem, 4vw, 2.2rem); margin-top: 24px; text-shadow: 0 0 15px rgba(79, 165, 216, 0.8); text-align: center; }
     .brand-title { font-family: var(--font-brand); font-size: 0.7rem; letter-spacing: 6px; margin: 10px 0 25px; text-align: center; }
 
+    /* Nút Xem báo ứng làm lại đẹp như ảnh 4 */
+    .btn-action-enter { 
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px; 
+        padding: 10px 25px; border-radius: 4px; /* Hình chữ nhật góc nhọn */
+        background: rgba(240, 248, 255, 0.95); border: 1px solid #4fa5d8; 
+        color: #01032c; font-family: var(--font-ui); font-size: 0.95rem; font-weight: 500;
+        cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .btn-action-enter:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(79, 165, 216, 0.4); }
+    .btn-action-enter span:first-child { color: #4fa5d8; font-size: 1.2rem; }
+
+    .tap-hint { font-family: var(--font-hint); font-size: 0.6rem; letter-spacing: 4px; margin-top: 15px; animation: pulseHint 2.5s infinite; opacity: 0.8; }
+    @keyframes pulseHint { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
+
     #archiveScreen { position: absolute; inset: 0; z-index: 15; padding: 80px 20px 40px; overflow-y: auto; overflow-x: hidden; pointer-events: none; opacity: 0; transform: translateY(20px); transition: 1s ease 0.2s; }
     #archiveScreen.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
     
@@ -125,6 +150,7 @@
     .toggle-pill-group { display: inline-flex; background: rgba(1, 3, 44, 0.4); border: 1px solid var(--glass-border); border-radius: 30px; padding: 4px; }
     .toggle-btn { padding: 6px 18px; border-radius: 20px; border: none; background: transparent; color: inherit; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; cursor: pointer; opacity: 0.7; transition: 0.3s; }
     .toggle-btn.active { background: var(--c-light); color: #fff; opacity: 1; font-weight: 600; }
+    
     .tags-panel { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; }
     .tags-header { font-family: var(--font-ui); font-size: 0.9rem; font-weight: 600; color: var(--c-light); margin-bottom: 10px; text-transform: uppercase; }
     .tags-list { display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
@@ -183,19 +209,25 @@
     .close-btn:hover { background: #ff4772; transform: scale(1.1); }
 
     /* ==========================================================================
-       ✦ MODAL CREATORS ✦
+       ✦ MODAL CREATORS (Độc lập, Tùy chỉnh Nút như Ảnh 3) ✦
        ========================================================================== */
     .creators-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; max-height: 80vh; overflow-y: auto; padding: 10px; }
-    .creator-card { background: rgba(1, 3, 44, 0.6); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+    .creator-card { background: rgba(1, 3, 44, 0.6); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.3); display: flex; flex-direction: column;}
     .creator-banner { width: 100%; height: 160px; border-radius: 8px; margin-bottom: 15px; overflow: hidden; border: 1px solid var(--glass-border); }
     .creator-banner img { width: 100%; height: 100%; object-fit: cover; }
     .c-name { font-family: var(--font-top-tag); font-size: 1.5rem; font-weight: 600; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
-    .c-sign { font-family: var(--font-ui); font-size: 0.7rem; color: var(--c-light); margin-bottom: 15px; letter-spacing: 2px;}
+    .c-sign { font-family: var(--font-ui); font-size: 0.75rem; color: var(--c-light); margin-bottom: 15px; letter-spacing: 1px;}
     .c-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.15rem; margin-bottom: 15px; opacity: 0.9;}
-    .c-bio { font-family: var(--font-char-text); font-size: 1rem; margin-bottom: 20px; opacity: 0.8; line-height: 1.4;}
-    .creator-actions { display: flex; gap: 10px; justify-content: center; }
-    .carrd-btn { padding: 8px 18px; border-radius: 20px; border: 1px solid rgba(219, 235, 248, 0.3); font-family: var(--font-ui); font-size: 0.75rem; color: inherit; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: 0.3s;}
-    .carrd-btn:hover { background: rgba(79, 165, 216, 0.2); border-color: var(--c-light); }
+    .c-bio { font-family: var(--font-char-text); font-size: 1rem; margin-bottom: 20px; opacity: 0.8; line-height: 1.4; flex-grow: 1;}
+    
+    /* Thiết kế nút mờ ảo bo góc giống ảnh 3 */
+    .creator-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;}
+    .carrd-btn { 
+        padding: 8px 18px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.3); 
+        background: transparent; font-family: var(--font-ui); font-size: 0.75rem; 
+        color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: 0.3s;
+    }
+    .carrd-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: #fff; }
 
     /* ==========================================================================
        ✦ HỒ SƠ NHÂN VẬT (CHUẨN RESPONSIVE MOBILE TỪ TRÊN XUỐNG DƯỚI) ✦
@@ -205,8 +237,6 @@
         width: 95vw; max-width: 1000px; height: 85vh; max-height: 750px;
         box-shadow: 0 15px 40px rgba(0,0,0,0.5); backdrop-filter: blur(25px);
         display: flex; flex-direction: column; position: relative; 
-        
-        /* Trên điện thoại, cho phép cuộn TẤT CẢ từ trên xuống dưới */
         overflow-y: auto; overflow-x: hidden;
     }
     .char-modal-bg { position: absolute; inset: 0; z-index: 0; background: linear-gradient(135deg, rgba(1,13,85,0.8) 0%, rgba(1,3,44,0.95) 100%); pointer-events: none;}
@@ -214,7 +244,6 @@
     .char-left-col { position: relative; z-index: 1; padding: 25px 20px; text-align: center; border-bottom: 1px solid var(--glass-border); flex-shrink: 0; }
     .char-right-col { position: relative; z-index: 1; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
 
-    /* Màn hình máy tính: Chia 2 cột, khóa cuộn tổng, từng cột cuộn riêng */
     @media (min-width: 900px) { 
         .char-modal-box { flex-direction: row; overflow: hidden; } 
         .char-left-col { width: 42%; border-bottom: none; border-right: 1px solid var(--glass-border); overflow-y: auto; padding: 30px;}
@@ -232,21 +261,8 @@
     }
     /* ẢNH TỈ LỆ 3:4 */
     .c-layout-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
-    
-    .c-layout-btns { 
-        position: absolute; bottom: 12px; left: 0; width: 100%; 
-        display: flex; gap: 8px; justify-content: center; z-index: 2; pointer-events: none; 
-    }
-    .c-btn-link { 
-        pointer-events: auto; padding: 6px 14px; background: rgba(0, 0, 0, 0.35); 
-        border: 1px solid rgba(255,255,255,0.15); border-radius: 30px; 
-        color: rgba(255,255,255,0.7); font-family: var(--font-ui); font-size: 0.75rem; 
-        text-decoration: none; backdrop-filter: blur(8px); transition: 0.3s;
-    }
-    .c-btn-link:hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
     .c-layout-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.15rem; color: var(--c-lightest); margin-top: 10px; line-height: 1.4;}
 
-    /* NÚT RƯỚC VỀ */
     .heart-btn-top {
         background: rgba(1, 3, 44, 0.5); border: 1px solid var(--glass-border); color: var(--c-lightest); 
         padding: 6px 15px; border-radius: 20px; font-family: var(--font-ui); font-size: 0.8rem; 
@@ -255,9 +271,7 @@
     .heart-btn-top:hover { background: rgba(255, 107, 139, 0.2); border-color: #ff6b8b; }
     .heart-btn-top.liked { color: #ff6b8b; border-color: #ff6b8b; }
     
-    @media (min-width: 900px) {
-        .heart-btn-top { position: absolute; top: 20px; right: 70px; z-index: 10; }
-    }
+    @media (min-width: 900px) { .heart-btn-top { position: absolute; top: 20px; right: 70px; z-index: 10; } }
 
     .c-section-title { font-family: var(--font-char-text); font-size: 1.15rem; color: var(--c-light); font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;}
     .c-warning-content { border-left: 2px solid #ff6b8b; padding-left: 15px; color: #ff6b8b; font-size: 1rem; font-style: italic; background: linear-gradient(90deg, rgba(255,107,139,0.1) 0%, transparent 100%); padding: 10px 15px;}
@@ -321,18 +335,22 @@
 </head>
 <body>
 
+  <!-- HIỆU ỨNG NỀN -->
   <div class="water-bg-layer" id="waterBg"></div>
   <canvas id="fxCanvas"></canvas>
   <div class="vignette-overlay"></div>
 
+  <!-- MENU BAR -->
   <header class="top-bar">
     <div class="top-left-controls" id="topLeftGroup">
         <button class="btn-sys" id="btnOpenCreators">
           <span class="sparkle-mini" style="color:var(--c-light)"> 𓆩ꨄ︎𓆪 </span><span> Creators of Báo ứng </span>
         </button>
-        <button class="btn-sys" id="btnLogin">
+        <!-- NÚT LOGIN LÀM LẠI CHO ĐẸP -->
+        <button class="btn-login-sys" id="btnLogin">
           <img src="" id="authMiniAvatar">
-          <span id="authBtnText"> ꨄ︎ Login </span>
+          <span class="login-icon-default" id="loginIcon">ꨄ︎</span>
+          <span id="authBtnText"> Login </span>
         </button>
     </div>
 
@@ -347,18 +365,23 @@
     </div>
   </header>
 
+  <!-- MÀN HÌNH KHỞI ĐẦU -->
   <main id="landingScreen">
     <div class="floating-card-wrapper" id="cardWrapper">
       <div class="floating-picture-frame"><img src="" id="centerImg" alt=""></div>
     </div>
     <h1 class="quote-text">“What is grief, if not love persevering?”</h1>
     <div class="brand-title"> B Á O   Ứ N G   Đ Ờ I   N H A U </div>
+    
+    <!-- NÚT XEM BÁO ỨNG MỚI ĐẸP NHƯ HÌNH 4 -->
     <button class="btn-action-enter" id="btnEnter">
-      <span style="color: var(--c-light)"> 𓆩ꨄ︎𓆪 </span><span> Xem báo ứng </span>
+      <span>༄</span><span> Xem báo ứng </span>
     </button>
+    
     <div class="tap-hint"> 𓆝 𓆟 𓆞 C H Ạ M   Đ Ể   M Ở 𓆝 𓆟 𓆞 </div>
   </main>
 
+  <!-- MÀN HÌNH LƯU TRỮ -->
   <section id="archiveScreen">
     <div class="archive-header-box">
       <h2 class="archive-title">SỔ LƯU TRỮ NHÂN QUẢ</h2>
@@ -393,7 +416,7 @@
     </div>
   </section>
 
-  <!-- MODAL: CREATORS -->
+  <!-- MODAL: CREATORS SHOWCASE (TÁCH BIỆT HOÀN TOÀN VỚI LOGIN) -->
   <div class="ui-modal-base" id="creatorsOverlay" onclick="if(event.target === this) this.classList.remove('active')">
     <div style="background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 25px; max-width: 1000px; width: 95vw; max-height: 90vh; position: relative; display: flex; flex-direction: column;">
         <button class="close-btn" onclick="document.getElementById('creatorsOverlay').classList.remove('active')">&times;</button>
@@ -414,7 +437,7 @@
     <div class="ui-modal-box" style="text-align: center;">
         <button class="close-btn" onclick="document.getElementById('sysLoginSelect').classList.remove('active')">&times;</button>
         <h2 style="font-family: var(--font-brand); margin-bottom: 5px; font-size: 1.5rem;">𓆝 𓆟 Chọn hồ sơ 𓆝 𓆟</h2>
-        <p style="font-family: var(--font-ui); font-size: 0.85rem; color: var(--c-light); font-style: italic;">Chỉ dành cho Creators của Báo ứng.</p>
+        <p style="font-family: var(--font-ui); font-size: 0.85rem; color: var(--c-light); font-style: italic;">Hệ thống Auth quản lý.</p>
         <div class="auth-grid" id="authGridList"></div>
     </div>
   </div>
@@ -439,7 +462,7 @@
             <img id="dashAvt" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--c-light); object-fit: cover;">
             <div>
                 <h2 id="dashName" style="font-family: var(--font-brand); margin-bottom: 4px;"></h2>
-                <div style="font-family: var(--font-ui); font-size: 0.8rem; color: var(--c-light);">Creator Dashboard</div>
+                <div style="font-family: var(--font-ui); font-size: 0.8rem; color: var(--c-light);">Account Dashboard</div>
             </div>
         </div>
         <div class="dash-tabs">
@@ -450,13 +473,11 @@
         <div class="dash-content" id="tabNotifs"><div id="notifListContainer"></div></div>
         <div class="dash-content" id="tabSettings" style="display: none;">
             <div style="font-family: var(--font-ui); font-size: 0.9rem;">
-                <label>Ảnh Tác Giả (Dùng cho cả Avatar & Hình Bìa Block)</label>
+                <label>Ảnh Đại Diện (Dùng khi Comment)</label>
                 <input type="text" id="setImage" class="sys-input">
-                <label>Tiểu sử (Bio)</label>
-                <textarea id="setBio" class="sys-input" rows="4"></textarea>
                 <label>Đổi Mật Khẩu (Để trống nếu không đổi)</label>
                 <input type="password" id="setPass" class="sys-input" placeholder="Nhập mật khẩu mới">
-                <button class="sys-btn" style="margin-top: 15px;" onclick="sysSaveProfile()"> Cập nhật Hồ Sơ </button>
+                <button class="sys-btn" style="margin-top: 15px;" onclick="sysSaveProfile()"> Cập nhật Thông Tin </button>
             </div>
         </div>
     </div>
@@ -464,23 +485,51 @@
 
   <script>
     /* ==========================================================================
-       ✦ DATA HỆ THỐNG (Bản V6: Cập nhật Password Hải Đăng) ✦
+       ✦ CẤU HÌNH DỮ LIỆU TÁCH BIỆT (V7) ✦
        ========================================================================== */
     window.sessionLikes = new Set(); 
     window.heartsData = JSON.parse(localStorage.getItem('baoUngHearts')) || {};
 
     const MY_CONFIG = {
-      backgroundImageUrl: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=1920&auto=format&fit=crop', 
-      centerPictureUrl: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=500&auto=format&fit=crop',
-      musicMp3Url: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3',
-      roseImageUrl: '', 
-
-      defaultAccs: {
-        "Rz": { name: "Rz", pass: "040510", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800", sign: "RZ ୨ৎ LIBRA", quote: "“Người tạo tên, tên chỉ người”", bio: "Một ngày ngọt ngào, cảm ơn vì đã tới.<br><br>Mong rằng người đến trao cho tôi sự tôn trọng. Lời tạm biệt sẽ được gửi đến nếu tôi thấy bị kéo vào drama. Rz yêu hoà bình." },
-        "Thương Lan": { name: "Thương Lan", pass: "242114", image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800", sign: "✦ SCORPIO • THIÊN YẾT", quote: "“Khối băng ngàn năm cũng có ngày tan vì một lời thề.”", bio: "Chấp bút những khúc ca bi tráng và những cuộc tương phùng báo ứng, khắc sâu dấu vết của thời gian lên từng tạo tác." },
-        "Hải Đăng": { name: "Hải Đăng", pass: "170726", image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800", sign: "✦ CANCER • CỰ GIẢI", quote: "“Ngọn đèn trong đêm bão chưa từng vì ai mà tắt lịm.”", bio: "Người trông coi những trang hồ sơ lưu trữ cổ xưa, gìn giữ ánh sáng cuối cùng nơi hải đăng trước khi triều dâng." }
+      
+      /* 👉 MỤC 1: LINK ẢNH HỆ THỐNG - THAY LINK Ở ĐÂY NẾU MUỐN */
+      ASSETS: {
+          bgImg: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=1920&auto=format&fit=crop',
+          cardImg: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=500&auto=format&fit=crop',
+          musicMp3: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3',
+          flowerImg: '' // Để trống sẽ vẽ hoa, thêm link ảnh .png sẽ rơi ảnh.
       },
 
+      /* 👉 MỤC 2: TÀI KHOẢN ĐĂNG NHẬP (Chỉ dùng để Quản lý Notif + Cmt) */
+      loginAccs: {
+        "Rz": { pass: "040510", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200" },
+        "SD": { pass: "242114", image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=200" },
+        "ysz": { pass: "170726", image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=200" }
+      },
+
+      /* 👉 MỤC 3: HỒ SƠ CREATORS (Hiển thị ở bảng "Creators of Báo Ứng") */
+      creatorsShowcase: [
+          {
+              id: "Rz", nameDisplay: "↤ ✢ RZ ✢ ↦", sign: "RZ ୨ৎ LIBRA", quote: "“Người tạo tên, tên chỉ người”", 
+              bio: "Một ngày ngọt ngào, cảm ơn vì đã tới.<br><br>Mong rằng người đến trao cho tôi sự tôn trọng. Lời tạm biệt sẽ được gửi đến nếu tôi thấy bị kéo vào drama. Rz yêu hoà bình.",
+              banner: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800",
+              buttons: [ { text: "♡ CARRD", url: "#" }, { text: "📸 CRE ẢNH", url: "#" } ]
+          },
+          {
+              id: "Thương Lan", nameDisplay: "↤ ✢ THƯƠNG LAN ✢ ↦", sign: "✦ SCORPIO • THIÊN YẾT", quote: "“Khối băng ngàn năm cũng có ngày tan vì một lời thề.”", 
+              bio: "Chấp bút những khúc ca bi tráng và những cuộc tương phùng báo ứng, khắc sâu dấu vết của thời gian lên từng tạo tác.",
+              banner: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800",
+              buttons: [ { text: "♡ CARRD", url: "#" } ]
+          },
+          {
+              id: "Hải Đăng", nameDisplay: "↤ ✢ HẢI ĐĂNG ✢ ↦", sign: "✦ CANCER • CỰ GIẢI", quote: "“Ngọn đèn trong đêm bão chưa từng vì ai mà tắt lịm.”", 
+              bio: "Người trông coi những trang hồ sơ lưu trữ cổ xưa, gìn giữ ánh sáng cuối cùng nơi hải đăng trước khi triều dâng.",
+              banner: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800",
+              buttons: [ { text: "♡ CARRD", url: "#" }, { text: "✍️ WATTPAD", url: "#" } ]
+          }
+      ],
+
+      /* 👉 MỤC 4: NHÂN VẬT */
       allTags: ["#All-in-One", "#R18", "#Healing", "#Ngược", "#Cổ Trang", "#BL", "#GL", "#BG", "#Fantasy", "#Warning", "#Ngọt", "#Harem"],
 
       characters: [
@@ -493,12 +542,13 @@
       ]
     };
 
-    if(!localStorage.getItem('sysDB_Accs_v6')) localStorage.setItem('sysDB_Accs_v6', JSON.stringify(MY_CONFIG.defaultAccs));
-    if(!localStorage.getItem('sysDB_Notifs_v6')) localStorage.setItem('sysDB_Notifs_v6', JSON.stringify({"Rz":[], "Thương Lan":[], "Hải Đăng":[]}));
+    // Khởi tạo DB Version 7 (Xóa cũ lấy mới)
+    if(!localStorage.getItem('sysDB_Login_v7')) localStorage.setItem('sysDB_Login_v7', JSON.stringify(MY_CONFIG.loginAccs));
+    if(!localStorage.getItem('sysDB_Notifs_v7')) localStorage.setItem('sysDB_Notifs_v7', JSON.stringify({"Rz":[], "SD":[], "ysz":[]}));
     
-    let dbAccs = JSON.parse(localStorage.getItem('sysDB_Accs_v6'));
-    let dbNotifs = JSON.parse(localStorage.getItem('sysDB_Notifs_v6'));
-    let sysCurrentUser = localStorage.getItem('sysLoggedUser') || null;
+    let dbLogin = JSON.parse(localStorage.getItem('sysDB_Login_v7'));
+    let dbNotifs = JSON.parse(localStorage.getItem('sysDB_Notifs_v7'));
+    let sysCurrentUser = localStorage.getItem('sysLoggedUser_v7') || null;
 
     /* ==========================================================================
        ✦ KHỞI TẠO NỀN GỐC ✦
@@ -506,11 +556,11 @@
     const waterBg = document.getElementById('waterBg');
     function applyBackground() {
         const gradient = getComputedStyle(document.body).getPropertyValue('--bg-gradient').trim();
-        waterBg.style.backgroundImage = `${gradient}, url('${MY_CONFIG.backgroundImageUrl}')`;
+        waterBg.style.backgroundImage = `${gradient}, url('${MY_CONFIG.ASSETS.bgImg}')`;
     }
     if (localStorage.getItem('baoUngTheme') === 'light') document.body.classList.add('light-mode');
     applyBackground();
-    document.getElementById('centerImg').src = MY_CONFIG.centerPictureUrl;
+    document.getElementById('centerImg').src = MY_CONFIG.ASSETS.cardImg;
 
     document.getElementById('btnThemeToggle').addEventListener('click', () => {
         document.body.classList.toggle('light-mode');
@@ -533,37 +583,30 @@
     });
 
     /* ==========================================================================
-       ✦ TẠO BLOCK CREATORS ĐỘNG (Lấy data từ DB để Update Realtime) ✦
+       ✦ RENDER BẢNG CREATORS (Dựa vào MY_CONFIG.creatorsShowcase) ✦
        ========================================================================== */
     const creatorsGrid = document.getElementById('creatorsGrid');
     const creatorFilterGroup = document.getElementById('creatorFilter');
-    
-    function renderCreatorsGrid() {
-        creatorsGrid.innerHTML = '';
-        Object.keys(dbAccs).forEach(id => {
-          let c = dbAccs[id];
-          creatorsGrid.innerHTML += `
-            <div class="creator-card">
-              <div class="creator-banner"><img src="${c.image}"></div>
-              <h3 class="c-name">⮪✣ ${c.name} ✣⮫</h3>
-              <div class="c-sign">${c.sign}</div>
-              <div class="c-quote">${c.quote}</div>
-              <p class="c-bio">${c.bio}</p>
-              <div class="creator-actions">
-                <a href="#" class="carrd-btn">♡ CARRD</a>
-              </div>
-            </div>
-          `;
-        });
-    }
-
-    // Nút Lọc Creator ở màn hình chính (Chỉ render 1 lần)
     creatorFilterGroup.innerHTML = `<button class="toggle-btn active" data-val="All"> Full báo ứng </button>`;
-    Object.keys(dbAccs).forEach(id => {
-        creatorFilterGroup.innerHTML += `<button class="toggle-btn" data-val="${id}">${id}</button>`;
+
+    MY_CONFIG.creatorsShowcase.forEach(c => {
+      let buttonsHtml = c.buttons.map(btn => `<a href="${btn.url}" class="carrd-btn">${btn.text}</a>`).join('');
+      
+      creatorsGrid.innerHTML += `
+        <div class="creator-card">
+          <div class="creator-banner"><img src="${c.banner}"></div>
+          <h3 class="c-name">${c.nameDisplay}</h3>
+          <div class="c-sign">${c.sign}</div>
+          <div class="c-quote">${c.quote}</div>
+          <p class="c-bio">${c.bio}</p>
+          <div class="creator-actions">
+            ${buttonsHtml}
+          </div>
+        </div>
+      `;
+      creatorFilterGroup.innerHTML += `<button class="toggle-btn" data-val="${c.id}">${c.id}</button>`;
     });
 
-    renderCreatorsGrid(); // Chạy lần đầu
     document.getElementById('btnOpenCreators').addEventListener('click', () => document.getElementById('creatorsOverlay').classList.add('active'));
 
     /* ==========================================================================
@@ -635,33 +678,36 @@
     renderCharacters();
 
     /* ==========================================================================
-       ✦ HỆ THỐNG LOGIN & DASHBOARD ✦
+       ✦ HỆ THỐNG ĐĂNG NHẬP ✦
        ========================================================================== */
     const btnLogin = document.getElementById('btnLogin');
     const authBtnText = document.getElementById('authBtnText');
     const authMiniAvatar = document.getElementById('authMiniAvatar');
+    const loginIcon = document.getElementById('loginIcon');
     let attemptLoginId = "";
 
     function sysUpdateLoginUI() {
-        if(sysCurrentUser && dbAccs[sysCurrentUser]) {
+        if(sysCurrentUser && dbLogin[sysCurrentUser]) {
             authBtnText.textContent = sysCurrentUser;
-            authMiniAvatar.src = dbAccs[sysCurrentUser].image;
+            authMiniAvatar.src = dbLogin[sysCurrentUser].image;
             authMiniAvatar.style.display = 'inline-block';
+            loginIcon.style.display = 'none';
             btnLogin.onclick = () => openDashboard();
         } else {
-            authBtnText.textContent = "ꨄ︎ Login";
+            authBtnText.textContent = "Login";
             authMiniAvatar.style.display = 'none';
+            loginIcon.style.display = 'inline-block';
             btnLogin.onclick = () => document.getElementById('sysLoginSelect').classList.add('active');
         }
     }
 
     const authGridList = document.getElementById('authGridList');
-    Object.keys(dbAccs).forEach(id => {
-        let c = dbAccs[id];
+    Object.keys(dbLogin).forEach(id => {
+        let c = dbLogin[id];
         authGridList.innerHTML += `
             <div class="auth-item" onclick="promptLogin('${id}')">
                 <img src="${c.image}" class="auth-img">
-                <div class="auth-name">${c.name}</div>
+                <div class="auth-name">${id}</div>
             </div>
         `;
     });
@@ -669,8 +715,8 @@
     window.promptLogin = function(id) {
         document.getElementById('sysLoginSelect').classList.remove('active');
         attemptLoginId = id;
-        document.getElementById('pwdAvt').src = dbAccs[id].image;
-        document.getElementById('pwdName').textContent = dbAccs[id].name;
+        document.getElementById('pwdAvt').src = dbLogin[id].image;
+        document.getElementById('pwdName').textContent = id;
         document.getElementById('pwdInput').value = "";
         document.getElementById('pwdError').style.display = 'none';
         document.getElementById('sysPasswordModal').classList.add('active');
@@ -678,9 +724,9 @@
 
     window.sysVerifyPassword = function() {
         const pass = document.getElementById('pwdInput').value;
-        if(pass === dbAccs[attemptLoginId].pass) {
+        if(pass === dbLogin[attemptLoginId].pass) {
             sysCurrentUser = attemptLoginId;
-            localStorage.setItem('sysLoggedUser', sysCurrentUser);
+            localStorage.setItem('sysLoggedUser_v7', sysCurrentUser);
             document.getElementById('sysPasswordModal').classList.remove('active');
             sysUpdateLoginUI();
         } else {
@@ -690,18 +736,17 @@
 
     window.sysLogout = function() {
         sysCurrentUser = null;
-        localStorage.removeItem('sysLoggedUser');
+        localStorage.removeItem('sysLoggedUser_v7');
         document.getElementById('sysDashboardModal').classList.remove('active');
         sysUpdateLoginUI();
     }
 
     function openDashboard() {
-        let c = dbAccs[sysCurrentUser];
+        let c = dbLogin[sysCurrentUser];
         document.getElementById('dashAvt').src = c.image;
-        document.getElementById('dashName').textContent = c.name;
+        document.getElementById('dashName').textContent = sysCurrentUser;
         
         document.getElementById('setImage').value = c.image;
-        document.getElementById('setBio').value = c.bio.replace(/<br>/g, '\n');
         document.getElementById('setPass').value = "";
 
         renderNotifications();
@@ -724,26 +769,28 @@
     }
 
     window.sysSaveProfile = function() {
-        let c = dbAccs[sysCurrentUser];
+        let c = dbLogin[sysCurrentUser];
         c.image = document.getElementById('setImage').value || c.image;
-        c.bio = document.getElementById('setBio').value.replace(/\n/g, '<br>') || c.bio;
         let newPass = document.getElementById('setPass').value;
         if(newPass.trim() !== "") c.pass = newPass;
 
-        localStorage.setItem('sysDB_Accs_v6', JSON.stringify(dbAccs));
-        
-        // Gọi lại 2 hàm này để UI cập nhật ngay mà ko cần load lại trang
-        sysUpdateLoginUI(); 
-        renderCreatorsGrid(); 
-        
-        alert("Đã cập nhật Hồ Sơ thành công!");
+        localStorage.setItem('sysDB_Login_v7', JSON.stringify(dbLogin));
+        alert("Đã cập nhật Auth thành công!");
+        sysUpdateLoginUI();
     }
 
-    /* PUSH THÔNG BÁO CHO CREATOR */
-    function sendNotif(creatorId, htmlText, charName) {
-        if(!dbNotifs[creatorId]) return;
-        dbNotifs[creatorId].unshift({ time: new Date().toLocaleString('vi-VN'), text: htmlText, charRef: charName });
-        localStorage.setItem('sysDB_Notifs_v6', JSON.stringify(dbNotifs));
+    /* ==========================================================================
+       ✦ THÔNG BÁO VÀ COMMENT CÂY ✦
+       ========================================================================== */
+    // Note: Ở hệ thống mới, khi user tạo bot (Ví dụ: Thương Lan), nhưng account đăng nhập là SD. 
+    // Hệ thống sẽ push notif vào hòm thư "SD" nếu SD là người tạo.
+    // Tạm thời mình mapping thẳng tên Creator Character = Tài khoản Login. 
+    // Nếu bạn muốn mapping khác, có thể custom thêm. Ở đây sẽ push notif theo Tag/Tên.
+
+    function sendNotif(loginID, htmlText, charName) {
+        if(!dbNotifs[loginID]) return;
+        dbNotifs[loginID].unshift({ time: new Date().toLocaleString('vi-VN'), text: htmlText, charRef: charName });
+        localStorage.setItem('sysDB_Notifs_v7', JSON.stringify(dbNotifs));
     }
 
     function renderNotifications() {
@@ -769,9 +816,6 @@
         if(char) openChar(char);
     }
 
-    /* ==========================================================================
-       ✦ HỒ SƠ NHÂN VẬT & COMMENT CÂY ✦
-       ========================================================================== */
     function getSafeId(str) { return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, ''); }
 
     window.addHeart = function(safeId, charCreatorName, charRealName, event) {
@@ -785,11 +829,12 @@
       const countSpan = document.getElementById(`count-${safeId}`);
       if (countSpan) countSpan.textContent = window.heartsData[safeId];
       const btn = event.currentTarget; btn.classList.add('liked');
+      // Nếu có tài khoản login trùng với tên creator, push thông báo
       sendNotif(charCreatorName, `Ai đó vừa rước <b>${charRealName}</b> về ♡ྀི`, charRealName);
     }
 
-    function getCmtsTree(safeId) { return JSON.parse(localStorage.getItem('sysTreeCmt_v6_' + safeId)) || []; }
-    function saveCmtsTree(safeId, data) { localStorage.setItem('sysTreeCmt_v6_' + safeId, JSON.stringify(data)); }
+    function getCmtsTree(safeId) { return JSON.parse(localStorage.getItem('sysTreeCmt_v7_' + safeId)) || []; }
+    function saveCmtsTree(safeId, data) { localStorage.setItem('sysTreeCmt_v7_' + safeId, JSON.stringify(data)); }
 
     window.addTreeComment = function(safeId, charCreatorName, charRealName, parentId = null) {
         let name = "Ẩn danh", avatar = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
@@ -800,7 +845,7 @@
         if(!text) { alert("Bạn quên nhập lời nhắn rồi nè!"); return; }
 
         if(sysCurrentUser) {
-            name = sysCurrentUser; avatar = dbAccs[sysCurrentUser].image; isCreator = true;
+            name = sysCurrentUser; avatar = dbLogin[sysCurrentUser].image; isCreator = true;
         } else {
             let nVal = document.getElementById(parentId ? `repName-${parentId}` : `cmtName-${safeId}`).value.trim();
             if(nVal) name = nVal;
@@ -815,9 +860,10 @@
         } else cmts.push(newCmt);
         
         saveCmtsTree(safeId, cmts);
+        
         if(!isCreator) sendNotif(charCreatorName, `<b>${name}</b> vừa gửi lời nhắn vào <b>${charRealName}</b>`, charRealName);
-        Object.keys(dbAccs).forEach(crName => {
-            if(text.includes(`@${crName}`) && crName !== sysCurrentUser) sendNotif(crName, `<b>${name}</b> đã nhắc tới bạn trong hồ sơ <b>${charRealName}</b>`, charRealName);
+        Object.keys(dbLogin).forEach(accID => {
+            if(text.includes(`@${accID}`) && accID !== sysCurrentUser) sendNotif(accID, `<b>${name}</b> đã nhắc tới bạn trong hồ sơ <b>${charRealName}</b>`, charRealName);
         });
 
         sysRenderCommentsUI(safeId, charCreatorName, charRealName);
@@ -840,7 +886,7 @@
 
         let html = '';
         function buildNode(c, isRep, pId) {
-            let badge = c.isCreator ? `<span class="cmt-badge">Creator</span>` : "";
+            let badge = c.isCreator ? `<span class="cmt-badge">Auth</span>` : "";
             let repBtn = !isRep ? `<button class="cmt-act-btn" onclick="toggleReply('${c.id}')">Phản hồi</button>` : "";
             let repInputHTML = "";
             if(!isRep) {
@@ -873,7 +919,7 @@
         if(listEl) listEl.innerHTML = html || `<div style="opacity:0.6; font-size:0.85rem; font-style:italic; text-align:center; padding:10px;">Chưa có lời nhắn nào.</div>`;
     }
 
-    // RENDER HỒ SƠ CHÍNH - RESPONSIVE CHUẨN (Trên xuống dưới Mobile / Kề ngang PC)
+    // RENDER HỒ SƠ NHÂN VẬT
     function openChar(c) {
       const safeId = getSafeId(c.name);
       const currentHearts = window.heartsData[safeId] || 0;
@@ -886,7 +932,7 @@
       modalSlabContent.innerHTML = `
         <div class="char-modal-bg"></div>
         
-        <!-- CỘT TRÁI (Mobile nằm trên cùng) -->
+        <!-- CỘT TRÁI -->
         <div class="char-left-col">
             <h2 class="c-layout-name">${c.name}</h2>
             <div class="c-layout-creator">✍️ ${c.creator}</div>
@@ -894,12 +940,8 @@
             
             <div class="c-layout-img-wrapper">
                 <img src="${c.img}" class="c-layout-img">
-                <div class="c-layout-btns">
-                    ${c.imgSource ? `<a href="${c.imgSource}" target="_blank" class="c-btn-link">Nguồn ảnh</a>` : ''}
-                </div>
             </div>
-
-            <!-- Nút Rước về nằm chìm tự nhiên trên điện thoại -->
+            
             <button class="heart-btn-top ${isSessionLiked ? 'liked' : ''}" onclick="addHeart('${safeId}', '${c.creator}', '${c.name}', event)">
                 Rước về ♡ྀི <span id="count-${safeId}">${currentHearts}</span>
             </button>
@@ -908,7 +950,7 @@
             <div class="c-layout-divider">- ˋˏ ༻ ❁ ༺ ˎˊ -</div>
         </div>
 
-        <!-- CỘT PHẢI (Mobile nằm dưới) -->
+        <!-- CỘT PHẢI -->
         <div class="char-right-col">
             <button class="close-btn" onclick="document.getElementById('charModal').classList.remove('active')">&times;</button>
             
@@ -924,10 +966,11 @@
                 <div class="c-text-body">${c.lore}</div>
             </div>
 
-            <!-- LINK ĐỊA CHỈ -->
+            <!-- NGUỒN ẢNH / BOOK HÀNG DẠNG TEXT LINK GẠCH DƯỚI -->
             <div>
                 <div class="c-section-title">⋏ ˊ- Địa chỉ ⸝⸝</div>
                 <div class="c-list-item">↳ <a href="#">Cẩm nang nhân vật</a></div>
+                ${c.imgSource ? `<div class="c-list-item">↳ <a href="${c.imgSource}" target="_blank">Nguồn ảnh</a></div>` : ''}
                 ${c.ggaiLink ? `<div class="c-list-item">↳ <a href="${c.ggaiLink}" target="_blank">Book hàng</a></div>` : ''}
             </div>
             
@@ -941,7 +984,7 @@
                     
                     <div style="margin-top:10px; padding-top:10px; border-top: 1px dashed rgba(255,255,255,0.2);">
                         ${mainInputNameHTML}
-                        <textarea id="cmtText-${safeId}" class="cmt-textarea" rows="2" placeholder="Lời nhắn của bạn... (@Tên để nhắc tác giả)"></textarea>
+                        <textarea id="cmtText-${safeId}" class="cmt-textarea" rows="2" placeholder="Lời nhắn của bạn... (@Tên để nhắc tài khoản)"></textarea>
                         <div style="text-align: right;">
                             <button class="btn-submit-cmt" onclick="addTreeComment('${safeId}', '${c.creator}', '${c.name}')"> Gửi ᯓᡣ𐭩 </button>
                         </div>
@@ -951,7 +994,7 @@
         </div>
       `;
 
-      charModal.classList.add('active');
+      document.getElementById('charModal').classList.add('active');
       sysRenderCommentsUI(safeId, c.creator, c.name);
     }
 
@@ -969,7 +1012,7 @@
     window.addEventListener('pointerdown', (e) => makeRipple(e.clientX, e.clientY));
 
     let cImg = null;
-    if(MY_CONFIG.roseImageUrl) { cImg = new Image(); cImg.crossOrigin = 'anonymous'; cImg.src = MY_CONFIG.roseImageUrl; }
+    if(MY_CONFIG.ASSETS.flowerImg) { cImg = new Image(); cImg.crossOrigin = 'anonymous'; cImg.src = MY_CONFIG.ASSETS.flowerImg; }
     const rCanv = document.createElement('canvas'); rCanv.width = rCanv.height = 260; const rc = rCanv.getContext('2d');
     (function drawSoftBloom() {
       const cx = 130, cy = 130;
@@ -1008,7 +1051,7 @@
 
     const vinylDisc = document.getElementById('vinylDisc'), vinylText = document.getElementById('vinylText');
     let aCtx = null, oGain = null, isP = false, cAud = null;
-    if (MY_CONFIG.musicMp3Url.trim() !== '') { cAud = new Audio(MY_CONFIG.musicMp3Url); cAud.loop = true; }
+    if (MY_CONFIG.ASSETS.musicMp3.trim() !== '') { cAud = new Audio(MY_CONFIG.ASSETS.musicMp3); cAud.loop = true; }
 
     document.getElementById('vinylPlayer').addEventListener('click', () => {
       isP = !isP; vinylDisc.classList.toggle('spinning', isP);
