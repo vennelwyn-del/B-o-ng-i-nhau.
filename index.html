@@ -58,6 +58,36 @@
     .light-mode .vignette-overlay { background: radial-gradient(circle at center, transparent 38%, rgba(255, 255, 255, 0.7) 100%); }
 
     /* ==========================================================================
+       ✦ LỚP NỀN MỜ TRÙNG AVATAR CHO CÁC BLOCK ✦
+       ========================================================================== */
+    .block-avatar-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-size: cover;
+      background-position: center;
+      filter: blur(24px) saturate(1.2) brightness(0.45);
+      transform: scale(1.16);
+      pointer-events: none;
+      transition: background-image 0.4s ease;
+    }
+    .block-avatar-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(155deg, rgba(1, 13, 85, 0.72) 0%, rgba(2, 8, 30, 0.86) 100%);
+      pointer-events: none;
+    }
+    body.light-mode .ui-modal-box .block-avatar-bg,
+    body.light-mode .sp-modal-box .block-avatar-bg {
+      filter: blur(26px) saturate(1.1) brightness(0.95);
+    }
+    body.light-mode .ui-modal-box .block-avatar-overlay,
+    body.light-mode .sp-modal-box .block-avatar-overlay {
+      background: linear-gradient(155deg, rgba(240, 248, 255, 0.78) 0%, rgba(225, 245, 254, 0.9) 100%);
+    }
+
+    /* ==========================================================================
        ✦ MENU BAR ✦
        ========================================================================== */
     .top-bar { position: fixed; top: 0; left: 0; width: 100%; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; gap: 10px; z-index: 50; pointer-events: none; }
@@ -88,8 +118,8 @@
     .top-right-controls { display: flex; align-items: center; gap: 12px; margin-left: auto; flex-shrink: 0; }
     .btn-theme-toggle { display: inline-flex; align-items: center; justify-content: center; padding: 6px 14px; background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border); color: var(--c-lightest); cursor: pointer; backdrop-filter: blur(12px); white-space: nowrap; }
     .vinyl-player-box { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 5px 12px 5px 6px; background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border); backdrop-filter: blur(12px); white-space: nowrap; }
-    .vinyl-disc { width: 34px; height: 34px; border-radius: 50%; background: repeating-radial-gradient(circle, #01032c 0px, #01032c 2px, #010d55 3px, #0754b0 4px); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .vinyl-center-label { width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle, #dbebf8 0%, #4fa5d8 50%, #0754b0 100%); }
+    .vinyl-disc { width: 34px; height: 34px; border-radius: 50%; background: conic-gradient(from 0deg, rgba(219,235,248,0.65), rgba(79,165,216,0.45), rgba(7,84,176,0.85), rgba(219,235,248,0.65), rgba(1,13,85,0.9), rgba(79,165,216,0.55)); border: 1px solid rgba(219,235,248,0.55); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: inset 0 0 8px rgba(219,235,248,0.4); }
+    .vinyl-center-label { width: 11px; height: 11px; border-radius: 50%; background: #01032c; border: 2px solid #dbebf8; }
     .vinyl-disc.spinning { animation: spinVinyl 3.5s linear infinite; }
     @keyframes spinVinyl { 100% { transform: rotate(360deg); } }
     .vinyl-text { font-family: var(--font-top-tag); font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--c-lightest); }
@@ -112,7 +142,87 @@
     }
 
     /* ==========================================================================
-       ✦ FLOATING MUSIC PLAYER PILL (KIỂU 1) ✦
+       ✦ ĐĨA NHẠC XANH LAM TRONG SUỐT KIỂU ĐÔI CÁNH + HỘP CD (ẢNH 3) ✦
+       ========================================================================== */
+    .cd-blue-surface {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at center, rgba(1, 13, 85, 0.35) 18%, rgba(7, 84, 176, 0.38) 46%, rgba(79, 165, 216, 0.45) 75%, rgba(219, 235, 248, 0.72) 100%),
+        conic-gradient(from 25deg,
+          rgba(219, 235, 248, 0.75) 0deg,
+          rgba(79, 165, 216, 0.35) 55deg,
+          rgba(7, 84, 176, 0.8) 120deg,
+          rgba(219, 235, 248, 0.9) 180deg,
+          rgba(79, 165, 216, 0.35) 245deg,
+          rgba(1, 13, 85, 0.85) 310deg,
+          rgba(219, 235, 248, 0.75) 360deg
+        );
+      box-shadow: inset 0 0 22px rgba(219, 235, 248, 0.7), 0 0 22px rgba(79, 165, 216, 0.35);
+      border: 1.5px solid rgba(219, 235, 248, 0.65);
+    }
+    .cd-blue-surface::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: repeating-radial-gradient(circle at center,
+        transparent 0px, transparent 5px,
+        rgba(219, 235, 248, 0.14) 6px, transparent 7px
+      );
+      pointer-events: none;
+    }
+    .cd-wings-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.92;
+      filter: drop-shadow(0 0 8px rgba(219, 235, 248, 0.85));
+    }
+    .cd-cover-tint {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      opacity: 0.28;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    .cd-spindle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 28%;
+      height: 28%;
+      border-radius: 50%;
+      background: radial-gradient(circle, #01032c 42%, rgba(79, 165, 216, 0.75) 45%, rgba(219, 235, 248, 0.85) 75%, rgba(7, 84, 176, 0.6) 100%);
+      border: 1.5px solid rgba(219, 235, 248, 0.8);
+      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.7), 0 0 12px rgba(79, 165, 216, 0.45);
+      z-index: 4;
+      pointer-events: none;
+    }
+    .cd-spindle-hole {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44%;
+      height: 44%;
+      border-radius: 50%;
+      background: #01032c;
+      border: 1px solid rgba(219, 235, 248, 0.6);
+    }
+
+    /* ==========================================================================
+       ✦ FLOATING MINI PLAYER PILL (THU GỌN) ✦
        ========================================================================== */
     .music-player-pill {
       position: fixed;
@@ -124,8 +234,8 @@
       gap: 14px;
       padding: 10px 18px 10px 12px;
       border-radius: 999px;
-      background: rgba(1, 13, 85, 0.78);
-      border: 1px solid rgba(79, 165, 216, 0.42);
+      background: rgba(1, 13, 85, 0.8);
+      border: 1px solid rgba(79, 165, 216, 0.45);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       box-shadow: 0 12px 35px rgba(1, 3, 44, 0.55), inset 0 0 18px rgba(219, 235, 248, 0.08);
@@ -144,238 +254,311 @@
       transform: translateY(0) scale(1);
     }
     body.light-mode .music-player-pill {
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.9);
       border-color: rgba(79, 165, 216, 0.45);
       box-shadow: 0 12px 30px rgba(1, 42, 74, 0.16), inset 0 0 16px rgba(255, 255, 255, 0.7);
     }
 
     .mp-disc-wrap {
       position: relative;
-      width: 64px;
-      height: 64px;
+      width: 62px;
+      height: 62px;
       border-radius: 50%;
-      padding: 3px;
-      background: linear-gradient(135deg, rgba(219, 235, 248, 0.55), rgba(79, 165, 216, 0.7));
       flex-shrink: 0;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      cursor: pointer;
     }
-    .mp-cover-img {
+    .mp-disc-spin {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      object-fit: cover;
-      display: block;
-      animation: spinVinyl 9s linear infinite;
+      animation: spinVinyl 8s linear infinite;
       animation-play-state: paused;
     }
-    .music-player-pill.playing .mp-cover-img {
+    .music-player-pill.playing .mp-disc-spin {
       animation-play-state: running;
     }
-    .mp-disc-hole {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      background: var(--c-darkest);
-      border: 2px solid rgba(219, 235, 248, 0.85);
-      pointer-events: none;
-    }
-    body.light-mode .mp-disc-hole {
-      background: #ffffff;
-      border-color: #4fa5d8;
-    }
 
-    .mp-body {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .mp-meta {
-      min-width: 0;
-    }
-    .mp-title {
-      font-family: var(--font-top-tag);
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      color: var(--c-lightest);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      line-height: 1.2;
-    }
-    .mp-artist {
-      font-family: var(--font-quote);
-      font-style: italic;
-      font-size: 0.95rem;
-      color: var(--c-light);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      line-height: 1.2;
-    }
+    .mp-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+    .mp-meta { min-width: 0; cursor: pointer; }
+    .mp-title { font-family: var(--font-top-tag); font-size: 0.95rem; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--c-lightest); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
+    .mp-artist { font-family: var(--font-quote); font-style: italic; font-size: 0.95rem; color: var(--c-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
 
-    .mp-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .mp-icon-btn {
-      background: none;
-      border: none;
-      color: var(--c-lightest);
-      opacity: 0.78;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      transition: 0.2s;
-      padding: 0;
-      flex-shrink: 0;
-    }
-    .mp-icon-btn:hover {
-      opacity: 1;
-      background: rgba(79, 165, 216, 0.18);
-    }
+    .mp-controls { display: flex; align-items: center; gap: 7px; }
+    .mp-icon-btn { background: none; border: none; color: var(--c-lightest); opacity: 0.8; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; transition: 0.2s; padding: 0; flex-shrink: 0; }
+    .mp-icon-btn:hover { opacity: 1; background: rgba(79, 165, 216, 0.18); }
 
-    .mp-play-btn {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      border: none;
-      background: var(--c-light);
-      color: #fff;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      flex-shrink: 0;
-      box-shadow: 0 4px 12px rgba(79, 165, 216, 0.4);
-      transition: transform 0.2s, background 0.2s;
-    }
-    .mp-play-btn:hover {
-      transform: scale(1.07);
-      background: var(--c-mid);
-    }
-    body.light-mode .mp-play-btn:hover {
-      background: #0277bd;
-    }
+    .mp-play-btn { width: 34px; height: 34px; border-radius: 50%; border: none; background: var(--c-light); color: #fff; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; box-shadow: 0 4px 12px rgba(79, 165, 216, 0.4); transition: transform 0.2s, background 0.2s; }
+    .mp-play-btn:hover { transform: scale(1.07); background: var(--c-mid); }
 
-    .mp-volume-wrap {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-    }
-    .mp-volume-popover {
-      position: absolute;
-      bottom: calc(100% + 10px);
-      left: 50%;
-      transform: translateX(-50%) translateY(6px);
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(1, 13, 85, 0.94);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition: 0.2s ease;
-      z-index: 65;
-    }
-    .mp-volume-popover.show {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transform: translateX(-50%) translateY(0);
-    }
-    body.light-mode .mp-volume-popover {
-      background: rgba(255, 255, 255, 0.96);
-    }
-    .mp-volume-slider {
-      width: 85px;
-      accent-color: #4fa5d8;
-      cursor: pointer;
-    }
+    .mp-spotify-link { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; color: #1db954; text-decoration: none; transition: 0.2s; flex-shrink: 0; }
+    .mp-spotify-link:hover { background: rgba(29, 185, 84, 0.16); transform: scale(1.1); }
+    .mp-spotify-link.disabled { opacity: 0.28; pointer-events: none; }
 
-    .mp-spotify-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      color: #1db954;
-      text-decoration: none;
-      transition: 0.2s;
-      flex-shrink: 0;
-    }
-    .mp-spotify-link:hover {
-      background: rgba(29, 185, 84, 0.16);
-      transform: scale(1.1);
-    }
-    .mp-spotify-link.disabled {
-      opacity: 0.28;
-      pointer-events: none;
-    }
-
-    .mp-divider {
-      width: 1px;
-      height: 20px;
-      background: var(--glass-border);
-      margin: 0 2px;
-      flex-shrink: 0;
-    }
+    .mp-divider { width: 1px; height: 20px; background: var(--glass-border); margin: 0 2px; flex-shrink: 0; }
 
     @media (max-width: 768px) {
-      .music-player-pill {
-        bottom: 14px;
-        right: auto;
-        left: 50%;
-        width: calc(100vw - 24px);
-        max-width: 365px;
-        min-width: 0;
-        padding: 8px 14px 8px 10px;
-        gap: 11px;
-        transform: translateX(-50%) translateY(18px) scale(0.96);
-      }
-      .music-player-pill.open {
-        transform: translateX(-50%) translateY(0) scale(1);
-      }
-      .mp-disc-wrap {
-        width: 54px;
-        height: 54px;
-      }
-      .mp-title {
-        font-size: 0.86rem;
-      }
-      .mp-artist {
-        font-size: 0.88rem;
-      }
-      .mp-controls {
-        gap: 5px;
-      }
-      .mp-icon-btn, .mp-spotify-link {
-        width: 26px;
-        height: 26px;
-      }
-      .mp-play-btn {
-        width: 31px;
-        height: 31px;
-      }
+      .music-player-pill { bottom: 14px; right: auto; left: 50%; width: calc(100vw - 24px); max-width: 365px; min-width: 0; padding: 8px 14px 8px 10px; gap: 11px; transform: translateX(-50%) translateY(18px) scale(0.96); }
+      .music-player-pill.open { transform: translateX(-50%) translateY(0) scale(1); }
+      .mp-disc-wrap { width: 52px; height: 52px; }
+      .mp-title { font-size: 0.86rem; }
+      .mp-artist { font-size: 0.88rem; }
+      .mp-controls { gap: 4px; }
+      .mp-icon-btn, .mp-spotify-link { width: 25px; height: 25px; }
+      .mp-play-btn { width: 31px; height: 31px; }
     }
+
+    /* ==========================================================================
+       ✦ FULL MUSIC PLAYER / SETTING THEO SPOTIFY (ẢNH 3 + ẢNH 4) ✦
+       ========================================================================== */
+    .sp-modal-box {
+      position: relative;
+      width: min(94vw, 410px);
+      max-height: 92vh;
+      max-height: 92dvh;
+      border-radius: 26px;
+      border: 1px solid rgba(79, 165, 216, 0.38);
+      box-shadow: 0 22px 55px rgba(0, 0, 0, 0.65), inset 0 0 24px rgba(219, 235, 248, 0.08);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 18px 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .sp-modal-box > *:not(.block-avatar-bg):not(.block-avatar-overlay) {
+      position: relative;
+      z-index: 2;
+    }
+
+    .sp-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .sp-top-icon-btn {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      color: var(--c-lightest);
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; text-decoration: none; transition: 0.2s; flex-shrink: 0;
+    }
+    .sp-top-icon-btn:hover { background: rgba(79, 165, 216, 0.24); }
+
+    .sp-tabs {
+      display: flex; align-items: center; gap: 14px;
+      font-family: var(--font-ui); font-size: 0.85rem;
+    }
+    .sp-tab-btn {
+      background: none; border: none; color: var(--c-lightest); opacity: 0.55;
+      font-family: inherit; font-size: inherit; font-weight: 500; cursor: pointer;
+      padding: 4px 2px; position: relative; transition: 0.2s;
+    }
+    .sp-tab-btn.active { opacity: 1; font-weight: 600; color: var(--c-lightest); }
+    .sp-tab-btn.active::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+      border-radius: 2px; background: var(--c-light);
+    }
+
+    /* Hộp CD vuông trong suốt kiểu Ảnh 3 + Cần gạt Ảnh 4 */
+    .sp-jewel-case {
+      position: relative;
+      width: min(68vw, 240px);
+      height: min(68vw, 240px);
+      margin: 4px auto 0;
+      border-radius: 18px;
+      padding: 16px;
+      background: linear-gradient(145deg, rgba(219, 235, 248, 0.18) 0%, rgba(79, 165, 216, 0.1) 50%, rgba(1, 13, 85, 0.45) 100%);
+      border: 1.5px solid rgba(219, 235, 248, 0.42);
+      box-shadow: inset 0 0 22px rgba(219, 235, 248, 0.18), 0 16px 36px rgba(0, 0, 0, 0.45);
+      display: flex; align-items: center; justify-content: center;
+    }
+    body.light-mode .sp-jewel-case {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.78) 0%, rgba(129, 212, 250, 0.26) 55%, rgba(225, 245, 254, 0.65) 100%);
+      border-color: rgba(2, 136, 209, 0.38);
+    }
+    /* Ngàm gài hộp CD bên trái giống ảnh 3 */
+    .sp-jewel-clasp {
+      position: absolute;
+      left: -1px; top: 50%; transform: translateY(-50%);
+      width: 11px; height: 54px;
+      border: 1.5px solid rgba(219, 235, 248, 0.48);
+      border-left: none;
+      border-radius: 0 8px 8px 0;
+      background: rgba(219, 235, 248, 0.14);
+      pointer-events: none;
+    }
+    /* Cần gạt đĩa thanh mảnh kiểu ảnh 4 */
+    .sp-tonearm {
+      position: absolute;
+      top: 12px; right: 14px;
+      width: 24px; height: 115px;
+      transform-origin: 12px 12px;
+      transform: rotate(-18deg);
+      transition: transform 0.5s ease;
+      pointer-events: none;
+      z-index: 6;
+    }
+    .sp-modal-box.playing .sp-tonearm {
+      transform: rotate(10deg);
+    }
+
+    .sp-cd-spin {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      animation: spinVinyl 10s linear infinite;
+      animation-play-state: paused;
+    }
+    .sp-modal-box.playing .sp-cd-spin {
+      animation-play-state: running;
+    }
+
+    .sp-info-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .sp-track-title {
+      font-family: var(--font-top-tag);
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      color: var(--c-lightest);
+      line-height: 1.25;
+      overflow-wrap: break-word;
+    }
+    .sp-track-sub {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      color: var(--c-light);
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .sp-badge {
+      font-size: 0.62rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid var(--glass-border);
+      opacity: 0.85;
+      letter-spacing: 0.5px;
+    }
+    .sp-badge-spotify {
+      border-color: rgba(29, 185, 84, 0.55);
+      color: #1db954;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .sp-like-btn {
+      background: none; border: none; color: var(--c-lightest); opacity: 0.78;
+      cursor: pointer; font-size: 1.35rem; line-height: 1; padding: 4px; transition: 0.2s;
+    }
+    .sp-like-btn.liked { color: #ff6b8b; opacity: 1; transform: scale(1.1); }
+
+    /* Hàng tiện ích âm lượng + Spotify giống hàng giữa ảnh 4 */
+    .sp-tools-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 6px 10px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+    }
+    .sp-vol-box {
+      display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;
+    }
+    .sp-vol-slider {
+      flex: 1; min-width: 60px; accent-color: var(--c-light); cursor: pointer;
+    }
+    .sp-spotify-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 20px;
+      border: 1px solid rgba(29, 185, 84, 0.6);
+      background: rgba(29, 185, 84, 0.14);
+      color: #1db954; font-family: var(--font-ui); font-size: 0.74rem; font-weight: 600;
+      text-decoration: none; white-space: nowrap; transition: 0.2s;
+    }
+    .sp-spotify-pill:hover { background: rgba(29, 185, 84, 0.26); }
+    .sp-spotify-pill.disabled { opacity: 0.35; pointer-events: none; }
+
+    /* Thanh tua tiến trình nhạc kiểu ảnh 4 */
+    .sp-progress-wrap { display: flex; flex-direction: column; gap: 6px; }
+    .sp-seek-slider {
+      width: 100%; height: 4px; accent-color: var(--c-light); cursor: pointer;
+    }
+    .sp-time-row {
+      display: flex; justify-content: space-between;
+      font-family: var(--font-ui); font-size: 0.72rem; opacity: 0.72;
+    }
+
+    /* Hàng điều khiển chính kiểu ảnh 4 */
+    .sp-main-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px 0;
+    }
+    .sp-ctrl-btn {
+      background: none; border: none; color: var(--c-lightest); opacity: 0.82;
+      width: 38px; height: 38px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: 0.2s; position: relative;
+    }
+    .sp-ctrl-btn:hover { opacity: 1; background: rgba(79, 165, 216, 0.16); }
+    .sp-ctrl-btn.active { color: var(--c-light); opacity: 1; }
+    .sp-repeat-one-dot {
+      position: absolute; top: 4px; right: 4px;
+      font-family: var(--font-ui); font-size: 0.55rem; font-weight: 700;
+      background: var(--c-light); color: #fff; border-radius: 50%;
+      width: 13px; height: 13px; display: none; align-items: center; justify-content: center;
+    }
+    .sp-ctrl-btn.repeat-one .sp-repeat-one-dot { display: flex; }
+
+    .sp-big-play {
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 2px solid var(--c-lightest);
+      background: linear-gradient(135deg, rgba(79, 165, 216, 0.35), rgba(7, 84, 176, 0.55));
+      color: var(--c-lightest);
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: 0.2s;
+      box-shadow: 0 6px 20px rgba(79, 165, 216, 0.35);
+    }
+    .sp-big-play:hover { transform: scale(1.06); border-color: #fff; }
+
+    /* Danh sách bài hát trong tab Danh sách */
+    .sp-playlist-view {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 360px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .sp-playlist-view.active { display: flex; }
+    .sp-disc-view { display: none; flex-direction: column; gap: 14px; }
+    .sp-disc-view.active { display: flex; }
+
+    .sp-song-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 12px; border-radius: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      cursor: pointer; transition: 0.2s;
+    }
+    .sp-song-row:hover { border-color: var(--c-light); background: rgba(79, 165, 216, 0.14); }
+    .sp-song-row.active { border-color: var(--c-light); background: rgba(79, 165, 216, 0.22); }
+    .sp-song-thumb { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 1px solid var(--glass-border); }
+    .sp-song-meta { flex: 1; min-width: 0; }
+    .sp-song-name { font-family: var(--font-ui); font-size: 0.85rem; font-weight: 600; color: var(--c-lightest); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sp-song-artist { font-family: var(--font-quote); font-style: italic; font-size: 0.9rem; color: var(--c-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     /* ==========================================================================
        ✦ MÀN HÌNH 1 & 2 ✦
@@ -479,7 +662,10 @@
     .ui-modal-box { 
       background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px; 
       padding: 25px; width: 100%; max-width: 400px; max-height: 90dvh; position: relative; 
-      box-shadow: 0 15px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; 
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; overflow: hidden;
+    }
+    .ui-modal-box > *:not(.block-avatar-bg):not(.block-avatar-overlay):not(.close-btn-sys) {
+      position: relative; z-index: 2;
     }
     
     /* Nút X mặc định cho các bảng hệ thống */
@@ -495,31 +681,32 @@
     }
 
     /* ==========================================================================
-       ✦ MODAL CREATORS SHOWCASE ✦
+       ✦ MODAL CREATORS SHOWCASE (NỀN BLOCK TRÙNG AVATAR CREATOR) ✦
        ========================================================================== */
     .creators-modal-box {
       background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 20px;
       padding: 25px; max-width: 1000px; width: 95vw; max-height: 90vh; max-height: 90dvh;
-      position: relative; display: flex; flex-direction: column;
+      position: relative; display: flex; flex-direction: column; overflow: hidden;
     }
-    .creators-modal-header { text-align: center; margin-bottom: 20px; flex-shrink: 0; padding: 0 38px; }
+    .creators-modal-header { text-align: center; margin-bottom: 20px; flex-shrink: 0; padding: 0 38px; position: relative; z-index: 2; }
     .creators-modal-title { font-family: var(--font-brand); color: var(--c-lightest); font-size: clamp(1.25rem, 4vw, 2rem); letter-spacing: 2px; }
-    .creators-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 20px; width: 100%; max-width: 1000px; flex: 1; min-height: 0; overflow-y: auto; padding: 6px; -webkit-overflow-scrolling: touch; }
-    .creator-card { background: rgba(1, 3, 44, 0.6); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.3); display: flex; flex-direction: column; min-width: 0; }
-    .creator-banner { width: 100%; height: 160px; border-radius: 8px; margin-bottom: 15px; overflow: hidden; border: 1px solid var(--glass-border); }
+    .creators-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 20px; width: 100%; max-width: 1000px; flex: 1; min-height: 0; overflow-y: auto; padding: 6px; -webkit-overflow-scrolling: touch; position: relative; z-index: 2; }
+    .creator-card { position: relative; overflow: hidden; background: rgba(1, 3, 44, 0.6); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.3); display: flex; flex-direction: column; min-width: 0; color: #dbebf8; }
+    .creator-card > *:not(.block-avatar-bg):not(.block-avatar-overlay) { position: relative; z-index: 2; }
+    .creator-banner { width: 100%; height: 160px; border-radius: 8px; margin-bottom: 15px; overflow: hidden; border: 1px solid rgba(219, 235, 248, 0.3); }
     .creator-banner img { width: 100%; height: 100%; object-fit: cover; }
-    .c-name { font-family: var(--font-top-tag); font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 600; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; overflow-wrap: break-word; }
-    .c-sign { font-family: var(--font-ui); font-size: 0.75rem; color: var(--c-light); margin-bottom: 15px; letter-spacing: 1px;}
-    .c-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.15rem; margin-bottom: 15px; opacity: 0.9;}
-    .c-bio { font-family: var(--font-char-text); font-size: 1rem; margin-bottom: 20px; opacity: 0.8; line-height: 1.4; flex-grow: 1; overflow-wrap: break-word;}
+    .c-name { font-family: var(--font-top-tag); font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 600; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; overflow-wrap: break-word; color: #fff; }
+    .c-sign { font-family: var(--font-ui); font-size: 0.75rem; color: #4fa5d8; margin-bottom: 15px; letter-spacing: 1px;}
+    .c-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.15rem; margin-bottom: 15px; opacity: 0.95;}
+    .c-bio { font-family: var(--font-char-text); font-size: 1rem; margin-bottom: 20px; opacity: 0.85; line-height: 1.4; flex-grow: 1; overflow-wrap: break-word;}
     
     .creator-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;}
     .carrd-btn { 
         padding: 8px 18px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.3); 
-        background: transparent; font-family: var(--font-ui); font-size: 0.75rem; 
+        background: rgba(1, 3, 44, 0.35); font-family: var(--font-ui); font-size: 0.75rem; 
         color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: 0.3s;
     }
-    .carrd-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: #fff; }
+    .carrd-btn:hover { background: rgba(255, 255, 255, 0.15); border-color: #fff; }
 
     @media (max-width: 600px) {
       .creators-modal-box { padding: 18px 14px; width: 95vw; }
@@ -529,25 +716,24 @@
     }
 
     /* ==========================================================================
-       ✦ HỒ SƠ NHÂN VẬT (LÀM LẠI CHUẨN ẢNH 1 VÀ 2) ✦
+       ✦ HỒ SƠ NHÂN VẬT (1 THANH TRƯỢT TRÊN PC + NỀN TRÙNG AVATAR NHÂN VẬT) ✦
        ========================================================================== */
     .char-modal-box {
-        background: #02081e; /* Màu xanh đen như ảnh mẫu 1 */
+        background: #02081e;
         border: 1px solid rgba(79, 165, 216, 0.3); border-radius: 16px;
         width: 95vw; max-width: 1000px; height: 90vh; height: 90dvh; max-height: 800px;
         box-shadow: 0 15px 40px rgba(0,0,0,0.6); 
         display: flex; flex-direction: column; position: relative; overflow: hidden;
+        color: #dbebf8;
     }
 
-    /* Container gom 2 nút trên cùng (Fix lỗi đè nút) */
     .modal-top-actions {
         position: absolute; top: 0; right: 0; width: 100%;
         display: flex; justify-content: flex-end; align-items: center; gap: 10px;
-        padding: 15px; z-index: 50; pointer-events: none; /* Tránh cản chuột phần dưới */
+        padding: 15px; z-index: 50; pointer-events: none;
     }
     .modal-top-actions > * { pointer-events: auto; }
 
-    /* Nút X màu hồng chuẩn ảnh 2 */
     .close-btn-pink {
         width: 36px; height: 36px; border-radius: 50%;
         background: #c86b85; border: none; color: #fff;
@@ -557,9 +743,8 @@
     }
     .close-btn-pink:hover { transform: scale(1.1); background: #e07794;}
 
-    /* Nút Rước về */
     .heart-btn-top {
-        background: rgba(2, 8, 30, 0.75); border: 1px solid rgba(255,255,255,0.3); color: var(--c-lightest); 
+        background: rgba(2, 8, 30, 0.75); border: 1px solid rgba(255,255,255,0.3); color: #dbebf8; 
         padding: 6px 16px; border-radius: 20px; font-family: var(--font-ui); font-size: 0.8rem; 
         cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.3s;
         backdrop-filter: blur(8px);
@@ -567,46 +752,63 @@
     .heart-btn-top:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
     .heart-btn-top.liked { color: #ff6b8b; border-color: #ff6b8b; }
 
-    /* Wrapper chứa 2 cột */
+    /* Wrapper chứa 2 cột - CHỈ 1 THANH TRƯỢT DUY NHẤT */
     .char-content-wrapper {
+        position: relative; z-index: 2;
         display: flex; flex-direction: column; 
         width: 100%; height: 100%; 
-        overflow-y: auto; overflow-x: hidden; /* Đảm bảo Mobile chỉ có 1 thanh cuộn dọc */
-        padding-top: 64px; /* Dành chỗ cho 2 nút trên cùng */
+        overflow-y: auto; overflow-x: hidden;
+        padding-top: 64px;
         -webkit-overflow-scrolling: touch;
     }
 
-    /* CHIA CỘT RESPONSIVE */
     .char-left-col { padding: 16px 20px 24px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
     .char-right-col { padding: 20px; display: flex; flex-direction: column; gap: 25px; min-width: 0; }
 
     @media (max-width: 899px) {
       .modal-top-actions {
-        background: linear-gradient(to bottom, rgba(2, 8, 30, 0.96) 55%, rgba(2, 8, 30, 0) 100%);
+        background: linear-gradient(to bottom, rgba(2, 8, 30, 0.92) 55%, rgba(2, 8, 30, 0) 100%);
         padding: 12px 14px 18px;
       }
       .char-modal-box { width: 96vw; height: 92vh; height: 92dvh; max-height: none; }
     }
 
-    /* Bố cục Máy tính */
+    /* Bố cục Máy tính: 1 THANH TRƯỢT DUY NHẤT */
     @media (min-width: 900px) { 
-        .char-content-wrapper { flex-direction: row; padding-top: 0; overflow: hidden; } 
-        .char-left-col { width: 42%; height: 100%; border-bottom: none; border-right: 1px solid rgba(255,255,255,0.1); overflow-y: auto; padding: 40px 30px;}
-        .char-right-col { width: 58%; height: 100%; overflow-y: auto; padding: 64px 30px 30px 30px;} /* Padding top 64 để né 2 nút */
+        .char-content-wrapper {
+          flex-direction: row;
+          align-items: stretch;
+          padding-top: 0;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+        .char-left-col {
+          width: 42%;
+          height: auto;
+          overflow: visible;
+          border-bottom: none;
+          border-right: 1px solid rgba(255,255,255,0.12);
+          padding: 40px 30px;
+        }
+        .char-right-col {
+          width: 58%;
+          height: auto;
+          overflow: visible;
+          padding: 64px 30px 30px 30px;
+        }
+        .cmt-list {
+          max-height: none;
+          overflow: visible;
+        }
     }
     
-    /* STYLING CHI TIẾT THEO ẢNH 1 */
-    .c-layout-name { font-family: var(--font-char-name); font-size: clamp(2rem, 6vw, 3.5rem); color: var(--c-lightest); line-height: 1.15; letter-spacing: 1px; overflow-wrap: break-word; }
-    
+    .c-layout-name { font-family: var(--font-char-name); font-size: clamp(2rem, 6vw, 3.5rem); color: #dbebf8; line-height: 1.15; letter-spacing: 1px; overflow-wrap: break-word; }
     .c-layout-creator { margin-top: 8px; font-family: var(--font-char-text); font-size: 1.1rem; color: #4fa5d8; cursor: pointer; transition: 0.3s;}
     .c-layout-creator:hover { text-shadow: 0 0 10px rgba(79,165,216,0.6); }
-
     .c-layout-divider { font-size: 0.9rem; color: rgba(255,255,255,0.4); margin: 18px 0; letter-spacing: 4px;}
-    
-    .c-layout-img-wrapper { width: 100%; max-width: 280px; margin: 0 auto; position: relative; border-radius: 12px; overflow: hidden;}
+    .c-layout-img-wrapper { width: 100%; max-width: 280px; margin: 0 auto; position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 14px 32px rgba(0,0,0,0.45); border: 1px solid rgba(219, 235, 248, 0.22); }
     .c-layout-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; border-radius: 12px;}
-    
-    .c-layout-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.2rem; color: var(--c-lightest); margin-top: 22px; line-height: 1.4; padding: 0 10px;}
+    .c-layout-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.2rem; color: #dbebf8; margin-top: 22px; line-height: 1.4; padding: 0 10px;}
 
     @media (max-width: 600px) {
       .c-layout-img-wrapper { max-width: 220px; }
@@ -617,15 +819,15 @@
     .c-section-title { font-family: var(--font-char-text); font-size: 1.25rem; color: #4fa5d8; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;}
     .c-warning-content { border-left: 2px solid #ff6b8b; padding-left: 15px; color: #ff6b8b; font-size: 1rem; font-style: italic; padding: 5px 15px; overflow-wrap: break-word;}
     .c-tags-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
-    .c-tag-item { font-family: var(--font-ui); font-size: 0.8rem; background: transparent; padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
-    .c-text-body { font-family: var(--font-char-text); font-size: 1.15rem; line-height: 1.6; color: rgba(255,255,255,0.85); white-space: pre-wrap; overflow-wrap: break-word; }
+    .c-tag-item { font-family: var(--font-ui); font-size: 0.8rem; background: rgba(255,255,255,0.04); padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.22); color: #dbebf8; }
+    .c-text-body { font-family: var(--font-char-text); font-size: 1.15rem; line-height: 1.6; color: rgba(255,255,255,0.88); white-space: pre-wrap; overflow-wrap: break-word; }
     
     .c-list-item { font-family: var(--font-ui); font-size: 0.95rem; margin-top: 10px; color: rgba(255,255,255,0.9); overflow-wrap: break-word;}
     .c-list-item a { color: inherit; text-decoration: none; border-bottom: 1px dashed rgba(255,255,255,0.4); padding-bottom: 2px; transition: 0.2s;}
     .c-list-item a:hover { color: #fff; border-color: #fff;}
 
-    /* BẢNG COMMENT THEO STYLE ẢNH 1 */
-    .cmt-container { background: transparent; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+    /* BẢNG COMMENT */
+    .cmt-container { background: rgba(2, 8, 30, 0.35); border: 1px solid rgba(255,255,255,0.18); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
     .cmt-list { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; padding-right: 5px; -webkit-overflow-scrolling: touch;}
     .cmt-list::-webkit-scrollbar { width: 3px; }
     
@@ -638,7 +840,7 @@
     .cmt-name { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; color: #fff; overflow-wrap: break-word;}
     .cmt-badge { font-size: 0.65rem; background: #4fa5d8; padding: 2px 6px; border-radius: 10px; color: #fff; font-weight: 500;}
     .cmt-date { font-size: 0.7rem; opacity: 0.5; }
-    .cmt-text { font-size: 0.95rem; line-height: 1.5; margin-bottom: 10px; white-space: pre-wrap; color: rgba(255,255,255,0.85); overflow-wrap: anywhere;}
+    .cmt-text { font-size: 0.95rem; line-height: 1.5; margin-bottom: 10px; white-space: pre-wrap; color: rgba(255,255,255,0.88); overflow-wrap: anywhere;}
     
     @media (max-width: 600px) {
       .cmt-container { padding: 14px; }
@@ -656,21 +858,21 @@
     .reply-box.active { display: block; }
     
     .cmt-input, .cmt-textarea { 
-        width: 100%; background: transparent; border: 1px solid rgba(255,255,255,0.2); 
+        width: 100%; background: rgba(0, 0, 0, 0.22); border: 1px solid rgba(255,255,255,0.22); 
         border-radius: 6px; padding: 12px; color: #fff; font-family: var(--font-ui); 
         font-size: 0.85rem; margin-bottom: 10px; outline: none; transition: 0.3s;
     }
     .cmt-input:focus, .cmt-textarea:focus { border-color: #4fa5d8; }
     
     .btn-submit-cmt { 
-        padding: 8px 20px; background: transparent; border: 1px solid rgba(255,255,255,0.3); 
+        padding: 8px 20px; background: rgba(79, 165, 216, 0.14); border: 1px solid rgba(255,255,255,0.3); 
         border-radius: 20px; color: #fff; font-family: var(--font-ui); font-size: 0.85rem; 
         cursor: pointer; transition: 0.3s;
     }
-    .btn-submit-cmt:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+    .btn-submit-cmt:hover { background: rgba(255,255,255,0.15); border-color: #fff; }
 
     /* ==========================================================================
-       ✦ HỆ THỐNG AUTH & DASHBOARD ✦
+       ✦ HỆ THỐNG AUTH & DASHBOARD (NỀN BLOCK TRÙNG AVATAR TÀI KHOẢN) ✦
        ========================================================================== */
     .auth-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 15px; }
     .auth-item { text-align: center; cursor: pointer; transition: 0.3s; }
@@ -679,17 +881,19 @@
     .auth-item:hover .auth-img { border-color: var(--c-light); }
     .auth-name { font-family: var(--font-ui); font-size: 0.8rem; margin-top: 8px; }
     
-    .sys-input { width: 100%; background: rgba(1, 13, 85, 0.4); border: 1px solid var(--glass-border); color: #fff; padding: 12px; border-radius: 8px; font-family: var(--font-ui); margin-bottom: 15px; outline: none;}
+    .sys-input { width: 100%; background: rgba(1, 13, 85, 0.4); border: 1px solid var(--glass-border); color: var(--c-lightest); padding: 12px; border-radius: 8px; font-family: var(--font-ui); margin-bottom: 15px; outline: none;}
+    body.light-mode .sys-input { background: rgba(255, 255, 255, 0.72); }
     .sys-btn { width: 100%; padding: 12px; background: var(--c-light); color: #fff; border: none; border-radius: 8px; font-family: var(--font-ui); font-weight: bold; cursor: pointer; transition: 0.3s;}
     .sys-btn:hover { background: var(--c-mid); }
 
     .dash-header { display: flex; gap: 15px; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border); padding-right: 36px; }
     .dash-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
-    .dash-tab { padding: 8px 15px; background: rgba(1,3,44,0.5); border: 1px solid var(--glass-border); border-radius: 20px; color: inherit; font-family: var(--font-ui); font-size: 0.85rem; cursor: pointer; }
-    .dash-tab.active { background: var(--c-light); }
+    .dash-tab { padding: 8px 15px; background: rgba(1,3,44,0.45); border: 1px solid var(--glass-border); border-radius: 20px; color: inherit; font-family: var(--font-ui); font-size: 0.85rem; cursor: pointer; }
+    body.light-mode .dash-tab { background: rgba(255, 255, 255, 0.65); }
+    .dash-tab.active { background: var(--c-light); color: #fff; }
     .dash-content { overflow-y: auto; flex-grow: 1; min-height: 0; padding-right: 5px; -webkit-overflow-scrolling: touch; }
-    .notif-item { padding: 12px; border-left: 3px solid var(--c-light); background: rgba(219, 235, 248, 0.05); margin-bottom: 10px; border-radius: 4px; font-family: var(--font-ui); cursor: pointer; transition: 0.2s; overflow-wrap: break-word;}
-    .notif-item:hover { background: rgba(219, 235, 248, 0.1); }
+    .notif-item { padding: 12px; border-left: 3px solid var(--c-light); background: rgba(219, 235, 248, 0.08); margin-bottom: 10px; border-radius: 4px; font-family: var(--font-ui); cursor: pointer; transition: 0.2s; overflow-wrap: break-word;}
+    .notif-item:hover { background: rgba(219, 235, 248, 0.14); }
     .notif-text b { color: var(--c-light); }
 
     @media (max-width: 480px) {
@@ -728,14 +932,21 @@
     </div>
   </header>
 
-  <!-- FLOATING MUSIC PLAYER PILL (KIỂU 1) -->
+  <!-- FLOATING MINI PLAYER PILL (THU GỌN KHI ĐANG NGHE) -->
   <div class="music-player-pill" id="musicPlayerPill">
-    <div class="mp-disc-wrap">
-      <img src="" alt="" class="mp-cover-img" id="mpCoverImg">
-      <div class="mp-disc-hole"></div>
+    <div class="mp-disc-wrap" id="mpExpandFromDisc" title="Mở giao diện phát nhạc">
+      <div class="mp-disc-spin">
+        <div class="cd-blue-surface">
+          <img src="" alt="" class="cd-cover-tint" id="mpCoverImg">
+          <svg class="cd-wings-svg" viewBox="0 0 200 200" fill="none">
+            <path d="M100 58 C88 60, 82 72, 85 88 C66 78, 44 60, 34 38 C32 54, 38 72, 50 85 C34 80, 22 68, 18 54 C20 74, 34 94, 54 104 C38 106, 26 102, 20 94 C26 112, 46 126, 70 128 C78 142, 85 156, 86 172 L114 172 C115 156, 122 142, 130 128 C154 126, 174 112, 180 94 C174 102, 162 106, 146 104 C166 94, 180 74, 182 54 C178 68, 166 80, 150 85 C162 72, 168 54, 166 38 C156 60, 134 78, 115 88 C118 72, 112 60, 100 58 Z" fill="rgba(219,235,248,0.68)"/>
+          </svg>
+          <div class="cd-spindle"><div class="cd-spindle-hole"></div></div>
+        </div>
+      </div>
     </div>
     <div class="mp-body">
-      <div class="mp-meta">
+      <div class="mp-meta" id="mpExpandFromMeta" title="Mở giao diện phát nhạc">
         <div class="mp-title" id="mpTitle">SALVATORE</div>
         <div class="mp-artist" id="mpArtist">Lana Del Rey</div>
       </div>
@@ -751,26 +962,123 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
         </button>
 
-        <div class="mp-volume-wrap">
-          <button class="mp-icon-btn" id="mpVolBtn" title="Âm lượng" aria-label="Âm lượng">
-            <svg id="mpVolOnIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-            <svg id="mpVolMuteIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-          </button>
-          <div class="mp-volume-popover" id="mpVolPopover">
-            <input type="range" min="0" max="1" step="0.02" value="0.8" class="mp-volume-slider" id="mpVolSlider" aria-label="Thanh âm lượng">
-          </div>
-        </div>
+        <button class="mp-icon-btn" id="mpSettingBtn" title="Mở giao diện đầy đủ" aria-label="Mở giao diện phát nhạc đầy đủ">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+        </button>
 
         <a href="#" target="_blank" rel="noopener noreferrer" class="mp-spotify-link" id="mpSpotifyLink" title="Mở trên Spotify" aria-label="Mở trên Spotify">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
 
         <div class="mp-divider"></div>
 
-        <button class="mp-icon-btn" id="mpCloseBtn" title="Thu gọn trình phát" aria-label="Đóng trình phát">
+        <button class="mp-icon-btn" id="mpCloseBtn" title="Đóng" aria-label="Đóng trình phát">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- MODAL FULL MUSIC PLAYER / SETTING THEO SPOTIFY (ẢNH 3 + ẢNH 4) -->
+  <div class="ui-modal-base" id="spotifyPlayerModal" onclick="if(event.target === this) closeFullPlayer()">
+    <div class="sp-modal-box" id="spModalBox">
+      <div class="block-avatar-bg" id="spBgImg"></div>
+      <div class="block-avatar-overlay"></div>
+
+      <div class="sp-topbar">
+        <button class="sp-top-icon-btn" id="spCollapseBtn" title="Thu gọn xuống góc" aria-label="Thu gọn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="sp-tabs">
+          <button class="sp-tab-btn active" id="spTabDisc">Bài hát</button>
+          <button class="sp-tab-btn" id="spTabList">Danh sách</button>
+        </div>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="sp-top-icon-btn" id="spTopSpotifyBtn" title="Mở trên Spotify" style="color:#1db954; border-color: rgba(29,185,84,0.5);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+
+      <!-- TAB 1: ĐĨA NHẠC XANH LAM + ĐIỀU KHIỂN SPOTIFY -->
+      <div class="sp-disc-view active" id="spViewDisc">
+        <div class="sp-jewel-case">
+          <div class="sp-jewel-clasp"></div>
+          <svg class="sp-tonearm" viewBox="0 0 30 130" fill="none">
+            <circle cx="15" cy="14" r="9" fill="#010d55" stroke="#dbebf8" stroke-width="2"/>
+            <circle cx="15" cy="14" r="3.5" fill="#4fa5d8"/>
+            <path d="M15 23 L15 88 L8 108" stroke="#dbebf8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="3" y="106" width="9" height="14" rx="2" transform="rotate(14 3 106)" fill="#4fa5d8" stroke="#dbebf8" stroke-width="1"/>
+          </svg>
+
+          <div class="sp-cd-spin">
+            <div class="cd-blue-surface">
+              <img src="" alt="" class="cd-cover-tint" id="spCoverImg">
+              <svg class="cd-wings-svg" viewBox="0 0 200 200" fill="none">
+                <path d="M100 44 C88 46, 82 58, 85 78 C64 66, 40 46, 30 24 C28 42, 34 64, 48 78 C32 72, 18 58, 14 44 C16 66, 32 90, 52 100 C36 102, 22 98, 16 88 C22 108, 44 126, 68 128 C76 144, 84 160, 86 178 L114 178 C116 160, 124 144, 132 128 C156 126, 178 108, 184 88 C178 98, 164 102, 148 100 C168 90, 184 66, 186 44 C182 58, 168 72, 152 78 C166 64, 172 42, 170 24 C160 46, 136 66, 115 78 C118 58, 112 46, 100 44 Z" fill="rgba(219,235,248,0.65)"/>
+              </svg>
+              <div class="cd-spindle">
+                <div class="cd-spindle-hole"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sp-info-row">
+          <div style="min-width: 0; flex: 1;">
+            <div class="sp-track-title" id="spTitle">SALVATORE</div>
+            <div class="sp-track-sub">
+              <span id="spArtist">Lana Del Rey</span>
+              <span class="sp-badge">HQ</span>
+              <span class="sp-badge" id="spTrackCount">1 / 2</span>
+            </div>
+          </div>
+          <button class="sp-like-btn" id="spLikeBtn" title="Yêu thích bài hát">♡</button>
+        </div>
+
+        <div class="sp-tools-row">
+          <div class="sp-vol-box">
+            <button class="mp-icon-btn" id="spVolMuteBtn" title="Bật / Tắt tiếng" style="width:24px; height:24px;">
+              <svg id="spVolOnIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              <svg id="spVolMuteIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            </button>
+            <input type="range" min="0" max="1" step="0.02" value="0.8" class="sp-vol-slider" id="spVolSlider" aria-label="Âm lượng">
+          </div>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="sp-spotify-pill" id="spPillSpotify">
+            <span>Spotify</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+
+        <div class="sp-progress-wrap">
+          <input type="range" min="0" max="100" step="0.5" value="0" class="sp-seek-slider" id="spSeekSlider" aria-label="Tua nhạc">
+          <div class="sp-time-row">
+            <span id="spCurrentTime">00:00</span>
+            <span id="spDurationTime">00:00</span>
+          </div>
+        </div>
+
+        <div class="sp-main-controls">
+          <button class="sp-ctrl-btn" id="spRepeatBtn" title="Lặp lại">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            <span class="sp-repeat-one-dot">1</span>
+          </button>
+          <button class="sp-ctrl-btn" id="spPrevBtn" title="Bài trước">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+          </button>
+          <button class="sp-big-play" id="spPlayBtn" title="Phát / Tạm dừng">
+            <svg id="spPlayIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+            <svg id="spPauseIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+          </button>
+          <button class="sp-ctrl-btn" id="spNextBtn" title="Bài tiếp theo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+          </button>
+          <button class="sp-ctrl-btn" id="spQueueBtn" title="Danh sách phát">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="12" y2="18"/><circle cx="18" cy="17" r="3"/><path d="M21 17V10"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 2: DANH SÁCH BÀI HÁT -->
+      <div class="sp-playlist-view" id="spViewList"></div>
     </div>
   </div>
 
@@ -851,6 +1159,8 @@
   <!-- MODAL: NHẬP PASSWORD -->
   <div class="ui-modal-base" id="sysPasswordModal" onclick="if(event.target === this) this.classList.remove('active')">
     <div class="ui-modal-box" style="text-align: center;">
+        <div class="block-avatar-bg" id="pwdBgImg"></div>
+        <div class="block-avatar-overlay"></div>
         <button class="close-btn-sys" onclick="document.getElementById('sysPasswordModal').classList.remove('active')">&times;</button>
         <img id="pwdAvt" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px; border: 2px solid var(--c-light);">
         <h3 id="pwdName" style="font-family: var(--font-brand); margin-bottom: 15px;"></h3>
@@ -863,6 +1173,8 @@
   <!-- MODAL: DASHBOARD -->
   <div class="ui-modal-base" id="sysDashboardModal" onclick="if(event.target === this) this.classList.remove('active')">
     <div class="ui-modal-box" style="max-width: 750px; height: 85vh; height: 85dvh;">
+        <div class="block-avatar-bg" id="dashBgImg"></div>
+        <div class="block-avatar-overlay"></div>
         <button class="close-btn-sys" onclick="document.getElementById('sysDashboardModal').classList.remove('active')">&times;</button>
         <div class="dash-header">
             <img id="dashAvt" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--c-light); object-fit: cover; flex-shrink: 0;">
@@ -1010,7 +1322,7 @@
     });
 
     /* ==========================================================================
-       ✦ RENDER BẢNG CREATORS ✦
+       ✦ RENDER BẢNG CREATORS (NỀN BLOCK TRÙNG AVATAR CREATOR) ✦
        ========================================================================== */
     const creatorsGrid = document.getElementById('creatorsGrid');
     const creatorFilterGroup = document.getElementById('creatorFilter');
@@ -1020,6 +1332,8 @@
       let buttonsHtml = c.buttons.map(btn => `<a href="${btn.url}" class="carrd-btn">${btn.text}</a>`).join('');
       creatorsGrid.innerHTML += `
         <div class="creator-card">
+          <div class="block-avatar-bg" style="background-image: url('${c.banner}');"></div>
+          <div class="block-avatar-overlay"></div>
           <div class="creator-banner"><img src="${c.banner}"></div>
           <h3 class="c-name">${c.nameDisplay}</h3>
           <div class="c-sign">${c.sign}</div>
@@ -1139,6 +1453,7 @@
     window.promptLogin = function(id) {
         document.getElementById('sysLoginSelect').classList.remove('active');
         attemptLoginId = id;
+        document.getElementById('pwdBgImg').style.backgroundImage = `url('${dbLogin[id].image}')`;
         document.getElementById('pwdAvt').src = dbLogin[id].image;
         document.getElementById('pwdName').textContent = id;
         document.getElementById('pwdInput').value = "";
@@ -1167,6 +1482,7 @@
 
     function openDashboard() {
         let c = dbLogin[sysCurrentUser];
+        document.getElementById('dashBgImg').style.backgroundImage = `url('${c.image}')`;
         document.getElementById('dashAvt').src = c.image;
         document.getElementById('dashName').textContent = sysCurrentUser;
         
@@ -1199,6 +1515,8 @@
         if(newPass.trim() !== "") c.pass = newPass;
 
         localStorage.setItem('sysDB_Login_v8', JSON.stringify(dbLogin));
+        document.getElementById('dashBgImg').style.backgroundImage = `url('${c.image}')`;
+        document.getElementById('dashAvt').src = c.image;
         alert("Đã cập nhật Avatar cá nhân thành công!");
         sysUpdateLoginUI();
     }
@@ -1254,7 +1572,6 @@
       const countSpan = document.getElementById(`count-${safeId}`);
       if (countSpan) countSpan.textContent = window.heartsData[safeId];
       const btn = event.currentTarget; btn.classList.add('liked');
-      // Thông báo cho Tác giả (Ở đây giả lập tên Tác Giả trùng với 1 tên Account)
       sendNotif(charCreatorName, `Ai đó vừa rước <b>${charRealName}</b> về ♡ྀི`, charRealName);
     }
 
@@ -1348,7 +1665,7 @@
     }
 
     // ==========================================================================
-    // RENDER HỒ SƠ NHÂN VẬT CHUẨN ẢNH 1 VÀ 2 (ĐẸP & RESPONSIVE)
+    // RENDER HỒ SƠ NHÂN VẬT (1 THANH TRƯỢT + NỀN BLOCK TRÙNG AVATAR NHÂN VẬT)
     // ==========================================================================
     function openChar(c) {
       const safeId = getSafeId(c.name);
@@ -1363,6 +1680,9 @@
           : `<input type="text" id="cmtName-${safeId}" class="cmt-input" placeholder="Điền tên ngoan yêu (không bắt buộc)">`;
 
       modalSlabContent.innerHTML = `
+        <div class="block-avatar-bg" style="background-image: url('${c.img}');"></div>
+        <div class="block-avatar-overlay"></div>
+
         <div class="modal-top-actions">
             <button class="heart-btn-top ${isSessionLiked ? 'liked' : ''}" onclick="addHeart('${safeId}', '${c.creator}', '${c.name}', event)">
                 Rước về ♡ྀི <span id="count-${safeId}">${currentHearts}</span>
@@ -1483,7 +1803,7 @@
     anim();
 
     /* ==========================================================================
-       ✦ TRÌNH PHÁT NHẠC RADIO + SPOTIFY LINK (KIỂU 1) ✦
+       ✦ TRÌNH PHÁT NHẠC RADIO + ĐĨA XANH LAM + SETTING THEO SPOTIFY ✦
        ========================================================================== */
     const vinylDisc = document.getElementById('vinylDisc'), vinylText = document.getElementById('vinylText');
     const mpPill = document.getElementById('musicPlayerPill');
@@ -1495,13 +1815,40 @@
     const mpPauseIcon = document.getElementById('mpPauseIcon');
     const mpPrevBtn = document.getElementById('mpPrevBtn');
     const mpNextBtn = document.getElementById('mpNextBtn');
-    const mpVolBtn = document.getElementById('mpVolBtn');
-    const mpVolPopover = document.getElementById('mpVolPopover');
-    const mpVolSlider = document.getElementById('mpVolSlider');
-    const mpVolOnIcon = document.getElementById('mpVolOnIcon');
-    const mpVolMuteIcon = document.getElementById('mpVolMuteIcon');
     const mpSpotifyLink = document.getElementById('mpSpotifyLink');
     const mpCloseBtn = document.getElementById('mpCloseBtn');
+    const mpSettingBtn = document.getElementById('mpSettingBtn');
+
+    // Elements Full Modal (Ảnh 3 + Ảnh 4)
+    const spModal = document.getElementById('spotifyPlayerModal');
+    const spModalBox = document.getElementById('spModalBox');
+    const spBgImg = document.getElementById('spBgImg');
+    const spCoverImg = document.getElementById('spCoverImg');
+    const spTitle = document.getElementById('spTitle');
+    const spArtist = document.getElementById('spArtist');
+    const spTrackCount = document.getElementById('spTrackCount');
+    const spLikeBtn = document.getElementById('spLikeBtn');
+    const spTopSpotifyBtn = document.getElementById('spTopSpotifyBtn');
+    const spPillSpotify = document.getElementById('spPillSpotify');
+    const spVolMuteBtn = document.getElementById('spVolMuteBtn');
+    const spVolOnIcon = document.getElementById('spVolOnIcon');
+    const spVolMuteIcon = document.getElementById('spVolMuteIcon');
+    const spVolSlider = document.getElementById('spVolSlider');
+    const spSeekSlider = document.getElementById('spSeekSlider');
+    const spCurrentTime = document.getElementById('spCurrentTime');
+    const spDurationTime = document.getElementById('spDurationTime');
+    const spRepeatBtn = document.getElementById('spRepeatBtn');
+    const spPrevBtn = document.getElementById('spPrevBtn');
+    const spPlayBtn = document.getElementById('spPlayBtn');
+    const spPlayIcon = document.getElementById('spPlayIcon');
+    const spPauseIcon = document.getElementById('spPauseIcon');
+    const spNextBtn = document.getElementById('spNextBtn');
+    const spQueueBtn = document.getElementById('spQueueBtn');
+    const spCollapseBtn = document.getElementById('spCollapseBtn');
+    const spTabDisc = document.getElementById('spTabDisc');
+    const spTabList = document.getElementById('spTabList');
+    const spViewDisc = document.getElementById('spViewDisc');
+    const spViewList = document.getElementById('spViewList');
 
     const playlist = (MY_CONFIG.playlist && MY_CONFIG.playlist.length > 0)
       ? MY_CONFIG.playlist
@@ -1509,30 +1856,95 @@
 
     let currentTrackIdx = 0;
     let aCtx = null, oGain = null, isP = false, hasOpenedOnce = false;
-    let currentVolume = 0.8;
+    let currentVolume = 0.8, lastNonZeroVolume = 0.8;
+    let repeatMode = 'all'; // 'all' | 'one'
+    let likedTracks = new Set(JSON.parse(localStorage.getItem('baoUngLikedTracks') || '[]'));
     const cAud = new Audio();
     cAud.volume = currentVolume;
 
+    function formatAudioTime(sec) {
+      if (!isFinite(sec) || sec < 0) return "00:00";
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function switchPlayerTab(tabName) {
+      const isDisc = tabName === 'disc';
+      spTabDisc.classList.toggle('active', isDisc);
+      spTabList.classList.toggle('active', !isDisc);
+      spViewDisc.classList.toggle('active', isDisc);
+      spViewList.classList.toggle('active', !isDisc);
+    }
+
+    function renderPlaylistRows() {
+      spViewList.innerHTML = playlist.map((t, i) => `
+        <div class="sp-song-row ${i === currentTrackIdx ? 'active' : ''}" onclick="selectTrackFromList(${i})">
+          <img src="${t.cover || MY_CONFIG.ASSETS.cardImg}" onerror="this.src=MY_CONFIG.ASSETS.cardImg" class="sp-song-thumb">
+          <div class="sp-song-meta">
+            <div class="sp-song-name">${t.title || 'Unknown'}</div>
+            <div class="sp-song-artist">${t.artist || 'Unknown'}</div>
+          </div>
+          ${(t.spotify && t.spotify.trim() !== '' && t.spotify !== '#')
+            ? `<a href="${t.spotify}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="mp-spotify-link" title="Mở trên Spotify"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
+            : ''
+          }
+        </div>
+      `).join('');
+    }
+
+    window.selectTrackFromList = function(idx) {
+      loadTrack(idx, true);
+      switchPlayerTab('disc');
+    };
+
     function updatePlayerUI() {
       const track = playlist[currentTrackIdx];
+      const coverUrl = track.cover || MY_CONFIG.ASSETS.cardImg;
+
+      // Mini pill
       mpTitle.textContent = track.title || "Unknown Track";
       mpArtist.textContent = track.artist || "Unknown Artist";
       mpCoverImg.onerror = () => { mpCoverImg.src = MY_CONFIG.ASSETS.cardImg; };
-      mpCoverImg.src = track.cover || MY_CONFIG.ASSETS.cardImg;
+      mpCoverImg.src = coverUrl;
 
-      if (track.spotify && track.spotify.trim() !== "" && track.spotify !== "#") {
-        mpSpotifyLink.href = track.spotify;
-        mpSpotifyLink.classList.remove('disabled');
-      } else {
-        mpSpotifyLink.removeAttribute('href');
-        mpSpotifyLink.classList.add('disabled');
-      }
+      // Full player
+      spTitle.textContent = track.title || "Unknown Track";
+      spArtist.textContent = track.artist || "Unknown Artist";
+      spTrackCount.textContent = `${currentTrackIdx + 1} / ${playlist.length}`;
+      spCoverImg.onerror = () => { spCoverImg.src = MY_CONFIG.ASSETS.cardImg; };
+      spCoverImg.src = coverUrl;
+      spBgImg.style.backgroundImage = `url('${coverUrl}')`;
+
+      const hasSpotify = track.spotify && track.spotify.trim() !== "" && track.spotify !== "#";
+      [mpSpotifyLink, spTopSpotifyBtn, spPillSpotify].forEach(el => {
+        if (hasSpotify) {
+          el.href = track.spotify;
+          el.classList.remove('disabled');
+        } else {
+          el.removeAttribute('href');
+          el.classList.add('disabled');
+        }
+      });
+
+      const isLiked = likedTracks.has(track.title);
+      spLikeBtn.classList.toggle('liked', isLiked);
+      spLikeBtn.textContent = isLiked ? '♥' : '♡';
+
+      spRepeatBtn.classList.toggle('active', repeatMode === 'one');
+      spRepeatBtn.classList.toggle('repeat-one', repeatMode === 'one');
 
       vinylDisc.classList.toggle('spinning', isP);
       mpPill.classList.toggle('playing', isP);
+      spModalBox.classList.toggle('playing', isP);
       vinylText.textContent = isP ? "Đang Phát" : "Radio";
+
       mpPlayIcon.style.display = isP ? 'none' : 'block';
       mpPauseIcon.style.display = isP ? 'block' : 'none';
+      spPlayIcon.style.display = isP ? 'none' : 'block';
+      spPauseIcon.style.display = isP ? 'block' : 'none';
+
+      renderPlaylistRows();
     }
 
     function loadTrack(idx, shouldPlay = false) {
@@ -1542,6 +1954,10 @@
 
       cAud.pause();
       if (oGain && aCtx) oGain.gain.linearRampToValueAtTime(0, aCtx.currentTime + 0.3);
+
+      spSeekSlider.value = 0;
+      spCurrentTime.textContent = "00:00";
+      spDurationTime.textContent = "00:00";
 
       if (src && src.trim() !== '') {
         cAud.src = src;
@@ -1584,12 +2000,54 @@
       updatePlayerUI();
     }
 
+    function setVolumeLevel(val) {
+      currentVolume = Math.max(0, Math.min(1, val));
+      if (currentVolume > 0) lastNonZeroVolume = currentVolume;
+      cAud.volume = currentVolume;
+      spVolSlider.value = currentVolume;
+      if (oGain && aCtx && isP) {
+        oGain.gain.setTargetAtTime(currentVolume * 0.4, aCtx.currentTime, 0.05);
+      }
+      const isMuted = currentVolume === 0;
+      spVolOnIcon.style.display = isMuted ? 'none' : 'block';
+      spVolMuteIcon.style.display = isMuted ? 'block' : 'none';
+    }
+
+    window.openFullPlayer = function() {
+      mpPill.classList.remove('open');
+      spModal.classList.add('active');
+      if (!hasOpenedOnce) {
+        hasOpenedOnce = true;
+        if (!isP) togglePlayState();
+      }
+    };
+
+    window.closeFullPlayer = function() {
+      spModal.classList.remove('active');
+      mpPill.classList.add('open');
+    };
+
+    cAud.addEventListener('timeupdate', () => {
+      if (isFinite(cAud.duration) && cAud.duration > 0) {
+        const pct = (cAud.currentTime / cAud.duration) * 100;
+        spSeekSlider.value = pct;
+        spCurrentTime.textContent = formatAudioTime(cAud.currentTime);
+        spDurationTime.textContent = formatAudioTime(cAud.duration);
+      }
+    });
+
+    cAud.addEventListener('loadedmetadata', () => {
+      if (isFinite(cAud.duration)) {
+        spDurationTime.textContent = formatAudioTime(cAud.duration);
+      }
+    });
+
     cAud.addEventListener('ended', () => {
-      if (playlist.length > 1) {
-        loadTrack(currentTrackIdx + 1, true);
-      } else {
+      if (repeatMode === 'one' || playlist.length === 1) {
         cAud.currentTime = 0;
         cAud.play().catch(() => {});
+      } else {
+        loadTrack(currentTrackIdx + 1, true);
       }
     });
 
@@ -1599,55 +2057,42 @@
 
     document.getElementById('vinylPlayer').addEventListener('click', (e) => {
       e.stopPropagation();
-      const willOpen = !mpPill.classList.contains('open');
-      mpPill.classList.toggle('open', willOpen);
-      if (willOpen && !hasOpenedOnce) {
-        hasOpenedOnce = true;
-        if (!isP) togglePlayState();
-      }
+      openFullPlayer();
     });
 
-    mpPlayBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      togglePlayState();
+    [mpPlayBtn, spPlayBtn].forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); togglePlayState(); }));
+    [mpPrevBtn, spPrevBtn].forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); loadTrack(currentTrackIdx - 1, true); }));
+    [mpNextBtn, spNextBtn].forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); loadTrack(currentTrackIdx + 1, true); }));
+
+    [document.getElementById('mpExpandFromDisc'), document.getElementById('mpExpandFromMeta'), mpSettingBtn].forEach(el => {
+      el.addEventListener('click', (e) => { e.stopPropagation(); openFullPlayer(); });
     });
 
-    mpPrevBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      loadTrack(currentTrackIdx - 1, true);
+    spCollapseBtn.addEventListener('click', (e) => { e.stopPropagation(); closeFullPlayer(); });
+    mpCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); mpPill.classList.remove('open'); });
+
+    spTabDisc.addEventListener('click', () => switchPlayerTab('disc'));
+    spTabList.addEventListener('click', () => switchPlayerTab('list'));
+    spQueueBtn.addEventListener('click', () => switchPlayerTab(spViewList.classList.contains('active') ? 'disc' : 'list'));
+
+    spRepeatBtn.addEventListener('click', () => {
+      repeatMode = repeatMode === 'all' ? 'one' : 'all';
+      updatePlayerUI();
     });
 
-    mpNextBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      loadTrack(currentTrackIdx + 1, true);
+    spLikeBtn.addEventListener('click', () => {
+      const t = playlist[currentTrackIdx].title;
+      if (likedTracks.has(t)) likedTracks.delete(t); else likedTracks.add(t);
+      localStorage.setItem('baoUngLikedTracks', JSON.stringify([...likedTracks]));
+      updatePlayerUI();
     });
 
-    mpCloseBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      mpPill.classList.remove('open');
-      mpVolPopover.classList.remove('show');
-    });
+    spVolSlider.addEventListener('input', (e) => setVolumeLevel(parseFloat(e.target.value)));
+    spVolMuteBtn.addEventListener('click', () => setVolumeLevel(currentVolume > 0 ? 0 : lastNonZeroVolume));
 
-    mpVolBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      mpVolPopover.classList.toggle('show');
-    });
-
-    mpVolSlider.addEventListener('input', (e) => {
-      e.stopPropagation();
-      currentVolume = parseFloat(e.target.value);
-      cAud.volume = currentVolume;
-      if (oGain && aCtx && isP) {
-        oGain.gain.setTargetAtTime(currentVolume * 0.4, aCtx.currentTime, 0.05);
-      }
-      const isMuted = currentVolume === 0;
-      mpVolOnIcon.style.display = isMuted ? 'none' : 'block';
-      mpVolMuteIcon.style.display = isMuted ? 'block' : 'none';
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.mp-volume-wrap')) {
-        mpVolPopover.classList.remove('show');
+    spSeekSlider.addEventListener('input', (e) => {
+      if (isFinite(cAud.duration) && cAud.duration > 0) {
+        cAud.currentTime = (parseFloat(e.target.value) / 100) * cAud.duration;
       }
     });
 
