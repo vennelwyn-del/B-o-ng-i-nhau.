@@ -44,8 +44,9 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
-    body, html { width: 100%; height: 100%; overflow: hidden; background-color: var(--c-darkest); color: var(--c-lightest); transition: background-color 0.5s, color 0.5s; }
-    ::-webkit-scrollbar { width: 5px; }
+    input, textarea { user-select: text; -webkit-user-select: text; }
+    body, html { width: 100%; height: 100%; height: 100dvh; overflow: hidden; background-color: var(--c-darkest); color: var(--c-lightest); transition: background-color 0.5s, color 0.5s; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(79, 165, 216, 0.4); border-radius: 10px; }
 
@@ -57,104 +58,385 @@
     .light-mode .vignette-overlay { background: radial-gradient(circle at center, transparent 38%, rgba(255, 255, 255, 0.7) 100%); }
 
     /* ==========================================================================
-       ✦ MENU BAR (Tối ưu nút Login giống ảnh mẫu) ✦
+       ✦ MENU BAR ✦
        ========================================================================== */
-    .top-bar { position: fixed; top: 0; left: 0; width: 100%; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; z-index: 50; pointer-events: none; }
+    .top-bar { position: fixed; top: 0; left: 0; width: 100%; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; gap: 10px; z-index: 50; pointer-events: none; }
     .top-bar > * { pointer-events: auto; }
 
-    .top-left-controls { display: flex; gap: 10px; opacity: 0; transform: translateX(-30px); transition: 0.5s; pointer-events: none; align-items: center;}
+    .top-left-controls { display: flex; gap: 10px; opacity: 0; transform: translateX(-30px); transition: 0.5s; pointer-events: none; align-items: center; min-width: 0; }
     .top-left-controls.visible { opacity: 1; transform: translateX(0); pointer-events: auto; }
     
     .btn-sys {
-      display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 18px;
       background: linear-gradient(135deg, rgba(79, 165, 216, 0.25) 0%, rgba(7, 84, 176, 0.65) 50%, rgba(1, 13, 85, 0.9) 100%);
       border: 1px solid var(--glass-border); border-radius: 40px; color: #fff; font-family: var(--font-button); font-size: 1rem; cursor: pointer;
       backdrop-filter: blur(14px); transition: 0.3s; box-shadow: inset 0 0 18px rgba(219, 235, 248, 0.15), 0 6px 20px rgba(1, 3, 44, 0.6);
+      white-space: nowrap;
     }
-    .light-mode .btn-sys { background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(129, 212, 250, 0.6) 100%); color: var(--c-lightest); }
     .btn-sys:hover { border-color: var(--c-lightest); transform: translateY(-2px); }
 
-    /* Thiết kế nút Login riêng biệt */
     .btn-login-sys {
-        display: inline-flex; align-items: center; gap: 8px; padding: 5px 15px 5px 5px;
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 5px 15px 5px 5px;
         background: rgba(1, 13, 85, 0.8); border: 1px solid rgba(219, 235, 248, 0.3);
         border-radius: 30px; color: var(--c-lightest); font-family: var(--font-ui); font-size: 0.9rem;
-        cursor: pointer; backdrop-filter: blur(10px); transition: 0.3s;
+        cursor: pointer; backdrop-filter: blur(10px); transition: 0.3s; white-space: nowrap;
     }
     .btn-login-sys:hover { background: rgba(79, 165, 216, 0.4); }
-    #authMiniAvatar { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; display: none; }
-    .login-icon-default { font-size: 1.2rem; padding: 0 4px;}
+    #authMiniAvatar { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; display: none; flex-shrink: 0; }
+    .login-icon-default { font-size: 1.2rem; padding: 0 4px; line-height: 1; }
 
-    .top-right-controls { display: flex; gap: 12px; margin-left: auto; }
-    .btn-theme-toggle { padding: 6px 14px; background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border); color: var(--c-lightest); cursor: pointer; backdrop-filter: blur(12px); }
-    .vinyl-player-box { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 5px 12px 5px 6px; background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border); backdrop-filter: blur(12px); }
-    .vinyl-disc { width: 34px; height: 34px; border-radius: 50%; background: repeating-radial-gradient(circle, #01032c 0px, #01032c 2px, #010d55 3px, #0754b0 4px); display: flex; align-items: center; justify-content: center; }
+    .top-right-controls { display: flex; align-items: center; gap: 12px; margin-left: auto; flex-shrink: 0; }
+    .btn-theme-toggle { display: inline-flex; align-items: center; justify-content: center; padding: 6px 14px; background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border); color: var(--c-lightest); cursor: pointer; backdrop-filter: blur(12px); white-space: nowrap; }
+    .vinyl-player-box { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 5px 12px 5px 6px; background: rgba(1, 13, 85, 0.5); border-radius: 40px; border: 1px solid var(--glass-border); backdrop-filter: blur(12px); white-space: nowrap; }
+    .vinyl-disc { width: 34px; height: 34px; border-radius: 50%; background: repeating-radial-gradient(circle, #01032c 0px, #01032c 2px, #010d55 3px, #0754b0 4px); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .vinyl-center-label { width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle, #dbebf8 0%, #4fa5d8 50%, #0754b0 100%); }
     .vinyl-disc.spinning { animation: spinVinyl 3.5s linear infinite; }
     @keyframes spinVinyl { 100% { transform: rotate(360deg); } }
     .vinyl-text { font-family: var(--font-top-tag); font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--c-lightest); }
 
     @media (max-width: 768px) {
-      .top-bar { padding: 12px 15px; }
+      .top-bar { padding: 12px 14px; }
+      .top-left-controls, .top-right-controls { gap: 8px; }
       .btn-sys span:last-child, #authBtnText { display: none; } 
-      .btn-sys .sparkle-mini { margin: 0; font-size: 1.2rem; display: block; }
-      .btn-sys { padding: 8px; border-radius: 50%; }
-      .btn-login-sys { padding: 6px; border-radius: 50%; }
-      .btn-theme-toggle span { font-size: 0; }
-      .btn-theme-toggle::before { content: 'ʕ˖͜͡˖ʔ'; font-size: 1.1rem; }
-      .btn-theme-toggle { padding: 8px 12px; }
+      .btn-sys .sparkle-mini { margin: 0; font-size: 1.15rem; display: flex; align-items: center; justify-content: center; line-height: 1; }
+      .btn-sys { width: 40px; height: 40px; padding: 0; border-radius: 50%; }
+      .btn-login-sys { width: 40px; height: 40px; padding: 0; border-radius: 50%; }
+      #authMiniAvatar { width: 32px; height: 32px; }
+      .login-icon-default { padding: 0; font-size: 1.15rem; }
+      .btn-theme-toggle span { font-size: 0; display: none; }
+      .btn-theme-toggle::before { content: 'ʕ˖͜͡˖ʔ'; font-size: 1rem; line-height: 1; }
+      .btn-theme-toggle { width: 40px; height: 40px; padding: 0; border-radius: 50%; }
       .vinyl-text { display: none; }
-      .vinyl-player-box { padding: 6px; border-radius: 50%; }
+      .vinyl-player-box { width: 40px; height: 40px; padding: 0; border-radius: 50%; justify-content: center; }
       .vinyl-disc { width: 30px; height: 30px; }
+    }
+
+    /* ==========================================================================
+       ✦ FLOATING MUSIC PLAYER PILL (KIỂU 1) ✦
+       ========================================================================== */
+    .music-player-pill {
+      position: fixed;
+      bottom: 22px;
+      right: 24px;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 18px 10px 12px;
+      border-radius: 999px;
+      background: rgba(1, 13, 85, 0.78);
+      border: 1px solid rgba(79, 165, 216, 0.42);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 12px 35px rgba(1, 3, 44, 0.55), inset 0 0 18px rgba(219, 235, 248, 0.08);
+      max-width: 390px;
+      min-width: 300px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(18px) scale(0.96);
+      transition: opacity 0.32s ease, transform 0.32s ease, visibility 0.32s ease;
+    }
+    .music-player-pill.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+    body.light-mode .music-player-pill {
+      background: rgba(255, 255, 255, 0.88);
+      border-color: rgba(79, 165, 216, 0.45);
+      box-shadow: 0 12px 30px rgba(1, 42, 74, 0.16), inset 0 0 16px rgba(255, 255, 255, 0.7);
+    }
+
+    .mp-disc-wrap {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, rgba(219, 235, 248, 0.55), rgba(79, 165, 216, 0.7));
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    }
+    .mp-cover-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      animation: spinVinyl 9s linear infinite;
+      animation-play-state: paused;
+    }
+    .music-player-pill.playing .mp-cover-img {
+      animation-play-state: running;
+    }
+    .mp-disc-hole {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--c-darkest);
+      border: 2px solid rgba(219, 235, 248, 0.85);
+      pointer-events: none;
+    }
+    body.light-mode .mp-disc-hole {
+      background: #ffffff;
+      border-color: #4fa5d8;
+    }
+
+    .mp-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .mp-meta {
+      min-width: 0;
+    }
+    .mp-title {
+      font-family: var(--font-top-tag);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--c-lightest);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
+    }
+    .mp-artist {
+      font-family: var(--font-quote);
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--c-light);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
+    }
+
+    .mp-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mp-icon-btn {
+      background: none;
+      border: none;
+      color: var(--c-lightest);
+      opacity: 0.78;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      transition: 0.2s;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .mp-icon-btn:hover {
+      opacity: 1;
+      background: rgba(79, 165, 216, 0.18);
+    }
+
+    .mp-play-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: var(--c-light);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(79, 165, 216, 0.4);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .mp-play-btn:hover {
+      transform: scale(1.07);
+      background: var(--c-mid);
+    }
+    body.light-mode .mp-play-btn:hover {
+      background: #0277bd;
+    }
+
+    .mp-volume-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+    .mp-volume-popover {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(1, 13, 85, 0.94);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: 0.2s ease;
+      z-index: 65;
+    }
+    .mp-volume-popover.show {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    body.light-mode .mp-volume-popover {
+      background: rgba(255, 255, 255, 0.96);
+    }
+    .mp-volume-slider {
+      width: 85px;
+      accent-color: #4fa5d8;
+      cursor: pointer;
+    }
+
+    .mp-spotify-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      color: #1db954;
+      text-decoration: none;
+      transition: 0.2s;
+      flex-shrink: 0;
+    }
+    .mp-spotify-link:hover {
+      background: rgba(29, 185, 84, 0.16);
+      transform: scale(1.1);
+    }
+    .mp-spotify-link.disabled {
+      opacity: 0.28;
+      pointer-events: none;
+    }
+
+    .mp-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--glass-border);
+      margin: 0 2px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .music-player-pill {
+        bottom: 14px;
+        right: auto;
+        left: 50%;
+        width: calc(100vw - 24px);
+        max-width: 365px;
+        min-width: 0;
+        padding: 8px 14px 8px 10px;
+        gap: 11px;
+        transform: translateX(-50%) translateY(18px) scale(0.96);
+      }
+      .music-player-pill.open {
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
+      .mp-disc-wrap {
+        width: 54px;
+        height: 54px;
+      }
+      .mp-title {
+        font-size: 0.86rem;
+      }
+      .mp-artist {
+        font-size: 0.88rem;
+      }
+      .mp-controls {
+        gap: 5px;
+      }
+      .mp-icon-btn, .mp-spotify-link {
+        width: 26px;
+        height: 26px;
+      }
+      .mp-play-btn {
+        width: 31px;
+        height: 31px;
+      }
     }
 
     /* ==========================================================================
        ✦ MÀN HÌNH 1 & 2 ✦
        ========================================================================== */
-    #landingScreen { position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; transition: 1s ease; pointer-events: none; }
+    #landingScreen { position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 70px 20px 30px; transition: 1s ease; pointer-events: none; overflow-y: auto; }
     #landingScreen.hidden { opacity: 0; visibility: hidden; }
-    #landingScreen > * { pointer-events: auto; }
+    #landingScreen > * { pointer-events: auto; flex-shrink: 0; }
     .floating-card-wrapper { position: relative; cursor: pointer; animation: floatSmooth 6s ease-in-out infinite; perspective: 1000px; }
     @keyframes floatSmooth { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
     .floating-picture-frame { width: 220px; height: 300px; padding: 8px; border-radius: 12px; background: var(--ice-bg); border: 1px solid var(--glass-border); overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
     .floating-picture-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
-    .quote-text { font-family: var(--font-quote); font-style: italic; font-size: clamp(1.4rem, 4vw, 2.2rem); margin-top: 24px; text-shadow: 0 0 15px rgba(79, 165, 216, 0.8); text-align: center; }
+    .quote-text { font-family: var(--font-quote); font-style: italic; font-size: clamp(1.3rem, 4vw, 2.2rem); margin-top: 24px; text-shadow: 0 0 15px rgba(79, 165, 216, 0.8); text-align: center; max-width: 90vw; }
     .brand-title { font-family: var(--font-brand); font-size: 0.7rem; letter-spacing: 6px; margin: 10px 0 25px; text-align: center; }
 
-    /* Nút Xem báo ứng làm lại đẹp như ảnh 4 */
+    @media (max-width: 480px), (max-height: 700px) {
+      .floating-picture-frame { width: 175px; height: 240px; }
+      .quote-text { margin-top: 18px; }
+      .brand-title { margin: 8px 0 18px; letter-spacing: 4px; }
+    }
+
+    @media (max-height: 560px) {
+      #landingScreen { justify-content: flex-start; padding-top: 68px; }
+      .floating-picture-frame { width: 140px; height: 190px; }
+    }
+
     .btn-action-enter { 
         display: inline-flex; align-items: center; justify-content: center; gap: 8px; 
-        padding: 10px 25px; border-radius: 4px; /* Hình chữ nhật góc nhọn */
+        padding: 10px 25px; border-radius: 4px; 
         background: rgba(240, 248, 255, 0.95); border: 1px solid #4fa5d8; 
         color: #01032c; font-family: var(--font-ui); font-size: 0.95rem; font-weight: 500;
         cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
     .btn-action-enter:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(79, 165, 216, 0.4); }
     .btn-action-enter span:first-child { color: #4fa5d8; font-size: 1.2rem; }
-
-    .tap-hint { font-family: var(--font-hint); font-size: 0.6rem; letter-spacing: 4px; margin-top: 15px; animation: pulseHint 2.5s infinite; opacity: 0.8; }
+    .tap-hint { font-family: var(--font-hint); font-size: 0.6rem; letter-spacing: 4px; margin-top: 15px; animation: pulseHint 2.5s infinite; opacity: 0.8; text-align: center; }
     @keyframes pulseHint { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
 
-    #archiveScreen { position: absolute; inset: 0; z-index: 15; padding: 80px 20px 40px; overflow-y: auto; overflow-x: hidden; pointer-events: none; opacity: 0; transform: translateY(20px); transition: 1s ease 0.2s; }
+    #archiveScreen { position: absolute; inset: 0; z-index: 15; padding: 80px 20px 40px; overflow-y: auto; overflow-x: hidden; pointer-events: none; opacity: 0; transform: translateY(20px); transition: 1s ease 0.2s; -webkit-overflow-scrolling: touch; }
     #archiveScreen.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+    @media (max-width: 600px) {
+      #archiveScreen { padding: 72px 14px 36px; }
+    }
     
     .archive-header-box { text-align: center; margin: 0 auto 30px; padding: 25px 15px; max-width: 600px; background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px; backdrop-filter: blur(14px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-    .archive-title { font-family: var(--font-brand); font-size: clamp(1.4rem, 4vw, 2.2rem); letter-spacing: 3px; margin-bottom: 10px; text-shadow: 0 0 15px rgba(79, 165, 216, 0.6); }
+    .archive-title { font-family: var(--font-brand); font-size: clamp(1.3rem, 4vw, 2.2rem); letter-spacing: 3px; margin-bottom: 10px; text-shadow: 0 0 15px rgba(79, 165, 216, 0.6); }
     .archive-subtitle { font-family: var(--font-ui); font-size: 0.9rem; margin-bottom: 15px; }
-    .archive-divider { font-size: 1.2rem; color: var(--c-light); margin-bottom: 15px; }
+    .archive-divider { font-size: 1.2rem; color: var(--c-light); margin-bottom: 15px; overflow: hidden; }
     .archive-slogan { font-family: var(--font-quote); font-size: 1.2rem; font-style: italic; opacity: 0.9; }
 
     .archive-controls { max-width: 1000px; margin: 0 auto 30px; display: flex; flex-direction: column; gap: 15px; }
     .search-input { width: 100%; padding: 12px 20px; font-family: var(--font-ui); font-size: 0.95rem; color: var(--c-lightest); background: rgba(1, 13, 85, 0.4); border: 1px solid var(--glass-border); border-radius: 30px; backdrop-filter: blur(10px); outline: none; transition: 0.3s; }
     .filters-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-    .toggle-pill-group { display: inline-flex; background: rgba(1, 3, 44, 0.4); border: 1px solid var(--glass-border); border-radius: 30px; padding: 4px; }
-    .toggle-btn { padding: 6px 18px; border-radius: 20px; border: none; background: transparent; color: inherit; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; cursor: pointer; opacity: 0.7; transition: 0.3s; }
+    .toggle-pill-group { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 4px; max-width: 100%; background: rgba(1, 3, 44, 0.4); border: 1px solid var(--glass-border); border-radius: 30px; padding: 4px; }
+    .toggle-btn { padding: 6px 16px; border-radius: 20px; border: none; background: transparent; color: inherit; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; cursor: pointer; opacity: 0.7; transition: 0.3s; }
     .toggle-btn.active { background: var(--c-light); color: #fff; opacity: 1; font-weight: 600; }
     
     .tags-panel { background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; }
     .tags-header { font-family: var(--font-ui); font-size: 0.9rem; font-weight: 600; color: var(--c-light); margin-bottom: 10px; text-transform: uppercase; }
-    .tags-list { display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
-    .tag-btn { white-space: nowrap; padding: 5px 14px; background: rgba(1, 3, 44, 0.4); border: 1px solid var(--glass-border); border-radius: 15px; color: inherit; font-family: var(--font-ui); font-size: 0.8rem; cursor: pointer; opacity: 0.8; }
+    .tags-list { display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
+    .tag-btn { white-space: nowrap; padding: 5px 14px; background: rgba(1, 3, 44, 0.4); border: 1px solid var(--glass-border); border-radius: 15px; color: inherit; font-family: var(--font-ui); font-size: 0.8rem; cursor: pointer; opacity: 0.8; flex-shrink: 0; }
     .tag-btn.active { border-color: var(--c-light); background: rgba(79, 165, 216, 0.2); opacity: 1; }
     .tag-btn.tag-red { border-color: rgba(255, 107, 139, 0.4); color: #ff6b8b; }
     .tag-btn.tag-red.active { background: rgba(255, 107, 139, 0.2); color: #fff; border-color: #ff6b8b; }
@@ -165,18 +447,18 @@
     .char-img-box { width: 100%; height: 220px; border-radius: 8px; overflow: hidden; margin-bottom: 12px; background: rgba(0,0,0,0.2); }
     .char-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
     .char-card:hover .char-img-box img { transform: scale(1.05); }
-    .char-info-box { display: flex; flex-direction: column; }
-    .char-name-outer { font-family: var(--font-char-name); font-size: 1.8rem; margin-bottom: 4px; color: var(--c-lightest); line-height: 1.2; }
+    .char-info-box { display: flex; flex-direction: column; min-width: 0; }
+    .char-name-outer { font-family: var(--font-char-name); font-size: 1.8rem; margin-bottom: 4px; color: var(--c-lightest); line-height: 1.2; overflow-wrap: break-word; }
     .char-title-outer { font-family: var(--font-char-text); font-style: italic; font-size: 0.95rem; color: var(--c-light); margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}    
     .char-tags-mini { display: flex; flex-wrap: wrap; gap: 6px; }
     .char-tags-mini span { font-family: var(--font-ui); font-size: 0.6rem; background: rgba(1, 3, 44, 0.4); padding: 3px 6px; border-radius: 8px; border: 1px solid var(--glass-border); }
     
     @media (max-width: 600px) {
       .character-grid { grid-template-columns: 1fr; gap: 12px; }
-      .char-card { flex-direction: row; gap: 15px; padding: 12px; align-items: center; }
+      .char-card { flex-direction: row; gap: 14px; padding: 12px; align-items: center; }
       .char-img-box { width: 85px; height: 110px; margin-bottom: 0; flex-shrink: 0; }
-      .char-info-box { flex-grow: 1; overflow: hidden; }
-      .char-name-outer { font-size: 1.5rem; }
+      .char-info-box { flex-grow: 1; min-width: 0; overflow: hidden; }
+      .char-name-outer { font-size: 1.4rem; }
       .char-title-outer { font-size: 0.85rem; margin-bottom: 6px; }
     }
 
@@ -192,35 +474,45 @@
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       padding: 15px; opacity: 0; visibility: hidden; transition: 0.3s;
     }
-    .light-mode .ui-modal-base { background: rgba(240, 248, 255, 0.85); }
     .ui-modal-base.active { opacity: 1; visibility: visible; }
     
     .ui-modal-box { 
       background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px; 
-      padding: 25px; width: 100%; max-width: 400px; position: relative; 
+      padding: 25px; width: 100%; max-width: 400px; max-height: 90dvh; position: relative; 
       box-shadow: 0 15px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; 
     }
     
-    .close-btn {
+    /* Nút X mặc định cho các bảng hệ thống */
+    .close-btn-sys {
       position: absolute; top: 15px; right: 15px; width: 34px; height: 34px; border-radius: 50%;
-      background: rgba(255, 107, 139, 0.8); border: 1px solid #ff6b8b; color: #fff;
-      display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; z-index: 110; transition: 0.2s;
+      background: rgba(1, 13, 85, 0.6); border: 1px solid var(--glass-border); color: #fff;
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; z-index: 110;
     }
-    .close-btn:hover { background: #ff4772; transform: scale(1.1); }
+
+    @media (max-width: 480px) {
+      .ui-modal-base { padding: 10px; }
+      .ui-modal-box { padding: 20px 16px; }
+    }
 
     /* ==========================================================================
-       ✦ MODAL CREATORS (Độc lập, Tùy chỉnh Nút như Ảnh 3) ✦
+       ✦ MODAL CREATORS SHOWCASE ✦
        ========================================================================== */
-    .creators-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; max-height: 80vh; overflow-y: auto; padding: 10px; }
-    .creator-card { background: rgba(1, 3, 44, 0.6); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.3); display: flex; flex-direction: column;}
+    .creators-modal-box {
+      background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 20px;
+      padding: 25px; max-width: 1000px; width: 95vw; max-height: 90vh; max-height: 90dvh;
+      position: relative; display: flex; flex-direction: column;
+    }
+    .creators-modal-header { text-align: center; margin-bottom: 20px; flex-shrink: 0; padding: 0 38px; }
+    .creators-modal-title { font-family: var(--font-brand); color: var(--c-lightest); font-size: clamp(1.25rem, 4vw, 2rem); letter-spacing: 2px; }
+    .creators-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 20px; width: 100%; max-width: 1000px; flex: 1; min-height: 0; overflow-y: auto; padding: 6px; -webkit-overflow-scrolling: touch; }
+    .creator-card { background: rgba(1, 3, 44, 0.6); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.3); display: flex; flex-direction: column; min-width: 0; }
     .creator-banner { width: 100%; height: 160px; border-radius: 8px; margin-bottom: 15px; overflow: hidden; border: 1px solid var(--glass-border); }
     .creator-banner img { width: 100%; height: 100%; object-fit: cover; }
-    .c-name { font-family: var(--font-top-tag); font-size: 1.5rem; font-weight: 600; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .c-name { font-family: var(--font-top-tag); font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 600; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; overflow-wrap: break-word; }
     .c-sign { font-family: var(--font-ui); font-size: 0.75rem; color: var(--c-light); margin-bottom: 15px; letter-spacing: 1px;}
     .c-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.15rem; margin-bottom: 15px; opacity: 0.9;}
-    .c-bio { font-family: var(--font-char-text); font-size: 1rem; margin-bottom: 20px; opacity: 0.8; line-height: 1.4; flex-grow: 1;}
+    .c-bio { font-family: var(--font-char-text); font-size: 1rem; margin-bottom: 20px; opacity: 0.8; line-height: 1.4; flex-grow: 1; overflow-wrap: break-word;}
     
-    /* Thiết kế nút mờ ảo bo góc giống ảnh 3 */
     .creator-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;}
     .carrd-btn { 
         padding: 8px 18px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.3); 
@@ -229,64 +521,158 @@
     }
     .carrd-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: #fff; }
 
+    @media (max-width: 600px) {
+      .creators-modal-box { padding: 18px 14px; width: 95vw; }
+      .creators-modal-header { margin-bottom: 12px; }
+      .creators-grid { gap: 14px; padding: 2px; }
+      .creator-card { padding: 16px; }
+    }
+
     /* ==========================================================================
-       ✦ HỒ SƠ NHÂN VẬT (CHUẨN RESPONSIVE MOBILE TỪ TRÊN XUỐNG DƯỚI) ✦
+       ✦ HỒ SƠ NHÂN VẬT (LÀM LẠI CHUẨN ẢNH 1 VÀ 2) ✦
        ========================================================================== */
     .char-modal-box {
-        background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 16px;
-        width: 95vw; max-width: 1000px; height: 85vh; max-height: 750px;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.5); backdrop-filter: blur(25px);
-        display: flex; flex-direction: column; position: relative; 
-        overflow-y: auto; overflow-x: hidden;
+        background: #02081e; /* Màu xanh đen như ảnh mẫu 1 */
+        border: 1px solid rgba(79, 165, 216, 0.3); border-radius: 16px;
+        width: 95vw; max-width: 1000px; height: 90vh; height: 90dvh; max-height: 800px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.6); 
+        display: flex; flex-direction: column; position: relative; overflow: hidden;
     }
-    .char-modal-bg { position: absolute; inset: 0; z-index: 0; background: linear-gradient(135deg, rgba(1,13,85,0.8) 0%, rgba(1,3,44,0.95) 100%); pointer-events: none;}
-    
-    .char-left-col { position: relative; z-index: 1; padding: 25px 20px; text-align: center; border-bottom: 1px solid var(--glass-border); flex-shrink: 0; }
-    .char-right-col { position: relative; z-index: 1; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
 
-    @media (min-width: 900px) { 
-        .char-modal-box { flex-direction: row; overflow: hidden; } 
-        .char-left-col { width: 42%; border-bottom: none; border-right: 1px solid var(--glass-border); overflow-y: auto; padding: 30px;}
-        .char-right-col { width: 58%; overflow-y: auto; padding: 30px 30px 30px 20px; gap: 25px;}
+    /* Container gom 2 nút trên cùng (Fix lỗi đè nút) */
+    .modal-top-actions {
+        position: absolute; top: 0; right: 0; width: 100%;
+        display: flex; justify-content: flex-end; align-items: center; gap: 10px;
+        padding: 15px; z-index: 50; pointer-events: none; /* Tránh cản chuột phần dưới */
     }
-    
-    .c-layout-name { font-family: var(--font-char-name); font-size: 3rem; color: var(--c-lightest); line-height: 1.1; }
-    .c-layout-creator { font-family: var(--font-char-text); font-size: 1rem; color: var(--c-light); margin-top: 5px; }
-    .c-layout-divider { font-size: 0.8rem; color: var(--c-light); opacity: 0.6; margin: 15px 0; letter-spacing: 2px;}
-    
-    .c-layout-img-wrapper { 
-        width: 100%; max-width: 280px; margin: 0 auto 15px; position: relative; 
-        overflow: hidden; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); 
-        border: 1px solid var(--glass-border);
-    }
-    /* ẢNH TỈ LỆ 3:4 */
-    .c-layout-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
-    .c-layout-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.15rem; color: var(--c-lightest); margin-top: 10px; line-height: 1.4;}
+    .modal-top-actions > * { pointer-events: auto; }
 
+    /* Nút X màu hồng chuẩn ảnh 2 */
+    .close-btn-pink {
+        width: 36px; height: 36px; border-radius: 50%;
+        background: #c86b85; border: none; color: #fff;
+        display: flex; align-items: center; justify-content: center; 
+        font-family: var(--font-ui); font-size: 1.2rem; cursor: pointer; transition: 0.2s;
+        box-shadow: 0 4px 10px rgba(200, 107, 133, 0.4); flex-shrink: 0;
+    }
+    .close-btn-pink:hover { transform: scale(1.1); background: #e07794;}
+
+    /* Nút Rước về */
     .heart-btn-top {
-        background: rgba(1, 3, 44, 0.5); border: 1px solid var(--glass-border); color: var(--c-lightest); 
-        padding: 6px 15px; border-radius: 20px; font-family: var(--font-ui); font-size: 0.8rem; 
+        background: rgba(2, 8, 30, 0.75); border: 1px solid rgba(255,255,255,0.3); color: var(--c-lightest); 
+        padding: 6px 16px; border-radius: 20px; font-family: var(--font-ui); font-size: 0.8rem; 
         cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.3s;
+        backdrop-filter: blur(8px);
     }
-    .heart-btn-top:hover { background: rgba(255, 107, 139, 0.2); border-color: #ff6b8b; }
+    .heart-btn-top:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
     .heart-btn-top.liked { color: #ff6b8b; border-color: #ff6b8b; }
-    
-    @media (min-width: 900px) { .heart-btn-top { position: absolute; top: 20px; right: 70px; z-index: 10; } }
 
-    .c-section-title { font-family: var(--font-char-text); font-size: 1.15rem; color: var(--c-light); font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;}
-    .c-warning-content { border-left: 2px solid #ff6b8b; padding-left: 15px; color: #ff6b8b; font-size: 1rem; font-style: italic; background: linear-gradient(90deg, rgba(255,107,139,0.1) 0%, transparent 100%); padding: 10px 15px;}
-    .c-tags-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
-    .c-tag-item { font-family: var(--font-ui); font-size: 0.8rem; background: rgba(1, 3, 44, 0.6); padding: 5px 12px; border-radius: 15px; border: 1px solid var(--glass-border); }
-    .c-text-body { font-family: var(--font-char-text); font-size: 1.1rem; line-height: 1.6; color: var(--c-lightest); opacity: 0.9; white-space: pre-wrap; }
+    /* Wrapper chứa 2 cột */
+    .char-content-wrapper {
+        display: flex; flex-direction: column; 
+        width: 100%; height: 100%; 
+        overflow-y: auto; overflow-x: hidden; /* Đảm bảo Mobile chỉ có 1 thanh cuộn dọc */
+        padding-top: 64px; /* Dành chỗ cho 2 nút trên cùng */
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* CHIA CỘT RESPONSIVE */
+    .char-left-col { padding: 16px 20px 24px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+    .char-right-col { padding: 20px; display: flex; flex-direction: column; gap: 25px; min-width: 0; }
+
+    @media (max-width: 899px) {
+      .modal-top-actions {
+        background: linear-gradient(to bottom, rgba(2, 8, 30, 0.96) 55%, rgba(2, 8, 30, 0) 100%);
+        padding: 12px 14px 18px;
+      }
+      .char-modal-box { width: 96vw; height: 92vh; height: 92dvh; max-height: none; }
+    }
+
+    /* Bố cục Máy tính */
+    @media (min-width: 900px) { 
+        .char-content-wrapper { flex-direction: row; padding-top: 0; overflow: hidden; } 
+        .char-left-col { width: 42%; height: 100%; border-bottom: none; border-right: 1px solid rgba(255,255,255,0.1); overflow-y: auto; padding: 40px 30px;}
+        .char-right-col { width: 58%; height: 100%; overflow-y: auto; padding: 64px 30px 30px 30px;} /* Padding top 64 để né 2 nút */
+    }
     
-    .c-list-item { font-family: var(--font-ui); font-size: 0.9rem; margin-top: 8px; }
-    .c-list-item a { color: var(--c-lightest); text-decoration: none; border-bottom: 1px dashed var(--glass-border); padding-bottom: 2px; transition: 0.2s;}
-    .c-list-item a:hover { color: var(--c-light); border-color: var(--c-light);}
+    /* STYLING CHI TIẾT THEO ẢNH 1 */
+    .c-layout-name { font-family: var(--font-char-name); font-size: clamp(2rem, 6vw, 3.5rem); color: var(--c-lightest); line-height: 1.15; letter-spacing: 1px; overflow-wrap: break-word; }
+    
+    .c-layout-creator { margin-top: 8px; font-family: var(--font-char-text); font-size: 1.1rem; color: #4fa5d8; cursor: pointer; transition: 0.3s;}
+    .c-layout-creator:hover { text-shadow: 0 0 10px rgba(79,165,216,0.6); }
+
+    .c-layout-divider { font-size: 0.9rem; color: rgba(255,255,255,0.4); margin: 18px 0; letter-spacing: 4px;}
+    
+    .c-layout-img-wrapper { width: 100%; max-width: 280px; margin: 0 auto; position: relative; border-radius: 12px; overflow: hidden;}
+    .c-layout-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; border-radius: 12px;}
+    
+    .c-layout-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.2rem; color: var(--c-lightest); margin-top: 22px; line-height: 1.4; padding: 0 10px;}
+
+    @media (max-width: 600px) {
+      .c-layout-img-wrapper { max-width: 220px; }
+      .c-layout-quote { font-size: 1.08rem; }
+      .char-right-col { padding: 18px 15px 24px; gap: 20px; }
+    }
+
+    .c-section-title { font-family: var(--font-char-text); font-size: 1.25rem; color: #4fa5d8; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;}
+    .c-warning-content { border-left: 2px solid #ff6b8b; padding-left: 15px; color: #ff6b8b; font-size: 1rem; font-style: italic; padding: 5px 15px; overflow-wrap: break-word;}
+    .c-tags-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .c-tag-item { font-family: var(--font-ui); font-size: 0.8rem; background: transparent; padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
+    .c-text-body { font-family: var(--font-char-text); font-size: 1.15rem; line-height: 1.6; color: rgba(255,255,255,0.85); white-space: pre-wrap; overflow-wrap: break-word; }
+    
+    .c-list-item { font-family: var(--font-ui); font-size: 0.95rem; margin-top: 10px; color: rgba(255,255,255,0.9); overflow-wrap: break-word;}
+    .c-list-item a { color: inherit; text-decoration: none; border-bottom: 1px dashed rgba(255,255,255,0.4); padding-bottom: 2px; transition: 0.2s;}
+    .c-list-item a:hover { color: #fff; border-color: #fff;}
+
+    /* BẢNG COMMENT THEO STYLE ẢNH 1 */
+    .cmt-container { background: transparent; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+    .cmt-list { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; padding-right: 5px; -webkit-overflow-scrolling: touch;}
+    .cmt-list::-webkit-scrollbar { width: 3px; }
+    
+    .cmt-item { display: flex; gap: 12px; font-family: var(--font-ui); }
+    .cmt-item.is-reply { margin-left: 45px; margin-top: 5px; position: relative; }
+    .cmt-item.is-reply::before { content: ''; position: absolute; left: -25px; top: -10px; width: 15px; height: 25px; border-left: 1px solid rgba(255,255,255,0.2); border-bottom: 1px solid rgba(255,255,255,0.2); border-bottom-left-radius: 8px; }
+    .cmt-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.2); }
+    .cmt-body { flex-grow: 1; min-width: 0; }
+    .cmt-head { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; align-items: center;}
+    .cmt-name { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; color: #fff; overflow-wrap: break-word;}
+    .cmt-badge { font-size: 0.65rem; background: #4fa5d8; padding: 2px 6px; border-radius: 10px; color: #fff; font-weight: 500;}
+    .cmt-date { font-size: 0.7rem; opacity: 0.5; }
+    .cmt-text { font-size: 0.95rem; line-height: 1.5; margin-bottom: 10px; white-space: pre-wrap; color: rgba(255,255,255,0.85); overflow-wrap: anywhere;}
+    
+    @media (max-width: 600px) {
+      .cmt-container { padding: 14px; }
+      .cmt-item.is-reply { margin-left: 26px; }
+      .cmt-item.is-reply::before { left: -16px; width: 10px; }
+      .cmt-avatar { width: 30px; height: 30px; }
+    }
+
+    .cmt-actions { display: flex; gap: 15px; font-size: 0.8rem; opacity: 0.7; }
+    .cmt-act-btn { background: none; border: none; color: inherit; cursor: pointer; font-family: inherit; transition: 0.2s; padding: 0;}
+    .cmt-act-btn:hover { color: #fff; }
+    .cmt-act-btn.liked { color: #ff6b8b; opacity: 1;}
+    
+    .reply-box { margin-top: 10px; display: none; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1);}
+    .reply-box.active { display: block; }
+    
+    .cmt-input, .cmt-textarea { 
+        width: 100%; background: transparent; border: 1px solid rgba(255,255,255,0.2); 
+        border-radius: 6px; padding: 12px; color: #fff; font-family: var(--font-ui); 
+        font-size: 0.85rem; margin-bottom: 10px; outline: none; transition: 0.3s;
+    }
+    .cmt-input:focus, .cmt-textarea:focus { border-color: #4fa5d8; }
+    
+    .btn-submit-cmt { 
+        padding: 8px 20px; background: transparent; border: 1px solid rgba(255,255,255,0.3); 
+        border-radius: 20px; color: #fff; font-family: var(--font-ui); font-size: 0.85rem; 
+        cursor: pointer; transition: 0.3s;
+    }
+    .btn-submit-cmt:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
 
     /* ==========================================================================
-       ✦ HỆ THỐNG AUTH / DASHBOARD & COMMENT CÂY ✦
+       ✦ HỆ THỐNG AUTH & DASHBOARD ✦
        ========================================================================== */
-    .auth-grid { display: flex; justify-content: center; gap: 20px; margin-top: 15px; }
+    .auth-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 15px; }
     .auth-item { text-align: center; cursor: pointer; transition: 0.3s; }
     .auth-item:hover { transform: translateY(-5px); }
     .auth-img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--glass-border); object-fit: cover; }
@@ -297,56 +683,33 @@
     .sys-btn { width: 100%; padding: 12px; background: var(--c-light); color: #fff; border: none; border-radius: 8px; font-family: var(--font-ui); font-weight: bold; cursor: pointer; transition: 0.3s;}
     .sys-btn:hover { background: var(--c-mid); }
 
-    .dash-header { display: flex; gap: 15px; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border); }
-    .dash-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+    .dash-header { display: flex; gap: 15px; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border); padding-right: 36px; }
+    .dash-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
     .dash-tab { padding: 8px 15px; background: rgba(1,3,44,0.5); border: 1px solid var(--glass-border); border-radius: 20px; color: inherit; font-family: var(--font-ui); font-size: 0.85rem; cursor: pointer; }
     .dash-tab.active { background: var(--c-light); }
-    .dash-content { overflow-y: auto; flex-grow: 1; padding-right: 5px; }
-    .notif-item { padding: 12px; border-left: 3px solid var(--c-light); background: rgba(219, 235, 248, 0.05); margin-bottom: 10px; border-radius: 4px; font-family: var(--font-ui); cursor: pointer; transition: 0.2s;}
+    .dash-content { overflow-y: auto; flex-grow: 1; min-height: 0; padding-right: 5px; -webkit-overflow-scrolling: touch; }
+    .notif-item { padding: 12px; border-left: 3px solid var(--c-light); background: rgba(219, 235, 248, 0.05); margin-bottom: 10px; border-radius: 4px; font-family: var(--font-ui); cursor: pointer; transition: 0.2s; overflow-wrap: break-word;}
     .notif-item:hover { background: rgba(219, 235, 248, 0.1); }
     .notif-text b { color: var(--c-light); }
 
-    .cmt-container { background: rgba(1, 3, 44, 0.2); border: 1px solid var(--glass-border); border-radius: 10px; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-    .cmt-list { max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; padding-right: 5px;}
-    .cmt-list::-webkit-scrollbar { width: 3px; }
-    
-    .cmt-item { display: flex; gap: 12px; font-family: var(--font-ui); }
-    .cmt-item.is-reply { margin-left: 45px; margin-top: 5px; position: relative; }
-    .cmt-item.is-reply::before { content: ''; position: absolute; left: -25px; top: -10px; width: 15px; height: 25px; border-left: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); border-bottom-left-radius: 8px; }
-    .cmt-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 1px solid var(--glass-border); }
-    .cmt-body { flex-grow: 1; background: rgba(219, 235, 248, 0.05); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);}
-    .cmt-head { display: flex; justify-content: space-between; margin-bottom: 6px; align-items: center;}
-    .cmt-name { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 6px;}
-    .cmt-badge { font-size: 0.65rem; background: var(--c-light); padding: 2px 6px; border-radius: 10px; color: #fff; }
-    .cmt-date { font-size: 0.7rem; opacity: 0.6; }
-    .cmt-text { font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px; white-space: pre-wrap;}
-    
-    .cmt-actions { display: flex; gap: 15px; font-size: 0.8rem; opacity: 0.8; }
-    .cmt-act-btn { background: none; border: none; color: inherit; cursor: pointer; font-family: inherit; transition: 0.2s; padding: 0;}
-    .cmt-act-btn:hover { color: var(--c-light); }
-    .cmt-act-btn.liked { color: #ff6b8b; }
-    
-    .reply-box { margin-top: 10px; display: none; background: rgba(1, 13, 85, 0.2); padding: 10px; border-radius: 8px; border: 1px dashed rgba(255,255,255,0.1);}
-    .reply-box.active { display: block; }
-    .cmt-input, .cmt-textarea { width: 100%; background: rgba(1, 13, 85, 0.3); border: 1px solid var(--glass-border); border-radius: 6px; padding: 10px 12px; color: inherit; font-family: var(--font-ui); font-size: 0.85rem; margin-bottom: 8px; outline: none;}
-    .btn-submit-cmt { padding: 8px 18px; background: transparent; border: 1px solid var(--c-light); border-radius: 20px; color: inherit; font-family: var(--font-ui); font-size: 0.85rem; cursor: pointer; float: right; transition: 0.3s;}
-    .btn-submit-cmt:hover { background: var(--c-light); color: #fff; }
+    @media (max-width: 480px) {
+      .dash-header img { width: 54px !important; height: 54px !important; }
+      .dash-tab { padding: 6px 12px; font-size: 0.8rem; }
+    }
+
   </style>
 </head>
 <body>
 
-  <!-- HIỆU ỨNG NỀN -->
   <div class="water-bg-layer" id="waterBg"></div>
   <canvas id="fxCanvas"></canvas>
   <div class="vignette-overlay"></div>
 
-  <!-- MENU BAR -->
   <header class="top-bar">
     <div class="top-left-controls" id="topLeftGroup">
         <button class="btn-sys" id="btnOpenCreators">
           <span class="sparkle-mini" style="color:var(--c-light)"> 𓆩ꨄ︎𓆪 </span><span> Creators of Báo ứng </span>
         </button>
-        <!-- NÚT LOGIN LÀM LẠI CHO ĐẸP -->
         <button class="btn-login-sys" id="btnLogin">
           <img src="" id="authMiniAvatar">
           <span class="login-icon-default" id="loginIcon">ꨄ︎</span>
@@ -360,12 +723,57 @@
       </button>
       <div class="vinyl-player-box" id="vinylPlayer">
         <div class="vinyl-disc" id="vinylDisc"><div class="vinyl-center-label"></div></div>
-        <span class="vinyl-text" id="vinylText"> 〄 Radio </span>
+        <span class="vinyl-text" id="vinylText"> Radio </span>
       </div>
     </div>
   </header>
 
-  <!-- MÀN HÌNH KHỞI ĐẦU -->
+  <!-- FLOATING MUSIC PLAYER PILL (KIỂU 1) -->
+  <div class="music-player-pill" id="musicPlayerPill">
+    <div class="mp-disc-wrap">
+      <img src="" alt="" class="mp-cover-img" id="mpCoverImg">
+      <div class="mp-disc-hole"></div>
+    </div>
+    <div class="mp-body">
+      <div class="mp-meta">
+        <div class="mp-title" id="mpTitle">SALVATORE</div>
+        <div class="mp-artist" id="mpArtist">Lana Del Rey</div>
+      </div>
+      <div class="mp-controls">
+        <button class="mp-icon-btn" id="mpPrevBtn" title="Bài trước" aria-label="Bài trước">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+        </button>
+        <button class="mp-play-btn" id="mpPlayBtn" title="Phát / Tạm dừng" aria-label="Phát hoặc tạm dừng">
+          <svg id="mpPlayIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+          <svg id="mpPauseIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+        </button>
+        <button class="mp-icon-btn" id="mpNextBtn" title="Bài tiếp theo" aria-label="Bài tiếp theo">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+        </button>
+
+        <div class="mp-volume-wrap">
+          <button class="mp-icon-btn" id="mpVolBtn" title="Âm lượng" aria-label="Âm lượng">
+            <svg id="mpVolOnIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+            <svg id="mpVolMuteIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+          </button>
+          <div class="mp-volume-popover" id="mpVolPopover">
+            <input type="range" min="0" max="1" step="0.02" value="0.8" class="mp-volume-slider" id="mpVolSlider" aria-label="Thanh âm lượng">
+          </div>
+        </div>
+
+        <a href="#" target="_blank" rel="noopener noreferrer" class="mp-spotify-link" id="mpSpotifyLink" title="Mở trên Spotify" aria-label="Mở trên Spotify">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+
+        <div class="mp-divider"></div>
+
+        <button class="mp-icon-btn" id="mpCloseBtn" title="Thu gọn trình phát" aria-label="Đóng trình phát">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <main id="landingScreen">
     <div class="floating-card-wrapper" id="cardWrapper">
       <div class="floating-picture-frame"><img src="" id="centerImg" alt=""></div>
@@ -373,18 +781,16 @@
     <h1 class="quote-text">“What is grief, if not love persevering?”</h1>
     <div class="brand-title"> B Á O   Ứ N G   Đ Ờ I   N H A U </div>
     
-    <!-- NÚT XEM BÁO ỨNG MỚI ĐẸP NHƯ HÌNH 4 -->
     <button class="btn-action-enter" id="btnEnter">
-      <span>༄</span><span> Xem báo ứng 𝜗𝜚 </span>
+      <span>༄</span><span> Xem báo ứng </span>
     </button>
     
     <div class="tap-hint"> 𓆝 𓆟 𓆞 C H Ạ M   Đ Ể   M Ở 𓆝 𓆟 𓆞 </div>
   </main>
 
-  <!-- MÀN HÌNH LƯU TRỮ -->
   <section id="archiveScreen">
     <div class="archive-header-box">
-      <h2 class="archive-title"> ྀིྀི໒꒱ SỔ LƯU TRỮ NHÂN QUẢ 𓍯𓂃𓏧♡ </h2>
+      <h2 class="archive-title">SỔ LƯU TRỮ NHÂN QUẢ</h2>
       <p class="archive-subtitle">Ting ting, phát hiện một ngoan xinh yêu đi lạc ᝰ.ᐟ</p>
       <div class="archive-divider">❀•°•═════ஓ๑♡๑ஓ═════•°•❀</div>
       <p class="archive-slogan">“Where your dreams are embraced”</p>
@@ -416,12 +822,12 @@
     </div>
   </section>
 
-  <!-- MODAL: CREATORS SHOWCASE (TÁCH BIỆT HOÀN TOÀN VỚI LOGIN) -->
+  <!-- MODAL: CREATORS SHOWCASE -->
   <div class="ui-modal-base" id="creatorsOverlay" onclick="if(event.target === this) this.classList.remove('active')">
-    <div style="background: var(--ice-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 25px; max-width: 1000px; width: 95vw; max-height: 90vh; position: relative; display: flex; flex-direction: column;">
-        <button class="close-btn" onclick="document.getElementById('creatorsOverlay').classList.remove('active')">&times;</button>
-        <div style="text-align: center; margin-bottom: 20px; flex-shrink: 0;">
-          <h2 style="font-family: var(--font-brand); color: var(--c-lightest); font-size: 2rem; letter-spacing: 2px;"> ᝰ.ᐟ CREATORS ✎ ౨ৎ </h2>
+    <div class="creators-modal-box">
+        <button class="close-btn-sys" onclick="document.getElementById('creatorsOverlay').classList.remove('active')">&times;</button>
+        <div class="creators-modal-header">
+          <h2 class="creators-modal-title"> ᝰ.ᐟ CREATORS ✎ ౨ৎ </h2>
         </div>
         <div class="creators-grid" id="creatorsGrid"></div>
     </div>
@@ -435,7 +841,7 @@
   <!-- MODAL: CHỌN ACC LOGIN -->
   <div class="ui-modal-base" id="sysLoginSelect" onclick="if(event.target === this) this.classList.remove('active')">
     <div class="ui-modal-box" style="text-align: center;">
-        <button class="close-btn" onclick="document.getElementById('sysLoginSelect').classList.remove('active')">&times;</button>
+        <button class="close-btn-sys" onclick="document.getElementById('sysLoginSelect').classList.remove('active')">&times;</button>
         <h2 style="font-family: var(--font-brand); margin-bottom: 5px; font-size: 1.5rem;">𓆝 𓆟 Chọn hồ sơ 𓆝 𓆟</h2>
         <p style="font-family: var(--font-ui); font-size: 0.85rem; color: var(--c-light); font-style: italic;">Hệ thống Auth quản lý.</p>
         <div class="auth-grid" id="authGridList"></div>
@@ -445,7 +851,7 @@
   <!-- MODAL: NHẬP PASSWORD -->
   <div class="ui-modal-base" id="sysPasswordModal" onclick="if(event.target === this) this.classList.remove('active')">
     <div class="ui-modal-box" style="text-align: center;">
-        <button class="close-btn" onclick="document.getElementById('sysPasswordModal').classList.remove('active')">&times;</button>
+        <button class="close-btn-sys" onclick="document.getElementById('sysPasswordModal').classList.remove('active')">&times;</button>
         <img id="pwdAvt" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px; border: 2px solid var(--c-light);">
         <h3 id="pwdName" style="font-family: var(--font-brand); margin-bottom: 15px;"></h3>
         <input type="password" id="pwdInput" class="sys-input" placeholder="Nhập mật khẩu...">
@@ -456,12 +862,12 @@
 
   <!-- MODAL: DASHBOARD -->
   <div class="ui-modal-base" id="sysDashboardModal" onclick="if(event.target === this) this.classList.remove('active')">
-    <div class="ui-modal-box" style="max-width: 750px; height: 85vh;">
-        <button class="close-btn" onclick="document.getElementById('sysDashboardModal').classList.remove('active')">&times;</button>
+    <div class="ui-modal-box" style="max-width: 750px; height: 85vh; height: 85dvh;">
+        <button class="close-btn-sys" onclick="document.getElementById('sysDashboardModal').classList.remove('active')">&times;</button>
         <div class="dash-header">
-            <img id="dashAvt" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--c-light); object-fit: cover;">
-            <div>
-                <h2 id="dashName" style="font-family: var(--font-brand); margin-bottom: 4px;"></h2>
+            <img id="dashAvt" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--c-light); object-fit: cover; flex-shrink: 0;">
+            <div style="min-width: 0;">
+                <h2 id="dashName" style="font-family: var(--font-brand); margin-bottom: 4px; overflow-wrap: break-word;"></h2>
                 <div style="font-family: var(--font-ui); font-size: 0.8rem; color: var(--c-light);">Account Dashboard</div>
             </div>
         </div>
@@ -485,7 +891,7 @@
 
   <script>
     /* ==========================================================================
-       ✦ CẤU HÌNH DỮ LIỆU TÁCH BIỆT (V7) ✦
+       ✦ CẤU HÌNH DỮ LIỆU TÁCH BIỆT (BẢN V8) ✦
        ========================================================================== */
     window.sessionLikes = new Set(); 
     window.heartsData = JSON.parse(localStorage.getItem('baoUngHearts')) || {};
@@ -500,7 +906,28 @@
           flowerImg: '' // Để trống sẽ vẽ hoa, thêm link ảnh .png sẽ rơi ảnh.
       },
 
-      /* 👉 MỤC 2: TÀI KHOẢN ĐĂNG NHẬP (Chỉ dùng để Quản lý Notif + Cmt) */
+      /* 👉 MỤC 1B: DANH SÁCH NHẠC RADIO (THÊM / SỬA BÀI Ở ĐÂY)
+         - audio: bỏ file .mp3 vào thư mục assets rồi điền './assets/ten-bai.mp3'
+         - cover: ảnh bìa đĩa xoay (vd: './assets/bia-1.jpg')
+         - spotify: dán link Spotify của bài hát để gắn vào nút xanh lá ↗ */
+      playlist: [
+        {
+          title: "Salvatore",
+          artist: "Lana Del Rey",
+          cover: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=500&auto=format&fit=crop",
+          audio: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3",
+          spotify: "https://open.spotify.com/search/Salvatore%20Lana%20Del%20Rey"
+        },
+        {
+          title: "Ocean Whisper",
+          artist: "Báo Ứng Radio",
+          cover: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=500&auto=format&fit=crop",
+          audio: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3",
+          spotify: "https://open.spotify.com/"
+        }
+      ],
+
+      /* 👉 MỤC 2: TÀI KHOẢN ĐĂNG NHẬP (ĐÃ SET LẠI PASS MỚI) */
       loginAccs: {
         "Rz": { pass: "040510", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200" },
         "SD": { pass: "242114", image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=200" },
@@ -542,13 +969,13 @@
       ]
     };
 
-    // Khởi tạo DB Version 7 (Xóa cũ lấy mới)
-    if(!localStorage.getItem('sysDB_Login_v7')) localStorage.setItem('sysDB_Login_v7', JSON.stringify(MY_CONFIG.loginAccs));
-    if(!localStorage.getItem('sysDB_Notifs_v7')) localStorage.setItem('sysDB_Notifs_v7', JSON.stringify({"Rz":[], "SD":[], "ysz":[]}));
+    // Khởi tạo DB Version 8 (Fix lỗi xung đột comment)
+    if(!localStorage.getItem('sysDB_Login_v8')) localStorage.setItem('sysDB_Login_v8', JSON.stringify(MY_CONFIG.loginAccs));
+    if(!localStorage.getItem('sysDB_Notifs_v8')) localStorage.setItem('sysDB_Notifs_v8', JSON.stringify({"Rz":[], "SD":[], "ysz":[]}));
     
-    let dbLogin = JSON.parse(localStorage.getItem('sysDB_Login_v7'));
-    let dbNotifs = JSON.parse(localStorage.getItem('sysDB_Notifs_v7'));
-    let sysCurrentUser = localStorage.getItem('sysLoggedUser_v7') || null;
+    let dbLogin = JSON.parse(localStorage.getItem('sysDB_Login_v8'));
+    let dbNotifs = JSON.parse(localStorage.getItem('sysDB_Notifs_v8'));
+    let sysCurrentUser = localStorage.getItem('sysLoggedUser_v8') || null;
 
     /* ==========================================================================
        ✦ KHỞI TẠO NỀN GỐC ✦
@@ -583,7 +1010,7 @@
     });
 
     /* ==========================================================================
-       ✦ RENDER BẢNG CREATORS (Dựa vào MY_CONFIG.creatorsShowcase) ✦
+       ✦ RENDER BẢNG CREATORS ✦
        ========================================================================== */
     const creatorsGrid = document.getElementById('creatorsGrid');
     const creatorFilterGroup = document.getElementById('creatorFilter');
@@ -591,7 +1018,6 @@
 
     MY_CONFIG.creatorsShowcase.forEach(c => {
       let buttonsHtml = c.buttons.map(btn => `<a href="${btn.url}" class="carrd-btn">${btn.text}</a>`).join('');
-      
       creatorsGrid.innerHTML += `
         <div class="creator-card">
           <div class="creator-banner"><img src="${c.banner}"></div>
@@ -599,9 +1025,7 @@
           <div class="c-sign">${c.sign}</div>
           <div class="c-quote">${c.quote}</div>
           <p class="c-bio">${c.bio}</p>
-          <div class="creator-actions">
-            ${buttonsHtml}
-          </div>
+          <div class="creator-actions">${buttonsHtml}</div>
         </div>
       `;
       creatorFilterGroup.innerHTML += `<button class="toggle-btn" data-val="${c.id}">${c.id}</button>`;
@@ -726,7 +1150,7 @@
         const pass = document.getElementById('pwdInput').value;
         if(pass === dbLogin[attemptLoginId].pass) {
             sysCurrentUser = attemptLoginId;
-            localStorage.setItem('sysLoggedUser_v7', sysCurrentUser);
+            localStorage.setItem('sysLoggedUser_v8', sysCurrentUser);
             document.getElementById('sysPasswordModal').classList.remove('active');
             sysUpdateLoginUI();
         } else {
@@ -736,7 +1160,7 @@
 
     window.sysLogout = function() {
         sysCurrentUser = null;
-        localStorage.removeItem('sysLoggedUser_v7');
+        localStorage.removeItem('sysLoggedUser_v8');
         document.getElementById('sysDashboardModal').classList.remove('active');
         sysUpdateLoginUI();
     }
@@ -774,23 +1198,18 @@
         let newPass = document.getElementById('setPass').value;
         if(newPass.trim() !== "") c.pass = newPass;
 
-        localStorage.setItem('sysDB_Login_v7', JSON.stringify(dbLogin));
-        alert("Đã cập nhật Auth thành công!");
+        localStorage.setItem('sysDB_Login_v8', JSON.stringify(dbLogin));
+        alert("Đã cập nhật Avatar cá nhân thành công!");
         sysUpdateLoginUI();
     }
 
     /* ==========================================================================
        ✦ THÔNG BÁO VÀ COMMENT CÂY ✦
        ========================================================================== */
-    // Note: Ở hệ thống mới, khi user tạo bot (Ví dụ: Thương Lan), nhưng account đăng nhập là SD. 
-    // Hệ thống sẽ push notif vào hòm thư "SD" nếu SD là người tạo.
-    // Tạm thời mình mapping thẳng tên Creator Character = Tài khoản Login. 
-    // Nếu bạn muốn mapping khác, có thể custom thêm. Ở đây sẽ push notif theo Tag/Tên.
-
     function sendNotif(loginID, htmlText, charName) {
         if(!dbNotifs[loginID]) return;
         dbNotifs[loginID].unshift({ time: new Date().toLocaleString('vi-VN'), text: htmlText, charRef: charName });
-        localStorage.setItem('sysDB_Notifs_v7', JSON.stringify(dbNotifs));
+        localStorage.setItem('sysDB_Notifs_v8', JSON.stringify(dbNotifs));
     }
 
     function renderNotifications() {
@@ -816,6 +1235,12 @@
         if(char) openChar(char);
     }
 
+    // Mở Bảng Creator khi click vào tên tác giả ở Hồ sơ Char
+    window.openCreatorInfo = function(creatorId) {
+        document.getElementById('charModal').classList.remove('active');
+        document.getElementById('creatorsOverlay').classList.add('active');
+    }
+
     function getSafeId(str) { return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, ''); }
 
     window.addHeart = function(safeId, charCreatorName, charRealName, event) {
@@ -829,12 +1254,12 @@
       const countSpan = document.getElementById(`count-${safeId}`);
       if (countSpan) countSpan.textContent = window.heartsData[safeId];
       const btn = event.currentTarget; btn.classList.add('liked');
-      // Nếu có tài khoản login trùng với tên creator, push thông báo
+      // Thông báo cho Tác giả (Ở đây giả lập tên Tác Giả trùng với 1 tên Account)
       sendNotif(charCreatorName, `Ai đó vừa rước <b>${charRealName}</b> về ♡ྀི`, charRealName);
     }
 
-    function getCmtsTree(safeId) { return JSON.parse(localStorage.getItem('sysTreeCmt_v7_' + safeId)) || []; }
-    function saveCmtsTree(safeId, data) { localStorage.setItem('sysTreeCmt_v7_' + safeId, JSON.stringify(data)); }
+    function getCmtsTree(safeId) { return JSON.parse(localStorage.getItem('sysTreeCmt_v8_' + safeId)) || []; }
+    function saveCmtsTree(safeId, data) { localStorage.setItem('sysTreeCmt_v8_' + safeId, JSON.stringify(data)); }
 
     window.addTreeComment = function(safeId, charCreatorName, charRealName, parentId = null) {
         let name = "Ẩn danh", avatar = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
@@ -890,12 +1315,12 @@
             let repBtn = !isRep ? `<button class="cmt-act-btn" onclick="toggleReply('${c.id}')">Phản hồi</button>` : "";
             let repInputHTML = "";
             if(!isRep) {
-                let nameHtml = sysCurrentUser ? `<div style="font-size:0.75rem; opacity:0.8; margin-bottom:4px;">Trả lời bằng: <b>${sysCurrentUser}</b></div>` : `<input type="text" id="repName-${c.id}" class="cmt-input" style="padding:6px 10px; margin-bottom:6px;" placeholder="Tên (Ẩn danh)">`;
+                let nameHtml = sysCurrentUser ? `<div style="font-size:0.75rem; opacity:0.8; margin-bottom:4px;">Trả lời bằng: <b>${sysCurrentUser}</b></div>` : `<input type="text" id="repName-${c.id}" class="cmt-input" style="padding:8px 12px; margin-bottom:6px;" placeholder="Tên (Ẩn danh)">`;
                 repInputHTML = `
                 <div class="reply-box" id="repBox-${c.id}">
                     ${nameHtml}
-                    <textarea id="repText-${c.id}" class="cmt-textarea" rows="1" style="padding:6px 10px; margin-bottom:6px;" placeholder="Nhập phản hồi..."></textarea>
-                    <div style="text-align:right;"><button class="btn-submit-cmt" style="padding:4px 12px; float:none;" onclick="addTreeComment('${safeId}', '${creatorName}', '${realName}', '${c.id}')">Gửi</button></div>
+                    <textarea id="repText-${c.id}" class="cmt-textarea" rows="1" style="padding:8px 12px; margin-bottom:6px;" placeholder="Nhập phản hồi..."></textarea>
+                    <div style="text-align:right;"><button class="btn-submit-cmt" style="padding:6px 16px; float:none;" onclick="addTreeComment('${safeId}', '${creatorName}', '${realName}', '${c.id}')">Gửi ➻❥</button></div>
                 </div>`;
             }
             return `
@@ -916,77 +1341,85 @@
 
         cmts.forEach(c => { html += buildNode(c, false, null); if(c.replies) c.replies.forEach(r => html += buildNode(r, true, c.id)); });
         let listEl = document.getElementById(`cmtList-${safeId}`);
-        if(listEl) listEl.innerHTML = html || `<div style="opacity:0.6; font-size:0.85rem; font-style:italic; text-align:center; padding:10px;"> Ngoan yêu có muốn là người đầu tiên mở hàng không nè... ≽^• ˕ • ྀི≼ </div>`;
+        if(listEl) listEl.innerHTML = html || `
+            <div style="text-align:center; opacity:0.6; padding:15px; font-family: var(--font-quote); font-style:italic;">
+                Ngoan yêu có muốn là người đầu tiên mở hàng không nè... ૮ ˶ᵔ ᵕ ᵔ˶ ა
+            </div>`;
     }
 
-    // RENDER HỒ SƠ NHÂN VẬT
+    // ==========================================================================
+    // RENDER HỒ SƠ NHÂN VẬT CHUẨN ẢNH 1 VÀ 2 (ĐẸP & RESPONSIVE)
+    // ==========================================================================
     function openChar(c) {
       const safeId = getSafeId(c.name);
       const currentHearts = window.heartsData[safeId] || 0;
       const isSessionLiked = window.sessionLikes.has(safeId);
 
-      let warningHtml = c.warning ? `<div><div class="c-section-title" style="color: #ff6b8b;">゛WARNING ˎˊ˗ 🚨</div><div class="c-warning-content">↳ «${c.warning}»</div></div>` : "";
+      let warningHtml = c.warning ? `<div><div class="c-section-title" style="color: #ff6b8b;">゛WARNING ˎˊ˗</div><div class="c-warning-content">↳ «${c.warning}»</div></div>` : "";
       let tagsHtml = (c.tags || []).map(t => `<span class="c-tag-item">${t}</span>`).join('');
-      let mainInputNameHTML = sysCurrentUser ? `<div style="font-size:0.8rem; margin-bottom:5px; opacity:0.8;">Bình luận bằng: <b>${sysCurrentUser}</b></div>` : `<input type="text" id="cmtName-${safeId}" class="cmt-input" placeholder="Điền tên ngoan yêu (không bắt buộc)">`;
+      
+      let mainInputNameHTML = sysCurrentUser 
+          ? `<div style="font-size:0.85rem; margin-bottom:8px; color:rgba(255,255,255,0.8); font-family:var(--font-ui);">Bình luận bằng: <b>${sysCurrentUser}</b></div>` 
+          : `<input type="text" id="cmtName-${safeId}" class="cmt-input" placeholder="Điền tên ngoan yêu (không bắt buộc)">`;
 
       modalSlabContent.innerHTML = `
-        <div class="char-modal-bg"></div>
-        
-        <!-- CỘT TRÁI -->
-        <div class="char-left-col">
-            <h2 class="c-layout-name">${c.name}</h2>
-            <div class="c-layout-creator">𐚁.${c.creator}</div>
-            <div class="c-layout-divider">- ˋˏ ༻ ❁ ༺ ˎˊ -</div>
-            
-            <div class="c-layout-img-wrapper">
-                <img src="${c.img}" class="c-layout-img">
-            </div>
-            
+        <div class="modal-top-actions">
             <button class="heart-btn-top ${isSessionLiked ? 'liked' : ''}" onclick="addHeart('${safeId}', '${c.creator}', '${c.name}', event)">
                 Rước về ♡ྀི <span id="count-${safeId}">${currentHearts}</span>
             </button>
-            
-            <div class="c-layout-quote">${c.title}</div>
-            <div class="c-layout-divider">- ˋˏ ༻ ❁ ༺ ˎˊ -</div>
+            <button class="close-btn-pink" onclick="document.getElementById('charModal').classList.remove('active')">&times;</button>
         </div>
 
-        <!-- CỘT PHẢI -->
-        <div class="char-right-col">
-            <button class="close-btn" onclick="document.getElementById('charModal').classList.remove('active')">&times;</button>
-            
-            ${warningHtml}
-
-            <div>
-                <div class="c-section-title">⋮ ⌗ ┆ Hashtags</div>
-                <div class="c-tags-wrap">${tagsHtml}</div>
-            </div>
-
-            <div>
-                <div class="c-section-title">≽ ⌢ Sơ lược về nhân vật ⸝⸝</div>
-                <div class="c-text-body">${c.lore}</div>
-            </div>
-
-            <!-- NGUỒN ẢNH / BOOK HÀNG DẠNG TEXT LINK GẠCH DƯỚI -->
-            <div>
-                <div class="c-section-title">⋏ ˊ- Địa chỉ ⸝⸝</div>
-                <div class="c-list-item">↳ <a href="#">Cẩm nang nhân vật</a></div>
-                ${c.imgSource ? `<div class="c-list-item">↳ <a href="${c.imgSource}" target="_blank">Nguồn ảnh</a></div>` : ''}
-                ${c.ggaiLink ? `<div class="c-list-item">↳ <a href="${c.ggaiLink}" target="_blank">Book hàng ᯓᡣ𐭩</a></div>` : ''}
-            </div>
-            
-            <div>
-                <div class="c-section-title">◫ Góc giao lưu ⸝⸝</div>
-                <div style="font-family: var(--font-ui); font-size: 0.8rem; opacity: 0.7; margin-bottom: 15px; font-style: italic;">Nếu ngoan yêu nào tìm được nguồn ảnh chính xác hơn, mong ngoan yêu hãy comment nhắc nhở để chúng tớ bổ sung nhé. Những bình luận tiêu cực, mang tính công kích sẽ bị xoá. Iu thương౨ৎ</div>
+        <div class="char-content-wrapper">
+            <!-- CỘT TRÁI -->
+            <div class="char-left-col">
+                <h2 class="c-layout-name">${c.name}</h2>
+                <div class="c-layout-creator" onclick="openCreatorInfo('${c.creator}')">✍. ${c.creator}</div>
+                <div class="c-layout-divider">- ˋˏ ༻ ❁ ༺ ˎˊ -</div>
                 
-                <div class="cmt-container">
-                    <div style="font-size: 0.9rem; margin-bottom:5px; font-family: var(--font-char-text);">Sổ lưu trữ nhân duyên (<span id="cmtCount-${safeId}">0</span>)</div>
-                    <div class="cmt-list" id="cmtList-${safeId}"></div>
+                <div class="c-layout-img-wrapper">
+                    <img src="${c.img}" class="c-layout-img">
+                </div>
+                
+                <div class="c-layout-quote">${c.title}</div>
+            </div>
+
+            <!-- CỘT PHẢI -->
+            <div class="char-right-col">
+                
+                ${warningHtml}
+
+                <div>
+                    <div class="c-section-title">⋮ ⌗ ┆ HASHTAGS</div>
+                    <div class="c-tags-wrap">${tagsHtml}</div>
+                </div>
+
+                <div>
+                    <div class="c-section-title">≽ ⌢ SƠ LƯỢC VỀ NHÂN VẬT ⸝⸝</div>
+                    <div class="c-text-body">${c.lore}</div>
+                </div>
+
+                <div>
+                    <div class="c-section-title">^ '- ĐỊA CHỈ ,,</div>
+                    <div class="c-list-item">↳ <a href="#">Cẩm nang nhân vật</a></div>
+                    ${c.imgSource ? `<div class="c-list-item">↳ <a href="${c.imgSource}" target="_blank">Nguồn ảnh</a></div>` : ''}
+                    ${c.ggaiLink ? `<div class="c-list-item">↳ <a href="${c.ggaiLink}" target="_blank">Book hàng ➻❥</a></div>` : ''}
+                </div>
+                
+                <div>
+                    <div class="c-section-title">◫ GÓC GIAO LƯU ,,</div>
+                    <div style="font-family: var(--font-ui); font-size: 0.8rem; opacity: 0.7; margin-bottom: 15px; font-style: italic;">Nếu ngoan yêu nào tìm được nguồn ảnh chính xác hơn, mong ngoan yêu hãy comment nhắc nhở để chúng tớ bổ sung nhé. Những bình luận tiêu cực, mang tính công kích sẽ bị xoá. Iu thương ౨ৎ</div>
                     
-                    <div style="margin-top:10px; padding-top:10px; border-top: 1px dashed rgba(255,255,255,0.2);">
-                        ${mainInputNameHTML}
-                        <textarea id="cmtText-${safeId}" class="cmt-textarea" rows="2" placeholder="Lời nhắn của bạn... (@Tên để nhắc tài khoản)"></textarea>
-                        <div style="text-align: right;">
-                            <button class="btn-submit-cmt" onclick="addTreeComment('${safeId}', '${c.creator}', '${c.name}')"> Gửi ᯓᡣ𐭩 </button>
+                    <div class="cmt-container">
+                        <div style="font-size: 0.85rem; margin-bottom:10px; font-family: var(--font-char-text);">Sổ lưu trữ nhân duyên (<span id="cmtCount-${safeId}">0</span>)</div>
+                        <div class="cmt-list" id="cmtList-${safeId}"></div>
+                        
+                        <div style="margin-top:5px; padding-top:15px; border-top: 1px dashed rgba(255,255,255,0.2);">
+                            ${mainInputNameHTML}
+                            <textarea id="cmtText-${safeId}" class="cmt-textarea" rows="2" placeholder="Lời nhắn của bạn... (@Tên để nhắc tài khoản)"></textarea>
+                            <div style="text-align: right;">
+                                <button class="btn-submit-cmt" onclick="addTreeComment('${safeId}', '${c.creator}', '${c.name}')"> Gửi ➻❥ </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1049,16 +1482,176 @@
     }
     anim();
 
+    /* ==========================================================================
+       ✦ TRÌNH PHÁT NHẠC RADIO + SPOTIFY LINK (KIỂU 1) ✦
+       ========================================================================== */
     const vinylDisc = document.getElementById('vinylDisc'), vinylText = document.getElementById('vinylText');
-    let aCtx = null, oGain = null, isP = false, cAud = null;
-    if (MY_CONFIG.ASSETS.musicMp3.trim() !== '') { cAud = new Audio(MY_CONFIG.ASSETS.musicMp3); cAud.loop = true; }
+    const mpPill = document.getElementById('musicPlayerPill');
+    const mpCoverImg = document.getElementById('mpCoverImg');
+    const mpTitle = document.getElementById('mpTitle');
+    const mpArtist = document.getElementById('mpArtist');
+    const mpPlayBtn = document.getElementById('mpPlayBtn');
+    const mpPlayIcon = document.getElementById('mpPlayIcon');
+    const mpPauseIcon = document.getElementById('mpPauseIcon');
+    const mpPrevBtn = document.getElementById('mpPrevBtn');
+    const mpNextBtn = document.getElementById('mpNextBtn');
+    const mpVolBtn = document.getElementById('mpVolBtn');
+    const mpVolPopover = document.getElementById('mpVolPopover');
+    const mpVolSlider = document.getElementById('mpVolSlider');
+    const mpVolOnIcon = document.getElementById('mpVolOnIcon');
+    const mpVolMuteIcon = document.getElementById('mpVolMuteIcon');
+    const mpSpotifyLink = document.getElementById('mpSpotifyLink');
+    const mpCloseBtn = document.getElementById('mpCloseBtn');
 
-    document.getElementById('vinylPlayer').addEventListener('click', () => {
-      isP = !isP; vinylDisc.classList.toggle('spinning', isP);
-      vinylText.textContent = isP ? "Đang Phát" : "Radio"; 
-      if (isP) { if (cAud) cAud.play().catch(() => playOcean()); else playOcean(); } 
-      else { if (cAud) cAud.pause(); else if (oGain) oGain.gain.linearRampToValueAtTime(0, aCtx.currentTime + 1); }
+    const playlist = (MY_CONFIG.playlist && MY_CONFIG.playlist.length > 0)
+      ? MY_CONFIG.playlist
+      : [{ title: "Radio", artist: "Báo Ứng Đời Nhau", cover: MY_CONFIG.ASSETS.cardImg, audio: MY_CONFIG.ASSETS.musicMp3, spotify: "" }];
+
+    let currentTrackIdx = 0;
+    let aCtx = null, oGain = null, isP = false, hasOpenedOnce = false;
+    let currentVolume = 0.8;
+    const cAud = new Audio();
+    cAud.volume = currentVolume;
+
+    function updatePlayerUI() {
+      const track = playlist[currentTrackIdx];
+      mpTitle.textContent = track.title || "Unknown Track";
+      mpArtist.textContent = track.artist || "Unknown Artist";
+      mpCoverImg.onerror = () => { mpCoverImg.src = MY_CONFIG.ASSETS.cardImg; };
+      mpCoverImg.src = track.cover || MY_CONFIG.ASSETS.cardImg;
+
+      if (track.spotify && track.spotify.trim() !== "" && track.spotify !== "#") {
+        mpSpotifyLink.href = track.spotify;
+        mpSpotifyLink.classList.remove('disabled');
+      } else {
+        mpSpotifyLink.removeAttribute('href');
+        mpSpotifyLink.classList.add('disabled');
+      }
+
+      vinylDisc.classList.toggle('spinning', isP);
+      mpPill.classList.toggle('playing', isP);
+      vinylText.textContent = isP ? "Đang Phát" : "Radio";
+      mpPlayIcon.style.display = isP ? 'none' : 'block';
+      mpPauseIcon.style.display = isP ? 'block' : 'none';
+    }
+
+    function loadTrack(idx, shouldPlay = false) {
+      currentTrackIdx = (idx + playlist.length) % playlist.length;
+      const track = playlist[currentTrackIdx];
+      const src = (track.audio && track.audio.trim() !== '') ? track.audio : MY_CONFIG.ASSETS.musicMp3;
+
+      cAud.pause();
+      if (oGain && aCtx) oGain.gain.linearRampToValueAtTime(0, aCtx.currentTime + 0.3);
+
+      if (src && src.trim() !== '') {
+        cAud.src = src;
+        cAud.volume = currentVolume;
+        if (shouldPlay) {
+          isP = true;
+          cAud.play().catch(() => playOcean());
+        } else {
+          isP = false;
+        }
+      } else {
+        cAud.removeAttribute('src');
+        if (shouldPlay) {
+          isP = true;
+          playOcean();
+        } else {
+          isP = false;
+        }
+      }
+      updatePlayerUI();
+    }
+
+    function togglePlayState() {
+      isP = !isP;
+      const track = playlist[currentTrackIdx];
+      const src = (track.audio && track.audio.trim() !== '') ? track.audio : MY_CONFIG.ASSETS.musicMp3;
+
+      if (isP) {
+        if (src && src.trim() !== '') {
+          if (!cAud.src) cAud.src = src;
+          cAud.volume = currentVolume;
+          cAud.play().catch(() => playOcean());
+        } else {
+          playOcean();
+        }
+      } else {
+        cAud.pause();
+        if (oGain && aCtx) oGain.gain.linearRampToValueAtTime(0, aCtx.currentTime + 0.5);
+      }
+      updatePlayerUI();
+    }
+
+    cAud.addEventListener('ended', () => {
+      if (playlist.length > 1) {
+        loadTrack(currentTrackIdx + 1, true);
+      } else {
+        cAud.currentTime = 0;
+        cAud.play().catch(() => {});
+      }
     });
+
+    cAud.addEventListener('error', () => {
+      if (isP) playOcean();
+    });
+
+    document.getElementById('vinylPlayer').addEventListener('click', (e) => {
+      e.stopPropagation();
+      const willOpen = !mpPill.classList.contains('open');
+      mpPill.classList.toggle('open', willOpen);
+      if (willOpen && !hasOpenedOnce) {
+        hasOpenedOnce = true;
+        if (!isP) togglePlayState();
+      }
+    });
+
+    mpPlayBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      togglePlayState();
+    });
+
+    mpPrevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      loadTrack(currentTrackIdx - 1, true);
+    });
+
+    mpNextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      loadTrack(currentTrackIdx + 1, true);
+    });
+
+    mpCloseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mpPill.classList.remove('open');
+      mpVolPopover.classList.remove('show');
+    });
+
+    mpVolBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mpVolPopover.classList.toggle('show');
+    });
+
+    mpVolSlider.addEventListener('input', (e) => {
+      e.stopPropagation();
+      currentVolume = parseFloat(e.target.value);
+      cAud.volume = currentVolume;
+      if (oGain && aCtx && isP) {
+        oGain.gain.setTargetAtTime(currentVolume * 0.4, aCtx.currentTime, 0.05);
+      }
+      const isMuted = currentVolume === 0;
+      mpVolOnIcon.style.display = isMuted ? 'none' : 'block';
+      mpVolMuteIcon.style.display = isMuted ? 'block' : 'none';
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.mp-volume-wrap')) {
+        mpVolPopover.classList.remove('show');
+      }
+    });
+
+    loadTrack(0, false);
 
     function playOcean() {
       if(!aCtx) {
@@ -1071,7 +1664,7 @@
         n.connect(f); f.connect(oGain); n.start();
       }
       if(aCtx.state === 'suspended') aCtx.resume();
-      oGain.gain.linearRampToValueAtTime(0.4, aCtx.currentTime + 1.5);
+      oGain.gain.linearRampToValueAtTime(currentVolume * 0.4, aCtx.currentTime + 1.5);
     }
   </script>
 </body>
