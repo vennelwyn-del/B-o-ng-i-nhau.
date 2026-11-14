@@ -222,7 +222,7 @@
     }
 
     /* ==========================================================================
-       ✦ FLOATING MINI PLAYER PILL (THU GỌN) ✦
+       ✦ FLOATING MINI PLAYER PILL (THU GỌN KHI ĐANG NGHE) ✦
        ========================================================================== */
     .music-player-pill {
       position: fixed;
@@ -259,24 +259,9 @@
       box-shadow: 0 12px 30px rgba(1, 42, 74, 0.16), inset 0 0 16px rgba(255, 255, 255, 0.7);
     }
 
-    .mp-disc-wrap {
-      position: relative;
-      width: 62px;
-      height: 62px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      cursor: pointer;
-    }
-    .mp-disc-spin {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      animation: spinVinyl 8s linear infinite;
-      animation-play-state: paused;
-    }
-    .music-player-pill.playing .mp-disc-spin {
-      animation-play-state: running;
-    }
+    .mp-disc-wrap { position: relative; width: 62px; height: 62px; border-radius: 50%; flex-shrink: 0; cursor: pointer; }
+    .mp-disc-spin { width: 100%; height: 100%; border-radius: 50%; animation: spinVinyl 8s linear infinite; animation-play-state: paused; }
+    .music-player-pill.playing .mp-disc-spin { animation-play-state: running; }
 
     .mp-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
     .mp-meta { min-width: 0; cursor: pointer; }
@@ -308,11 +293,24 @@
     }
 
     /* ==========================================================================
-       ✦ FULL MUSIC PLAYER / SETTING THEO SPOTIFY (ẢNH 3 + ẢNH 4) ✦
+       ✦ FULL MUSIC PLAYER / SETTING THEO SPOTIFY EMBED (ẢNH 3 + ẢNH 4) ✦
        ========================================================================== */
+    /* Giữ Spotify IFrame luôn sống khi thu nhỏ để không bị ngắt nhạc */
+    #spotifyPlayerModal {
+      visibility: visible !important;
+      opacity: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+    #spotifyPlayerModal.active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 200;
+    }
+
     .sp-modal-box {
       position: relative;
-      width: min(94vw, 410px);
+      width: min(94vw, 415px);
       max-height: 92vh;
       max-height: 92dvh;
       border-radius: 26px;
@@ -320,10 +318,10 @@
       box-shadow: 0 22px 55px rgba(0, 0, 0, 0.65), inset 0 0 24px rgba(219, 235, 248, 0.08);
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 18px 22px 24px;
+      padding: 16px 20px 22px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       -webkit-overflow-scrolling: touch;
     }
     .sp-modal-box > *:not(.block-avatar-bg):not(.block-avatar-overlay) {
@@ -331,12 +329,7 @@
       z-index: 2;
     }
 
-    .sp-topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
+    .sp-topbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .sp-top-icon-btn {
       width: 34px; height: 34px; border-radius: 50%;
       background: rgba(255, 255, 255, 0.08);
@@ -347,29 +340,19 @@
     }
     .sp-top-icon-btn:hover { background: rgba(79, 165, 216, 0.24); }
 
-    .sp-tabs {
-      display: flex; align-items: center; gap: 14px;
-      font-family: var(--font-ui); font-size: 0.85rem;
-    }
-    .sp-tab-btn {
-      background: none; border: none; color: var(--c-lightest); opacity: 0.55;
-      font-family: inherit; font-size: inherit; font-weight: 500; cursor: pointer;
-      padding: 4px 2px; position: relative; transition: 0.2s;
-    }
+    .sp-tabs { display: flex; align-items: center; gap: 14px; font-family: var(--font-ui); font-size: 0.85rem; }
+    .sp-tab-btn { background: none; border: none; color: var(--c-lightest); opacity: 0.55; font-family: inherit; font-size: inherit; font-weight: 500; cursor: pointer; padding: 4px 2px; position: relative; transition: 0.2s; }
     .sp-tab-btn.active { opacity: 1; font-weight: 600; color: var(--c-lightest); }
-    .sp-tab-btn.active::after {
-      content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
-      border-radius: 2px; background: var(--c-light);
-    }
+    .sp-tab-btn.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; border-radius: 2px; background: var(--c-light); }
 
     /* Hộp CD vuông trong suốt kiểu Ảnh 3 + Cần gạt Ảnh 4 */
     .sp-jewel-case {
       position: relative;
-      width: min(68vw, 240px);
-      height: min(68vw, 240px);
-      margin: 4px auto 0;
+      width: min(56vw, 200px);
+      height: min(56vw, 200px);
+      margin: 2px auto 0;
       border-radius: 18px;
-      padding: 16px;
+      padding: 14px;
       background: linear-gradient(145deg, rgba(219, 235, 248, 0.18) 0%, rgba(79, 165, 216, 0.1) 50%, rgba(1, 13, 85, 0.45) 100%);
       border: 1.5px solid rgba(219, 235, 248, 0.42);
       box-shadow: inset 0 0 22px rgba(219, 235, 248, 0.18), 0 16px 36px rgba(0, 0, 0, 0.45);
@@ -379,151 +362,65 @@
       background: linear-gradient(145deg, rgba(255, 255, 255, 0.78) 0%, rgba(129, 212, 250, 0.26) 55%, rgba(225, 245, 254, 0.65) 100%);
       border-color: rgba(2, 136, 209, 0.38);
     }
-    /* Ngàm gài hộp CD bên trái giống ảnh 3 */
     .sp-jewel-clasp {
-      position: absolute;
-      left: -1px; top: 50%; transform: translateY(-50%);
-      width: 11px; height: 54px;
-      border: 1.5px solid rgba(219, 235, 248, 0.48);
-      border-left: none;
-      border-radius: 0 8px 8px 0;
-      background: rgba(219, 235, 248, 0.14);
-      pointer-events: none;
+      position: absolute; left: -1px; top: 50%; transform: translateY(-50%);
+      width: 10px; height: 48px;
+      border: 1.5px solid rgba(219, 235, 248, 0.48); border-left: none;
+      border-radius: 0 8px 8px 0; background: rgba(219, 235, 248, 0.14); pointer-events: none;
     }
-    /* Cần gạt đĩa thanh mảnh kiểu ảnh 4 */
     .sp-tonearm {
-      position: absolute;
-      top: 12px; right: 14px;
-      width: 24px; height: 115px;
-      transform-origin: 12px 12px;
-      transform: rotate(-18deg);
-      transition: transform 0.5s ease;
-      pointer-events: none;
-      z-index: 6;
+      position: absolute; top: 10px; right: 12px; width: 22px; height: 96px;
+      transform-origin: 11px 11px; transform: rotate(-18deg);
+      transition: transform 0.5s ease; pointer-events: none; z-index: 6;
     }
-    .sp-modal-box.playing .sp-tonearm {
-      transform: rotate(10deg);
-    }
+    .sp-modal-box.playing .sp-tonearm { transform: rotate(10deg); }
 
-    .sp-cd-spin {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      animation: spinVinyl 10s linear infinite;
-      animation-play-state: paused;
-    }
-    .sp-modal-box.playing .sp-cd-spin {
-      animation-play-state: running;
-    }
+    .sp-cd-spin { width: 100%; height: 100%; border-radius: 50%; animation: spinVinyl 10s linear infinite; animation-play-state: paused; }
+    .sp-modal-box.playing .sp-cd-spin { animation-play-state: running; }
 
-    .sp-info-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .sp-track-title {
-      font-family: var(--font-top-tag);
-      font-size: 1.25rem;
-      font-weight: 600;
-      letter-spacing: 0.8px;
-      color: var(--c-lightest);
-      line-height: 1.25;
-      overflow-wrap: break-word;
-    }
-    .sp-track-sub {
-      font-family: var(--font-ui);
-      font-size: 0.8rem;
-      color: var(--c-light);
-      margin-top: 4px;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .sp-badge {
-      font-size: 0.62rem;
-      padding: 2px 6px;
-      border-radius: 6px;
-      border: 1px solid var(--glass-border);
-      opacity: 0.85;
-      letter-spacing: 0.5px;
-    }
-    .sp-badge-spotify {
-      border-color: rgba(29, 185, 84, 0.55);
-      color: #1db954;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .sp-like-btn {
-      background: none; border: none; color: var(--c-lightest); opacity: 0.78;
-      cursor: pointer; font-size: 1.35rem; line-height: 1; padding: 4px; transition: 0.2s;
-    }
+    .sp-info-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .sp-track-title { font-family: var(--font-top-tag); font-size: 1.15rem; font-weight: 600; letter-spacing: 0.8px; color: var(--c-lightest); line-height: 1.25; overflow-wrap: break-word; }
+    .sp-track-sub { font-family: var(--font-ui); font-size: 0.78rem; color: var(--c-light); margin-top: 4px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .sp-badge { font-size: 0.62rem; padding: 2px 6px; border-radius: 6px; border: 1px solid var(--glass-border); opacity: 0.85; letter-spacing: 0.5px; }
+    .sp-like-btn { background: none; border: none; color: var(--c-lightest); opacity: 0.78; cursor: pointer; font-size: 1.35rem; line-height: 1; padding: 4px; transition: 0.2s; }
     .sp-like-btn.liked { color: #ff6b8b; opacity: 1; transform: scale(1.1); }
 
-    /* Hàng tiện ích âm lượng + Spotify giống hàng giữa ảnh 4 */
-    .sp-tools-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 6px 10px;
+    /* Khung nhúng Spotify Embed chính thức nằm gọn bên trong card */
+    .sp-embed-wrap {
+      width: 100%;
+      min-height: 152px;
       border-radius: 14px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--glass-border);
+      overflow: hidden;
+      border: 1px solid rgba(79, 165, 216, 0.35);
+      background: rgba(1, 3, 44, 0.55);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
-    .sp-vol-box {
-      display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;
+    .sp-embed-wrap.highlight {
+      border-color: #1db954;
+      box-shadow: 0 0 18px rgba(29, 185, 84, 0.45);
     }
-    .sp-vol-slider {
-      flex: 1; min-width: 60px; accent-color: var(--c-light); cursor: pointer;
+    .sp-embed-wrap iframe {
+      display: block;
+      width: 100%;
+      border-radius: 12px;
     }
-    .sp-spotify-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 5px 12px; border-radius: 20px;
-      border: 1px solid rgba(29, 185, 84, 0.6);
-      background: rgba(29, 185, 84, 0.14);
-      color: #1db954; font-family: var(--font-ui); font-size: 0.74rem; font-weight: 600;
-      text-decoration: none; white-space: nowrap; transition: 0.2s;
-    }
-    .sp-spotify-pill:hover { background: rgba(29, 185, 84, 0.26); }
-    .sp-spotify-pill.disabled { opacity: 0.35; pointer-events: none; }
 
     /* Thanh tua tiến trình nhạc kiểu ảnh 4 */
-    .sp-progress-wrap { display: flex; flex-direction: column; gap: 6px; }
-    .sp-seek-slider {
-      width: 100%; height: 4px; accent-color: var(--c-light); cursor: pointer;
-    }
-    .sp-time-row {
-      display: flex; justify-content: space-between;
-      font-family: var(--font-ui); font-size: 0.72rem; opacity: 0.72;
-    }
+    .sp-progress-wrap { display: flex; flex-direction: column; gap: 5px; }
+    .sp-seek-slider { width: 100%; height: 4px; accent-color: var(--c-light); cursor: pointer; }
+    .sp-time-row { display: flex; justify-content: space-between; font-family: var(--font-ui); font-size: 0.72rem; opacity: 0.72; }
 
     /* Hàng điều khiển chính kiểu ảnh 4 */
-    .sp-main-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 4px 6px 0;
-    }
-    .sp-ctrl-btn {
-      background: none; border: none; color: var(--c-lightest); opacity: 0.82;
-      width: 38px; height: 38px; border-radius: 50%;
-      display: inline-flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: 0.2s; position: relative;
-    }
+    .sp-main-controls { display: flex; align-items: center; justify-content: space-between; padding: 2px 6px 0; }
+    .sp-ctrl-btn { background: none; border: none; color: var(--c-lightest); opacity: 0.82; width: 38px; height: 38px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; position: relative; }
     .sp-ctrl-btn:hover { opacity: 1; background: rgba(79, 165, 216, 0.16); }
     .sp-ctrl-btn.active { color: var(--c-light); opacity: 1; }
-    .sp-repeat-one-dot {
-      position: absolute; top: 4px; right: 4px;
-      font-family: var(--font-ui); font-size: 0.55rem; font-weight: 700;
-      background: var(--c-light); color: #fff; border-radius: 50%;
-      width: 13px; height: 13px; display: none; align-items: center; justify-content: center;
-    }
+    .sp-repeat-one-dot { position: absolute; top: 4px; right: 4px; font-family: var(--font-ui); font-size: 0.55rem; font-weight: 700; background: var(--c-light); color: #fff; border-radius: 50%; width: 13px; height: 13px; display: none; align-items: center; justify-content: center; }
     .sp-ctrl-btn.repeat-one .sp-repeat-one-dot { display: flex; }
 
     .sp-big-play {
-      width: 56px; height: 56px; border-radius: 50%;
+      width: 54px; height: 54px; border-radius: 50%;
       border: 2px solid var(--c-lightest);
       background: linear-gradient(135deg, rgba(79, 165, 216, 0.35), rgba(7, 84, 176, 0.55));
       color: var(--c-lightest);
@@ -533,19 +430,54 @@
     }
     .sp-big-play:hover { transform: scale(1.06); border-color: #fff; }
 
-    /* Danh sách bài hát trong tab Danh sách */
-    .sp-playlist-view {
-      display: none;
+    /* Danh sách bài hát & ô dán link Spotify */
+    .sp-playlist-view { display: none; flex-direction: column; gap: 12px; }
+    .sp-playlist-view.active { display: flex; }
+    .sp-disc-view { display: none; flex-direction: column; gap: 12px; }
+    .sp-disc-view.active { display: flex; }
+
+    .sp-paste-box {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .sp-paste-input {
+      flex: 1;
+      min-width: 0;
+      padding: 9px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      background: rgba(1, 13, 85, 0.4);
+      color: var(--c-lightest);
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      outline: none;
+    }
+    body.light-mode .sp-paste-input { background: rgba(255, 255, 255, 0.78); }
+    .sp-paste-input:focus { border-color: #1db954; }
+    .sp-paste-btn {
+      padding: 9px 14px;
+      border-radius: 20px;
+      border: none;
+      background: #1db954;
+      color: #fff;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.2s;
+    }
+    .sp-paste-btn:hover { background: #1ed760; }
+
+    .sp-playlist-scroll {
+      display: flex;
       flex-direction: column;
-      gap: 10px;
-      max-height: 360px;
+      gap: 9px;
+      max-height: 290px;
       overflow-y: auto;
       padding-right: 4px;
     }
-    .sp-playlist-view.active { display: flex; }
-    .sp-disc-view { display: none; flex-direction: column; gap: 14px; }
-    .sp-disc-view.active { display: flex; }
-
     .sp-song-row {
       display: flex; align-items: center; gap: 12px;
       padding: 10px 12px; border-radius: 14px;
@@ -555,10 +487,10 @@
     }
     .sp-song-row:hover { border-color: var(--c-light); background: rgba(79, 165, 216, 0.14); }
     .sp-song-row.active { border-color: var(--c-light); background: rgba(79, 165, 216, 0.22); }
-    .sp-song-thumb { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 1px solid var(--glass-border); }
+    .sp-song-thumb { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 1px solid var(--glass-border); }
     .sp-song-meta { flex: 1; min-width: 0; }
     .sp-song-name { font-family: var(--font-ui); font-size: 0.85rem; font-weight: 600; color: var(--c-lightest); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .sp-song-artist { font-family: var(--font-quote); font-style: italic; font-size: 0.9rem; color: var(--c-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sp-song-artist { font-family: var(--font-quote); font-style: italic; font-size: 0.88rem; color: var(--c-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     /* ==========================================================================
        ✦ MÀN HÌNH 1 & 2 ✦
@@ -650,7 +582,7 @@
     .footer-msg { font-family: var(--font-quote); font-style: italic; font-size: 1rem; color: var(--c-light); }
 
     /* ==========================================================================
-       ✦ GIAO DIỆN CHUNG CỦA CÁC MODAL (Hỗ trợ đóng khi click ra ngoài) ✦
+       ✦ GIAO DIỆN CHUNG CỦA CÁC MODAL ✦
        ========================================================================== */
     .ui-modal-base {
       position: fixed; inset: 0; z-index: 200; background: rgba(1, 3, 44, 0.85); backdrop-filter: blur(15px);
@@ -668,7 +600,6 @@
       position: relative; z-index: 2;
     }
     
-    /* Nút X mặc định cho các bảng hệ thống */
     .close-btn-sys {
       position: absolute; top: 15px; right: 15px; width: 34px; height: 34px; border-radius: 50%;
       background: rgba(1, 13, 85, 0.6); border: 1px solid var(--glass-border); color: #fff;
@@ -752,7 +683,6 @@
     .heart-btn-top:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
     .heart-btn-top.liked { color: #ff6b8b; border-color: #ff6b8b; }
 
-    /* Wrapper chứa 2 cột - CHỈ 1 THANH TRƯỢT DUY NHẤT */
     .char-content-wrapper {
         position: relative; z-index: 2;
         display: flex; flex-direction: column; 
@@ -979,7 +909,7 @@
     </div>
   </div>
 
-  <!-- MODAL FULL MUSIC PLAYER / SETTING THEO SPOTIFY (ẢNH 3 + ẢNH 4) -->
+  <!-- MODAL FULL MUSIC PLAYER / SETTING THEO SPOTIFY EMBED (ẢNH 3 + ẢNH 4) -->
   <div class="ui-modal-base" id="spotifyPlayerModal" onclick="if(event.target === this) closeFullPlayer()">
     <div class="sp-modal-box" id="spModalBox">
       <div class="block-avatar-bg" id="spBgImg"></div>
@@ -998,7 +928,7 @@
         </a>
       </div>
 
-      <!-- TAB 1: ĐĨA NHẠC XANH LAM + ĐIỀU KHIỂN SPOTIFY -->
+      <!-- TAB 1: ĐĨA NHẠC XANH LAM + SPOTIFY EMBED + ĐIỀU KHIỂN -->
       <div class="sp-disc-view active" id="spViewDisc">
         <div class="sp-jewel-case">
           <div class="sp-jewel-clasp"></div>
@@ -1027,25 +957,16 @@
             <div class="sp-track-title" id="spTitle">SALVATORE</div>
             <div class="sp-track-sub">
               <span id="spArtist">Lana Del Rey</span>
-              <span class="sp-badge">HQ</span>
-              <span class="sp-badge" id="spTrackCount">1 / 2</span>
+              <span class="sp-badge" style="color:#1db954; border-color:rgba(29,185,84,0.5);">SPOTIFY</span>
+              <span class="sp-badge" id="spTrackCount">1 / 1</span>
             </div>
           </div>
           <button class="sp-like-btn" id="spLikeBtn" title="Yêu thích bài hát">♡</button>
         </div>
 
-        <div class="sp-tools-row">
-          <div class="sp-vol-box">
-            <button class="mp-icon-btn" id="spVolMuteBtn" title="Bật / Tắt tiếng" style="width:24px; height:24px;">
-              <svg id="spVolOnIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-              <svg id="spVolMuteIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            </button>
-            <input type="range" min="0" max="1" step="0.02" value="0.8" class="sp-vol-slider" id="spVolSlider" aria-label="Âm lượng">
-          </div>
-          <a href="#" target="_blank" rel="noopener noreferrer" class="sp-spotify-pill" id="spPillSpotify">
-            <span>Spotify</span>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          </a>
+        <!-- KHUNG SPOTIFY EMBED CHÍNH THỨC -->
+        <div class="sp-embed-wrap" id="spEmbedWrap">
+          <div id="spEmbedHost"></div>
         </div>
 
         <div class="sp-progress-wrap">
@@ -1077,8 +998,14 @@
         </div>
       </div>
 
-      <!-- TAB 2: DANH SÁCH BÀI HÁT -->
-      <div class="sp-playlist-view" id="spViewList"></div>
+      <!-- TAB 2: DANH SÁCH & Ô DÁN LINK SPOTIFY -->
+      <div class="sp-playlist-view" id="spViewList">
+        <div class="sp-paste-box">
+          <input type="text" id="spPasteInput" class="sp-paste-input" placeholder="Dán link open.spotify.com/track/... hoặc playlist/...">
+          <button type="button" id="spPasteBtn" class="sp-paste-btn">Phát</button>
+        </div>
+        <div class="sp-playlist-scroll" id="spPlaylistRows"></div>
+      </div>
     </div>
   </div>
 
@@ -1218,24 +1145,15 @@
           flowerImg: '' // Để trống sẽ vẽ hoa, thêm link ảnh .png sẽ rơi ảnh.
       },
 
-      /* 👉 MỤC 1B: DANH SÁCH NHẠC RADIO (THÊM / SỬA BÀI Ở ĐÂY)
-         - audio: bỏ file .mp3 vào thư mục assets rồi điền './assets/ten-bai.mp3'
-         - cover: ảnh bìa đĩa xoay (vd: './assets/bia-1.jpg')
-         - spotify: dán link Spotify của bài hát để gắn vào nút xanh lá ↗ */
+      /* 👉 MỤC 1B: DANH SÁCH SPOTIFY (CHỈ CẦN DÁN LINK open.spotify.com/track/... HOẶC playlist/... LÀ CHẠY)
+         - Bạn có thể viết gọn chỉ mỗi link: "https://open.spotify.com/track/..."
+         - Hoặc viết đủ { spotify: "...", title: "...", artist: "...", cover: "..." } */
       playlist: [
         {
+          spotify: "https://open.spotify.com/track/21qg0IBZf8R12qHd9A3AA4",
           title: "Salvatore",
           artist: "Lana Del Rey",
-          cover: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=500&auto=format&fit=crop",
-          audio: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3",
-          spotify: "https://open.spotify.com/search/Salvatore%20Lana%20Del%20Rey"
-        },
-        {
-          title: "Ocean Whisper",
-          artist: "Báo Ứng Radio",
-          cover: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=500&auto=format&fit=crop",
-          audio: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3",
-          spotify: "https://open.spotify.com/"
+          cover: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=500&auto=format&fit=crop"
         }
       ],
 
@@ -1553,7 +1471,6 @@
         if(char) openChar(char);
     }
 
-    // Mở Bảng Creator khi click vào tên tác giả ở Hồ sơ Char
     window.openCreatorInfo = function(creatorId) {
         document.getElementById('charModal').classList.remove('active');
         document.getElementById('creatorsOverlay').classList.add('active');
@@ -1803,7 +1720,7 @@
     anim();
 
     /* ==========================================================================
-       ✦ TRÌNH PHÁT NHẠC RADIO + ĐĨA XANH LAM + SETTING THEO SPOTIFY ✦
+       ✦ TRÌNH PHÁT SPOTIFY EMBED + ĐĨA XANH LAM + GIAO DIỆN SETTING SPOTIFY ✦
        ========================================================================== */
     const vinylDisc = document.getElementById('vinylDisc'), vinylText = document.getElementById('vinylText');
     const mpPill = document.getElementById('musicPlayerPill');
@@ -1819,7 +1736,6 @@
     const mpCloseBtn = document.getElementById('mpCloseBtn');
     const mpSettingBtn = document.getElementById('mpSettingBtn');
 
-    // Elements Full Modal (Ảnh 3 + Ảnh 4)
     const spModal = document.getElementById('spotifyPlayerModal');
     const spModalBox = document.getElementById('spModalBox');
     const spBgImg = document.getElementById('spBgImg');
@@ -1829,11 +1745,7 @@
     const spTrackCount = document.getElementById('spTrackCount');
     const spLikeBtn = document.getElementById('spLikeBtn');
     const spTopSpotifyBtn = document.getElementById('spTopSpotifyBtn');
-    const spPillSpotify = document.getElementById('spPillSpotify');
-    const spVolMuteBtn = document.getElementById('spVolMuteBtn');
-    const spVolOnIcon = document.getElementById('spVolOnIcon');
-    const spVolMuteIcon = document.getElementById('spVolMuteIcon');
-    const spVolSlider = document.getElementById('spVolSlider');
+    const spEmbedWrap = document.getElementById('spEmbedWrap');
     const spSeekSlider = document.getElementById('spSeekSlider');
     const spCurrentTime = document.getElementById('spCurrentTime');
     const spDurationTime = document.getElementById('spDurationTime');
@@ -1849,23 +1761,107 @@
     const spTabList = document.getElementById('spTabList');
     const spViewDisc = document.getElementById('spViewDisc');
     const spViewList = document.getElementById('spViewList');
+    const spPlaylistRows = document.getElementById('spPlaylistRows');
+    const spPasteInput = document.getElementById('spPasteInput');
+    const spPasteBtn = document.getElementById('spPasteBtn');
 
-    const playlist = (MY_CONFIG.playlist && MY_CONFIG.playlist.length > 0)
-      ? MY_CONFIG.playlist
-      : [{ title: "Radio", artist: "Báo Ứng Đời Nhau", cover: MY_CONFIG.ASSETS.cardImg, audio: MY_CONFIG.ASSETS.musicMp3, spotify: "" }];
+    function parseSpotifyLink(input) {
+      if (!input) return null;
+      const str = String(input).trim();
+      const uriMatch = str.match(/^spotify:(track|playlist|album|episode|show):([a-zA-Z0-9]+)$/);
+      if (uriMatch) {
+        const [, type, id] = uriMatch;
+        return {
+          type, id,
+          uri: `spotify:${type}:${id}`,
+          url: `https://open.spotify.com/${type}/${id}`,
+          embedUrl: `https://open.spotify.com/embed/${type}/${id}?utm_source=generator&theme=0`
+        };
+      }
+      const urlMatch = str.match(/open\.spotify\.com\/(?:intl-[a-zA-Z-]+\/)?(track|playlist|album|episode|show)\/([a-zA-Z0-9]+)/);
+      if (urlMatch) {
+        const [, type, id] = urlMatch;
+        return {
+          type, id,
+          uri: `spotify:${type}:${id}`,
+          url: `https://open.spotify.com/${type}/${id}`,
+          embedUrl: `https://open.spotify.com/embed/${type}/${id}?utm_source=generator&theme=0`
+        };
+      }
+      return null;
+    }
+
+    function normalizeTrackEntry(entry, idx) {
+      if (typeof entry === 'string') {
+        const parsed = parseSpotifyLink(entry);
+        return {
+          spotify: parsed ? parsed.url : entry,
+          uri: parsed ? parsed.uri : '',
+          embedUrl: parsed ? parsed.embedUrl : '',
+          type: parsed ? parsed.type : 'track',
+          title: parsed ? `Spotify ${parsed.type} #${idx + 1}` : `Track #${idx + 1}`,
+          artist: 'Spotify',
+          cover: MY_CONFIG.ASSETS.cardImg,
+          needsMeta: Boolean(parsed)
+        };
+      }
+      const rawUrl = entry.spotify || entry.url || entry.uri || '';
+      const parsed = parseSpotifyLink(rawUrl);
+      return {
+        spotify: parsed ? parsed.url : rawUrl,
+        uri: parsed ? parsed.uri : '',
+        embedUrl: parsed ? parsed.embedUrl : '',
+        type: parsed ? parsed.type : 'track',
+        title: entry.title || (parsed ? `Spotify ${parsed.type} #${idx + 1}` : `Track #${idx + 1}`),
+        artist: entry.artist || 'Spotify',
+        cover: entry.cover || MY_CONFIG.ASSETS.cardImg,
+        needsMeta: Boolean(parsed && (!entry.title || !entry.cover))
+      };
+    }
+
+    const savedCustomLinks = JSON.parse(localStorage.getItem('baoUngCustomSpotify') || '[]');
+    const rawPlaylist = [
+      ...((MY_CONFIG.playlist && MY_CONFIG.playlist.length > 0) ? MY_CONFIG.playlist : []),
+      ...savedCustomLinks
+    ];
+
+    const playlist = rawPlaylist.length > 0
+      ? rawPlaylist.map((item, idx) => normalizeTrackEntry(item, idx))
+      : [normalizeTrackEntry("https://open.spotify.com/track/21qg0IBZf8R12qHd9A3AA4", 0)];
+
+    async function enrichSpotifyMeta(track) {
+      if (!track || !track.spotify || track._metaFetched) return;
+      track._metaFetched = true;
+      try {
+        const res = await fetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(track.spotify)}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.title && (!track.title || track.title.startsWith('Spotify '))) {
+          track.title = data.title;
+        }
+        if (data.thumbnail_url && (!track.cover || track.cover === MY_CONFIG.ASSETS.cardImg)) {
+          track.cover = data.thumbnail_url;
+        }
+        updatePlayerUI();
+      } catch (e) {}
+    }
+
+    playlist.forEach(t => { if (t.needsMeta) enrichSpotifyMeta(t); });
 
     let currentTrackIdx = 0;
-    let aCtx = null, oGain = null, isP = false, hasOpenedOnce = false;
-    let currentVolume = 0.8, lastNonZeroVolume = 0.8;
+    let isP = false;
     let repeatMode = 'all'; // 'all' | 'one'
+    let spController = null;
+    let spApiReady = false;
+    let spDurationMs = 0;
+    let spPositionMs = 0;
     let likedTracks = new Set(JSON.parse(localStorage.getItem('baoUngLikedTracks') || '[]'));
-    const cAud = new Audio();
-    cAud.volume = currentVolume;
 
-    function formatAudioTime(sec) {
-      if (!isFinite(sec) || sec < 0) return "00:00";
-      const m = Math.floor(sec / 60);
-      const s = Math.floor(sec % 60);
+    function formatAudioTime(ms) {
+      if (!isFinite(ms) || ms < 0) return "00:00";
+      const totalSec = Math.floor(ms / 1000);
+      const m = Math.floor(totalSec / 60);
+      const s = totalSec % 60;
       return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
 
@@ -1878,14 +1874,14 @@
     }
 
     function renderPlaylistRows() {
-      spViewList.innerHTML = playlist.map((t, i) => `
+      spPlaylistRows.innerHTML = playlist.map((t, i) => `
         <div class="sp-song-row ${i === currentTrackIdx ? 'active' : ''}" onclick="selectTrackFromList(${i})">
           <img src="${t.cover || MY_CONFIG.ASSETS.cardImg}" onerror="this.src=MY_CONFIG.ASSETS.cardImg" class="sp-song-thumb">
           <div class="sp-song-meta">
-            <div class="sp-song-name">${t.title || 'Unknown'}</div>
-            <div class="sp-song-artist">${t.artist || 'Unknown'}</div>
+            <div class="sp-song-name">${t.title || 'Spotify Track'}</div>
+            <div class="sp-song-artist">${t.artist || 'Spotify'}</div>
           </div>
-          ${(t.spotify && t.spotify.trim() !== '' && t.spotify !== '#')
+          ${t.spotify
             ? `<a href="${t.spotify}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="mp-spotify-link" title="Mở trên Spotify"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>`
             : ''
           }
@@ -1894,7 +1890,7 @@
     }
 
     window.selectTrackFromList = function(idx) {
-      loadTrack(idx, true);
+      loadSpotifyTrack(idx, true);
       switchPlayerTab('disc');
     };
 
@@ -1902,22 +1898,20 @@
       const track = playlist[currentTrackIdx];
       const coverUrl = track.cover || MY_CONFIG.ASSETS.cardImg;
 
-      // Mini pill
-      mpTitle.textContent = track.title || "Unknown Track";
-      mpArtist.textContent = track.artist || "Unknown Artist";
+      mpTitle.textContent = track.title || "Spotify";
+      mpArtist.textContent = track.artist || "Spotify";
       mpCoverImg.onerror = () => { mpCoverImg.src = MY_CONFIG.ASSETS.cardImg; };
       mpCoverImg.src = coverUrl;
 
-      // Full player
-      spTitle.textContent = track.title || "Unknown Track";
-      spArtist.textContent = track.artist || "Unknown Artist";
+      spTitle.textContent = track.title || "Spotify";
+      spArtist.textContent = track.artist || "Spotify";
       spTrackCount.textContent = `${currentTrackIdx + 1} / ${playlist.length}`;
       spCoverImg.onerror = () => { spCoverImg.src = MY_CONFIG.ASSETS.cardImg; };
       spCoverImg.src = coverUrl;
       spBgImg.style.backgroundImage = `url('${coverUrl}')`;
 
-      const hasSpotify = track.spotify && track.spotify.trim() !== "" && track.spotify !== "#";
-      [mpSpotifyLink, spTopSpotifyBtn, spPillSpotify].forEach(el => {
+      const hasSpotify = Boolean(track.spotify);
+      [mpSpotifyLink, spTopSpotifyBtn].forEach(el => {
         if (hasSpotify) {
           el.href = track.spotify;
           el.classList.remove('disabled');
@@ -1927,7 +1921,7 @@
         }
       });
 
-      const isLiked = likedTracks.has(track.title);
+      const isLiked = likedTracks.has(track.uri || track.title);
       spLikeBtn.classList.toggle('liked', isLiked);
       spLikeBtn.textContent = isLiked ? '♥' : '♡';
 
@@ -1947,79 +1941,50 @@
       renderPlaylistRows();
     }
 
-    function loadTrack(idx, shouldPlay = false) {
+    function renderFallbackIframe(track) {
+      const host = document.getElementById('spEmbedHost');
+      if (!host || !track.embedUrl) return;
+      host.innerHTML = `<iframe src="${track.embedUrl}" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+    }
+
+    function loadSpotifyTrack(idx, autoPlay = false) {
       currentTrackIdx = (idx + playlist.length) % playlist.length;
       const track = playlist[currentTrackIdx];
-      const src = (track.audio && track.audio.trim() !== '') ? track.audio : MY_CONFIG.ASSETS.musicMp3;
-
-      cAud.pause();
-      if (oGain && aCtx) oGain.gain.linearRampToValueAtTime(0, aCtx.currentTime + 0.3);
-
+      spPositionMs = 0;
+      spDurationMs = 0;
       spSeekSlider.value = 0;
       spCurrentTime.textContent = "00:00";
       spDurationTime.textContent = "00:00";
 
-      if (src && src.trim() !== '') {
-        cAud.src = src;
-        cAud.volume = currentVolume;
-        if (shouldPlay) {
-          isP = true;
-          cAud.play().catch(() => playOcean());
-        } else {
-          isP = false;
+      if (track.needsMeta) enrichSpotifyMeta(track);
+
+      if (spController && track.uri) {
+        spController.loadUri(track.uri);
+        if (autoPlay) {
+          setTimeout(() => { try { spController.play(); } catch (e) {} }, 250);
         }
       } else {
-        cAud.removeAttribute('src');
-        if (shouldPlay) {
-          isP = true;
-          playOcean();
-        } else {
-          isP = false;
-        }
+        renderFallbackIframe(track);
       }
       updatePlayerUI();
     }
 
-    function togglePlayState() {
-      isP = !isP;
-      const track = playlist[currentTrackIdx];
-      const src = (track.audio && track.audio.trim() !== '') ? track.audio : MY_CONFIG.ASSETS.musicMp3;
-
-      if (isP) {
-        if (src && src.trim() !== '') {
-          if (!cAud.src) cAud.src = src;
-          cAud.volume = currentVolume;
-          cAud.play().catch(() => playOcean());
-        } else {
-          playOcean();
-        }
-      } else {
-        cAud.pause();
-        if (oGain && aCtx) oGain.gain.linearRampToValueAtTime(0, aCtx.currentTime + 0.5);
+    function toggleSpotifyPlay() {
+      if (spController) {
+        try {
+          spController.togglePlay();
+          return;
+        } catch (e) {}
       }
-      updatePlayerUI();
-    }
-
-    function setVolumeLevel(val) {
-      currentVolume = Math.max(0, Math.min(1, val));
-      if (currentVolume > 0) lastNonZeroVolume = currentVolume;
-      cAud.volume = currentVolume;
-      spVolSlider.value = currentVolume;
-      if (oGain && aCtx && isP) {
-        oGain.gain.setTargetAtTime(currentVolume * 0.4, aCtx.currentTime, 0.05);
-      }
-      const isMuted = currentVolume === 0;
-      spVolOnIcon.style.display = isMuted ? 'none' : 'block';
-      spVolMuteIcon.style.display = isMuted ? 'block' : 'none';
+      // Nếu trình duyệt chặn IFrame API, nháy sáng khung Spotify để người dùng bấm trực tiếp
+      spEmbedWrap.classList.add('highlight');
+      setTimeout(() => spEmbedWrap.classList.remove('highlight'), 1000);
+      openFullPlayer();
     }
 
     window.openFullPlayer = function() {
       mpPill.classList.remove('open');
       spModal.classList.add('active');
-      if (!hasOpenedOnce) {
-        hasOpenedOnce = true;
-        if (!isP) togglePlayState();
-      }
     };
 
     window.closeFullPlayer = function() {
@@ -2027,32 +1992,84 @@
       mpPill.classList.add('open');
     };
 
-    cAud.addEventListener('timeupdate', () => {
-      if (isFinite(cAud.duration) && cAud.duration > 0) {
-        const pct = (cAud.currentTime / cAud.duration) * 100;
-        spSeekSlider.value = pct;
-        spCurrentTime.textContent = formatAudioTime(cAud.currentTime);
-        spDurationTime.textContent = formatAudioTime(cAud.duration);
-      }
-    });
+    // Khởi tạo Spotify Official IFrame API
+    window.onSpotifyIframeApiReady = (IFrameAPI) => {
+      spApiReady = true;
+      const host = document.getElementById('spEmbedHost');
+      const firstTrack = playlist[currentTrackIdx];
+      if (!host || !firstTrack || !firstTrack.uri) return;
 
-    cAud.addEventListener('loadedmetadata', () => {
-      if (isFinite(cAud.duration)) {
-        spDurationTime.textContent = formatAudioTime(cAud.duration);
-      }
-    });
+      host.innerHTML = '';
+      IFrameAPI.createController(host, {
+        uri: firstTrack.uri,
+        width: '100%',
+        height: 152,
+        theme: 'dark'
+      }, (EmbedController) => {
+        spController = EmbedController;
+        EmbedController.addListener('playback_update', (e) => {
+          const data = e.data || {};
+          const wasPlaying = isP;
+          isP = !data.isPaused;
+          spPositionMs = data.position || 0;
+          spDurationMs = data.duration || 0;
 
-    cAud.addEventListener('ended', () => {
-      if (repeatMode === 'one' || playlist.length === 1) {
-        cAud.currentTime = 0;
-        cAud.play().catch(() => {});
-      } else {
-        loadTrack(currentTrackIdx + 1, true);
-      }
-    });
+          if (spDurationMs > 0) {
+            spSeekSlider.value = (spPositionMs / spDurationMs) * 100;
+            spCurrentTime.textContent = formatAudioTime(spPositionMs);
+            spDurationTime.textContent = formatAudioTime(spDurationMs);
 
-    cAud.addEventListener('error', () => {
-      if (isP) playOcean();
+            // Tự chuyển bài hoặc lặp khi hết bài
+            if (wasPlaying && data.isPaused && spPositionMs >= spDurationMs - 900) {
+              if (repeatMode === 'one' || playlist.length === 1) {
+                EmbedController.seek(0);
+                EmbedController.play();
+              } else {
+                loadSpotifyTrack(currentTrackIdx + 1, true);
+              }
+            }
+          }
+          updatePlayerUI();
+        });
+      });
+    };
+
+    // Tải script Spotify IFrame API
+    (function loadSpotifyApiScript() {
+      const s = document.createElement('script');
+      s.src = 'https://open.spotify.com/embed/iframe-api/v1';
+      s.async = true;
+      document.body.appendChild(s);
+
+      // Dự phòng nếu mạng chặn script API sau 2.5s thì vẫn hiện Spotify Embed iframe thường
+      setTimeout(() => {
+        if (!spApiReady && !spController) {
+          renderFallbackIframe(playlist[currentTrackIdx]);
+        }
+      }, 2500);
+    })();
+
+    // Nút dán link Spotify trực tiếp trong tab Danh sách
+    function handlePasteSpotify() {
+      const val = spPasteInput.value.trim();
+      const parsed = parseSpotifyLink(val);
+      if (!parsed) {
+        alert("Link chưa đúng định dạng Spotify! Hãy dán link dạng https://open.spotify.com/track/... hoặc playlist/...");
+        return;
+      }
+      const newEntry = normalizeTrackEntry(parsed.url, playlist.length);
+      playlist.push(newEntry);
+      savedCustomLinks.push(parsed.url);
+      localStorage.setItem('baoUngCustomSpotify', JSON.stringify(savedCustomLinks));
+      spPasteInput.value = '';
+      enrichSpotifyMeta(newEntry);
+      loadSpotifyTrack(playlist.length - 1, true);
+      switchPlayerTab('disc');
+    }
+
+    spPasteBtn.addEventListener('click', handlePasteSpotify);
+    spPasteInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handlePasteSpotify();
     });
 
     document.getElementById('vinylPlayer').addEventListener('click', (e) => {
@@ -2060,9 +2077,9 @@
       openFullPlayer();
     });
 
-    [mpPlayBtn, spPlayBtn].forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); togglePlayState(); }));
-    [mpPrevBtn, spPrevBtn].forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); loadTrack(currentTrackIdx - 1, true); }));
-    [mpNextBtn, spNextBtn].forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); loadTrack(currentTrackIdx + 1, true); }));
+    [mpPlayBtn, spPlayBtn].forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); toggleSpotifyPlay(); }));
+    [mpPrevBtn, spPrevBtn].forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); loadSpotifyTrack(currentTrackIdx - 1, true); }));
+    [mpNextBtn, spNextBtn].forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); loadSpotifyTrack(currentTrackIdx + 1, true); }));
 
     [document.getElementById('mpExpandFromDisc'), document.getElementById('mpExpandFromMeta'), mpSettingBtn].forEach(el => {
       el.addEventListener('click', (e) => { e.stopPropagation(); openFullPlayer(); });
@@ -2081,36 +2098,21 @@
     });
 
     spLikeBtn.addEventListener('click', () => {
-      const t = playlist[currentTrackIdx].title;
-      if (likedTracks.has(t)) likedTracks.delete(t); else likedTracks.add(t);
+      const t = playlist[currentTrackIdx];
+      const key = t.uri || t.title;
+      if (likedTracks.has(key)) likedTracks.delete(key); else likedTracks.add(key);
       localStorage.setItem('baoUngLikedTracks', JSON.stringify([...likedTracks]));
       updatePlayerUI();
     });
 
-    spVolSlider.addEventListener('input', (e) => setVolumeLevel(parseFloat(e.target.value)));
-    spVolMuteBtn.addEventListener('click', () => setVolumeLevel(currentVolume > 0 ? 0 : lastNonZeroVolume));
-
     spSeekSlider.addEventListener('input', (e) => {
-      if (isFinite(cAud.duration) && cAud.duration > 0) {
-        cAud.currentTime = (parseFloat(e.target.value) / 100) * cAud.duration;
+      if (spController && spDurationMs > 0) {
+        const targetSec = Math.floor(((parseFloat(e.target.value) / 100) * spDurationMs) / 1000);
+        spController.seek(targetSec);
       }
     });
 
-    loadTrack(0, false);
-
-    function playOcean() {
-      if(!aCtx) {
-        aCtx = new (window.AudioContext || window.webkitAudioContext)();
-        oGain = aCtx.createGain(); oGain.gain.value = 0; oGain.connect(aCtx.destination);
-        const buf = aCtx.createBuffer(1, aCtx.sampleRate*3, aCtx.sampleRate);
-        const d = buf.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*0.08;
-        const n = aCtx.createBufferSource(); n.buffer = buf; n.loop = true;
-        const f = aCtx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 260;
-        n.connect(f); f.connect(oGain); n.start();
-      }
-      if(aCtx.state === 'suspended') aCtx.resume();
-      oGain.gain.linearRampToValueAtTime(currentVolume * 0.4, aCtx.currentTime + 1.5);
-    }
+    updatePlayerUI();
   </script>
 </body>
 </html>
