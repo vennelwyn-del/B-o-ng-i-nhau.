@@ -360,7 +360,7 @@
       </button>
       <div class="vinyl-player-box" id="vinylPlayer">
         <div class="vinyl-disc" id="vinylDisc"><div class="vinyl-center-label"></div></div>
-        <span class="vinyl-text" id="vinylText"> Radio </span>
+        <span class="vinyl-text" id="vinylText"> 〄 Radio </span>
       </div>
     </div>
   </header>
@@ -375,7 +375,7 @@
     
     <!-- NÚT XEM BÁO ỨNG MỚI ĐẸP NHƯ HÌNH 4 -->
     <button class="btn-action-enter" id="btnEnter">
-      <span>༄</span><span> Xem báo ứng </span>
+      <span>༄</span><span> Xem báo ứng 𝜗𝜚 </span>
     </button>
     
     <div class="tap-hint"> 𓆝 𓆟 𓆞 C H Ạ M   Đ Ể   M Ở 𓆝 𓆟 𓆞 </div>
@@ -384,7 +384,7 @@
   <!-- MÀN HÌNH LƯU TRỮ -->
   <section id="archiveScreen">
     <div class="archive-header-box">
-      <h2 class="archive-title">SỔ LƯU TRỮ NHÂN QUẢ</h2>
+      <h2 class="archive-title"> ྀིྀི໒꒱ SỔ LƯU TRỮ NHÂN QUẢ 𓍯𓂃𓏧♡ </h2>
       <p class="archive-subtitle">Ting ting, phát hiện một ngoan xinh yêu đi lạc ᝰ.ᐟ</p>
       <div class="archive-divider">❀•°•═════ஓ๑♡๑ஓ═════•°•❀</div>
       <p class="archive-slogan">“Where your dreams are embraced”</p>
@@ -916,7 +916,7 @@
 
         cmts.forEach(c => { html += buildNode(c, false, null); if(c.replies) c.replies.forEach(r => html += buildNode(r, true, c.id)); });
         let listEl = document.getElementById(`cmtList-${safeId}`);
-        if(listEl) listEl.innerHTML = html || `<div style="opacity:0.6; font-size:0.85rem; font-style:italic; text-align:center; padding:10px;">Chưa có lời nhắn nào.</div>`;
+        if(listEl) listEl.innerHTML = html || `<div style="opacity:0.6; font-size:0.85rem; font-style:italic; text-align:center; padding:10px;"> Ngoan yêu có muốn là người đầu tiên mở hàng không nè... ≽^• ˕ • ྀི≼ </div>`;
     }
 
     // RENDER HỒ SƠ NHÂN VẬT
@@ -927,7 +927,7 @@
 
       let warningHtml = c.warning ? `<div><div class="c-section-title" style="color: #ff6b8b;">゛WARNING ˎˊ˗ 🚨</div><div class="c-warning-content">↳ «${c.warning}»</div></div>` : "";
       let tagsHtml = (c.tags || []).map(t => `<span class="c-tag-item">${t}</span>`).join('');
-      let mainInputNameHTML = sysCurrentUser ? `<div style="font-size:0.8rem; margin-bottom:5px; opacity:0.8;">Bình luận bằng: <b>${sysCurrentUser}</b></div>` : `<input type="text" id="cmtName-${safeId}" class="cmt-input" placeholder="Điền tên (không bắt buộc)">`;
+      let mainInputNameHTML = sysCurrentUser ? `<div style="font-size:0.8rem; margin-bottom:5px; opacity:0.8;">Bình luận bằng: <b>${sysCurrentUser}</b></div>` : `<input type="text" id="cmtName-${safeId}" class="cmt-input" placeholder="Điền tên ngoan yêu (không bắt buộc)">`;
 
       modalSlabContent.innerHTML = `
         <div class="char-modal-bg"></div>
@@ -935,7 +935,7 @@
         <!-- CỘT TRÁI -->
         <div class="char-left-col">
             <h2 class="c-layout-name">${c.name}</h2>
-            <div class="c-layout-creator">✍️ ${c.creator}</div>
+            <div class="c-layout-creator">𐚁.${c.creator}</div>
             <div class="c-layout-divider">- ˋˏ ༻ ❁ ༺ ˎˊ -</div>
             
             <div class="c-layout-img-wrapper">
@@ -957,7 +957,7 @@
             ${warningHtml}
 
             <div>
-                <div class="c-section-title">⋮ ⌗ ┆ (Hashtags)</div>
+                <div class="c-section-title">⋮ ⌗ ┆ Hashtags</div>
                 <div class="c-tags-wrap">${tagsHtml}</div>
             </div>
 
@@ -971,12 +971,12 @@
                 <div class="c-section-title">⋏ ˊ- Địa chỉ ⸝⸝</div>
                 <div class="c-list-item">↳ <a href="#">Cẩm nang nhân vật</a></div>
                 ${c.imgSource ? `<div class="c-list-item">↳ <a href="${c.imgSource}" target="_blank">Nguồn ảnh</a></div>` : ''}
-                ${c.ggaiLink ? `<div class="c-list-item">↳ <a href="${c.ggaiLink}" target="_blank">Book hàng</a></div>` : ''}
+                ${c.ggaiLink ? `<div class="c-list-item">↳ <a href="${c.ggaiLink}" target="_blank">Book hàng ᯓᡣ𐭩</a></div>` : ''}
             </div>
             
             <div>
                 <div class="c-section-title">◫ Góc giao lưu ⸝⸝</div>
-                <div style="font-family: var(--font-ui); font-size: 0.8rem; opacity: 0.7; margin-bottom: 15px; font-style: italic;">(Khu vực comment, feedback)</div>
+                <div style="font-family: var(--font-ui); font-size: 0.8rem; opacity: 0.7; margin-bottom: 15px; font-style: italic;">Nếu ngoan yêu nào tìm được nguồn ảnh chính xác hơn, mong ngoan yêu hãy comment nhắc nhở để chúng tớ bổ sung nhé. Những bình luận tiêu cực, mang tính công kích sẽ bị xoá. Iu thương౨ৎ</div>
                 
                 <div class="cmt-container">
                     <div style="font-size: 0.9rem; margin-bottom:5px; font-family: var(--font-char-text);">Sổ lưu trữ nhân duyên (<span id="cmtCount-${safeId}">0</span>)</div>
